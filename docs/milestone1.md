@@ -119,7 +119,7 @@ This is not an exhaustive representation of the directory structure we will impl
 
 ### 3.2 Basic Modules Implementation and Their Functionality
 
-- **git_fighters:** This module will contain our custom automatic differentiation library. The functionality for our 'Variable' class will be embeded in this module. It will contain the values and the derivatives of the final function, as well as the values and derivatives at every point of the evaluation trace.
+- **git_fighters:** This module will contain our custom automatic differentiation library. The functionality for our 'Node' class will be embeded in this module. It will contain the values and the derivatives of the final function, as well as the values and derivatives at every point of the evaluation trace.
 - **elementary_operations:** This module will contain our custom implementation of the elementary operations (sin(), cos(), matmul(), exp(), etc.). Each elementary operation will contain two main methods: value and gradient.
 
 ### 3.3 Test Suite
@@ -182,12 +182,12 @@ We plan to implement two classes:
 All the elementary functions will be overridden by us. Additionally, all the elementary functions will be able to take the input as Nodes and output Nodes. In our overridden function we will use self.value and self.derivative for evaluating the value and the derivative of the output Node.
 
 ```
-def exp(node):
+def exp(Node):
 	### calculate the value
-	new_value = np.exp(node.value)
+	new_value = np.exp(node.point)
 	
 	### calculate the derivative
-	new_derivative = np.exp(node.value) * node.derivative
+	new_derivative = np.exp(node.point) * node.derivative
 
 	### update the trace table if we decide to implement it
 	… (will skip for now)
@@ -202,34 +202,36 @@ Alternatively, a user can git clone the repository, ```pip install requirements.
 
 Once the modules are loaded, the user will be able to use the code as follows:
 
-_Evaluating a function like $f(x,y) = x + y^2$ at point (212, -2):_
+_Evaluating a function like $f(x) = 200 + x^3$ at point (-2):
+
 ```
 from gitfighters import Node
 
 # instantiate variables
-a = Node(212)
-b = Node(-2)
-v1 = b.exp()
-v2 = v1 + a
+a = Node(-2)
+b = 200
+v1 = a.exp(3)
+v2 = a + v1
 ```
 User can then access the function value and derivative value by:
 
 ```
 print(v2.fnc_val, v2.drv_val)
->>> 214, -2
+>>> 192, 12
 ```
 
 Alternatively, user can define a function, set a point and get the derivative value at that point by doing the following:
 ```
 from gitfighters import drv_eval
 
-def func(x, y):
-	return x + y**2
+def func(x):
+	return 200 + x**3
 
-a = 212
 b = -2
 
 evaluation = drv_eval(func, (a,b))
 print(evaluation)
->>> 214, -2
+>>> 192, 12
 ```
+
+This will also be doable with vector inputs/outputs.
