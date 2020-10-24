@@ -11,3 +11,4 @@ Members:
 - Manana Hakobyan
 - Tale Lokvenec
 - Hugo Fernandez-Montenegro
+- Golo Feige (since Milestone 1)
