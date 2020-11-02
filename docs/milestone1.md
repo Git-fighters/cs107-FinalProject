@@ -137,7 +137,7 @@ We will use Python Package Index (PyPI) to build, upload and distribute our pack
 
 ### 3.5 Software Packaging
 
-We will not use a framework to package our software. The underlying reason is that the software does not fit in any of the conventional software packaging frameworks.
+We will use **wheels**, a package format designed to ship libraries with compiled artifacts. The **wheels** package format is the most common tool for distributing reusable code, libraries between developers. Our implementation will not use a framework to distribute our software, since **frameworks** are primarily used for development and packaging of common python applications (web site backends, dynamic web frontends and mobile clients) targeting a non-developer audience.
 
 ## 4 Implementation
 
