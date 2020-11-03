@@ -149,11 +149,12 @@ The implementation will be mostly based on classes to carry out the auto differe
 ### 4.1. Classes
 We plan to implement two classes:
 
-1. Class 1 "Node" - class for creating a node. The main aim of this class is to store the values, the derivatives, the traces and the outputs for each input given the variable that the Node was made for. The easy access to all of this information will give us flexibility to extend the project in any of the directions we decide to explore later. The class methods that we are thinking to implement right now are
+1. Class 1 "Node" - class for creating a node. The main aim of this class is to store the values, the derivatives and the outputs for each input given the variable that the Node was made for. The easy access to all of this information will give us flexibility to extend the project in any of the directions we decide to explore later. The class methods that we are thinking to implement right now are
 
 	- value - for the value of the function evaluated at the input
 	- derivative - evaluated derivative at the given point. We are thinking of implementing this as a dictionary, so we can store the value and the derivative-evaluation pairs, and reuse it if needed later.
-	- trace - trace table (we are not sure, still thinking of this)
+
+It is worthwhile to mention that the methods will take inputs as Nodes and will output Nodes. This will ensure that we can still perform various operations with our outputs. 
 
 2. Class 2 &quot;Methods&quot; - class for overriding all the elementary mathematical functions. We discussed that it will be cleaner to have all the methods in one class. This class will include these major methods:
 
