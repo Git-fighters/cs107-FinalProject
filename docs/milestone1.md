@@ -2,7 +2,7 @@
 ## Git Fighters
 
 ## 1 Introduction
-This package is a project aiming to enable automatic differentiation with Python. Automatic differentiation is a technique to find the derivative of a function computationally. Unlike some other techniques, automatic differentiation evaluates derivatives to machine precision, and it is less costly than symbolic differentiation. Differentiation is an important part of mathematical analysis, and differentiation is frequently used in machine learning, numerical analysis, or economic optimization applications. This package is developed on GitHub. 
+This package is a project aiming to enable automatic differentiation with Python. Automatic differentiation is a technique to find the derivative of a function computationally. Differentiation is an important part of mathematical analysis, and differentiation is frequently used in machine learning, numerical analysis, or economic optimization applications. This package is developed on GitHub. 
 
 ## 2 Background
 Enabling automatic differentiation involves the several mathematical concepts and techniques. 
@@ -80,11 +80,8 @@ $J_{ij} = \frac{\partial f_i}{\partial x_j}$ = $\left[\begin{array}{cc} \frac{\p
 The entries of the Jacobian matrix are all points in which a vector-valued function is differentiable.
 
 ### 2.2 Graph Structure
-The graph structure visualizes the elementary operations performed to evaluate a function at a point (x). The point x is the input value, and f is the output value. The nodes ($v_i$) illustrate the sequence of operations necessary to compute the output value. Each node is labeled accordingly (like times 5 or cos). The example below illustrates a graph:
-![](Evaluation_Graph.png)
-
-The example below illustrates the corresponding evaluation table:
-![](Evaluation_Table.png)
+The graph structure visualizes the elementary operations performed to evaluate a function at a point (x). The point x is the input value, and f is the output value. The nodes ($v_i$) illustrate the sequence of operations necessary to compute the output value. Each node is labeled accordingly (like times 4 or pow 2). The example below is based on $f(x) = x - e^{-2sin^{4x}}$ and borrowed from lecture 10:
+![](Graph_Structure.png)
 
 ### 2.3 Elementary Functions
 This package supports several elementary functions. The rules of differentiation list most elementary functions, such as quadratic, exponential, or logarithmic functions, but (inverse) trigonometric and hyperbolic functions are also supported. 
@@ -238,3 +235,49 @@ print(evaluation)
 ```
 
 This will also be doable with vector inputs/outputs.
+
+---
+
+# FEEDBACK
+Feedback to Milestone 1
+
+### 1 Introduction
+Feedback: - How does AD compare and improve from other similar methods?
+
+Our response: Unlike some other techniques, automatic differentiation evaluates derivatives to machine precision, and it is less costly than symbolic differentiation. 
+
+### 2 Background
+Feedback: Create your own graph structure.
+
+
+
+Feedback: The flow could be enhanced by presenting an evaluation trace along with the computational graph.
+
+Our response: Added own graph and table.
+
+### 3 How to use
+
+Feedback:  What is "a" in your second example?
+
+Answer: temp variable, basically. We perform elementary operations on that until we get the whole function
+
+Feedback: I did not see any information about drv_eval in your implementation. Would be good to get more info on that.
+
+Answer: utility function of our package that takes in a math function and a point, and outputs a tuple with the function value and the derivative value at that point
+
+### 4 Software Organization
+Feedback: Why would the software not fit in any of the conventional software packaging frameworks? Explain further.
+
+Answer: 
+
+
+### 5 Implementation
+
+Feedback: What does the output represent in your Node class? Add a short blurb on that in your Node class paragraph
+
+Answer: The output is a Node itself. We will briefly introduce the Node output in our documentation.
+
+Feedback: Do you need the whole trace table as a method in the Node class if you’re already defining the value and partial derivatives?
+Answer: 
+
+Note. https://latex.codecogs.com/ is a helpful rendering service for showing equations on markdown.
