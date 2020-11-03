@@ -151,9 +151,7 @@ We plan to implement two classes:
 
 	- value - for the value of the function evaluated at the input
 	- derivative - evaluated derivative at the given point. We are thinking of implementing this as a dictionary, so we can store the value and the derivative-evaluation pairs, and reuse it if needed later.
-
-It is worthwhile to mention that the methods will take inputs as Nodes and will output Nodes. This will ensure that we can still perform various operations with our outputs. 
-	
+	- trace - trace table (we are not sure, still thinking of this)
 
 2. Class 2 &quot;Methods&quot; - class for overriding all the elementary mathematical functions. We discussed that it will be cleaner to have all the methods in one class. This class will include these major methods:
 
