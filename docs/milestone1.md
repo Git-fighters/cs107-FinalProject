@@ -268,7 +268,7 @@ Answer: utility function of our package that takes in a math function and a poin
 ### 4 Software Organization
 Feedback: Why would the software not fit in any of the conventional software packaging frameworks? Explain further.
 
-Answer: 
+Answer: We will use wheels, a package format designed to ship libraries with compiled artifacts. The wheels package format is the most common tool for distributing reusable code, libraries between developers. Our implementation will not use a framework to distribute our software, since frameworks are primarily used for development and packaging of common python applications (web site backends, dynamic web frontends and mobile clients) targeting a non-developer audience. 
 
 
 ### 5 Implementation
