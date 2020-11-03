@@ -1,5 +1,6 @@
-# Milestone 1
-## Git Fighters
+# Documentation
+## Milestone 1
+### Git Fighters
 
 ## 1 Introduction
 This package is a project aiming to enable automatic differentiation with Python. Automatic differentiation is a technique to find the derivative of a function computationally. Differentiation is an important part of mathematical analysis, and differentiation is frequently used in machine learning, numerical analysis, or economic optimization applications. This package is developed on GitHub. 
@@ -146,11 +147,13 @@ The implementation will be mostly based on classes to carry out the auto differe
 ### 4.1. Classes
 We plan to implement two classes:
 
-1. Class 1 "Node" - class for creating a node. The main aim of this class is to store the values, the derivatives, the traces and the outputs for each input given the variable that the Node was made for. The easy access to all of this information will give us flexibility to extend the project in any of the directions we decide to explore later. The class methods that we are thinking to implement right now are
+1. Class 1 "Node" - class for creating a node. The main aim of this class is to store the values, the derivatives and the outputs for each input given the variable that the Node was made for. The easy access to all of this information will give us flexibility to extend the project in any of the directions we decide to explore later. The class methods that we are thinking to implement right now are
 
 	- value - for the value of the function evaluated at the input
 	- derivative - evaluated derivative at the given point. We are thinking of implementing this as a dictionary, so we can store the value and the derivative-evaluation pairs, and reuse it if needed later.
-	- trace - trace table (we are not sure, still thinking of this)
+
+It is worthwhile to mention that the methods will take inputs as Nodes and will output Nodes. This will ensure that we can still perform various operations with our outputs. 
+	
 
 2. Class 2 &quot;Methods&quot; - class for overriding all the elementary mathematical functions. We discussed that it will be cleaner to have all the methods in one class. This class will include these major methods:
 
@@ -235,3 +238,48 @@ print(evaluation)
 ```
 
 This will also be doable with vector inputs/outputs.
+
+
+
+# Feedback 
+
+## Milestone 1 feedback
+
+### 1. Introduction
+Feedback: - How does AD compare and improve from other similar methods?
+
+Our response: Unlike some other techniques, automatic differentiation evaluates derivatives to machine precision, and it is less costly than symbolic differentiation. 
+
+### 2. Background
+
+Feedback: - Create your own graph structure.
+Feedback: The flow could be enhanced by presenting an evaluation trace along with the computational graph.
+
+Our response: Added own graph and table.
+
+### 3. How to use
+
+Feedback:  What is "a" in your second example?
+Our response: 
+
+Feedback: I did not see any information about drv_eval in your implementation. Would be good to get more info on that.
+Ourresponse: 
+
+### 4. Software Organization
+Feedback: Why would the software not fit in any of the conventional software packaging frameworks? Explain further.
+Answer: 
+
+
+### 5. Implementation
+
+Feedback: What does the output represent in your Node class? Add a short blurb on that in your Node class paragraph
+Answer: The output is a Node itself. We will briefly introduce the Node output in our documentation.
+
+Feedback: Do you need the whole trace table as a method in the Node class if you’re already defining the value and partial derivatives?
+Answer: We have reconsidered our implementation and we will not include the trace table as a method. Since we are already storing the value and the partial derivative, the trace table will only be a space-inefficient addition.
+
+Note. https://latex.codecogs.com/ is a helpful rendering service for showing equations on markdown.
+
+We will make sure to render our equations.
+
+
