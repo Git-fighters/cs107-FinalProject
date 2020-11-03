@@ -205,7 +205,7 @@ Alternatively, a user can git clone the repository, ```pip install requirements.
 
 Once the modules are loaded, the user will be able to use the code as follows:
 
-_Evaluating a function like $f(x) = 200 + x^3$ at point (-2):
+Evaluating a function like $f(x) = 200 + x^3$ at point (-2):
 
 ```
 from gitfighters import Node
