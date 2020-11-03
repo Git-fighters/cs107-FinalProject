@@ -278,6 +278,7 @@ Feedback: What does the output represent in your Node class? Add a short blurb o
 Answer: The output is a Node itself. We will briefly introduce the Node output in our documentation.
 
 Feedback: Do you need the whole trace table as a method in the Node class if you’re already defining the value and partial derivatives?
-Answer: 
+
+Answer: No we do not need to use the whole trace table, since we have the value and the partial derivative at any point. Having a trace table will be space-inefficient.
 
 Note. https://latex.codecogs.com/ is a helpful rendering service for showing equations on markdown.
