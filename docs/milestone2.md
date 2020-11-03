@@ -218,7 +218,8 @@ b = 200
 # perform elementary operations on them
 v1 = a.exp(3)
 v2 = a + v1
-# done
+# ...
+#  all elementary operations done
 ```
 User can then access the function value and derivative value by:
 
@@ -227,14 +228,14 @@ print(v2.fnc_val, v2.drv_val)
 >>> 192, 12
 ```
 
-Alternatively, user can skip doing all the elementary operations manually and just call ```drv_eval()```, feeding it a mathematical function and a point (or vector) at which it should be evaluated like follows:
+Alternatively, user can skip doing all the elementary operations manually and just call ```drv_eval(f, x)```, feeding it a mathematical function and a point (or vector) at which it should be evaluated like follows:
 ```
 from gitfighters import drv_eval
 
 def func(x):  # example mathematical function
 	return 200 + x**3
 
-x = -2
+x = -2  # point at which we want func() evaluated
 
 evaluation = drv_eval(func, x)
 print(evaluation)
