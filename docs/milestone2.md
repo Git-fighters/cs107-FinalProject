@@ -140,7 +140,7 @@ We will use Python Package Index (PyPI) to build, upload and distribute our pack
 
 ### 3.5 Software Packaging
 
-We will not use a framework to package our software. The underlying reason is that the software does not fit in any of the conventional software packaging frameworks.
+We will use **wheels**, a package format designed to ship libraries with compiled artifacts. The **wheels** package format is the most common tool for distributing reusable code, libraries between developers. Our implementation will not use a framework to distribute our software, since **frameworks** are primarily used for development and packaging of common python applications (web site backends, dynamic web frontends and mobile clients) targeting a non-developer audience.
 
 ## 4 Implementation
 
@@ -149,11 +149,12 @@ The implementation will be mostly based on classes to carry out the auto differe
 ### 4.1. Classes
 We plan to implement two classes:
 
-1. Class 1 "Node" - class for creating a node. The main aim of this class is to store the values, the derivatives, the traces and the outputs for each input given the variable that the Node was made for. The easy access to all of this information will give us flexibility to extend the project in any of the directions we decide to explore later. The class methods that we are thinking to implement right now are
+1. Class 1 "Node" - class for creating a node. The main aim of this class is to store the values, the derivatives and the outputs for each input given the variable that the Node was made for. The easy access to all of this information will give us flexibility to extend the project in any of the directions we decide to explore later. The class methods that we are thinking to implement right now are
 
 	- value - for the value of the function evaluated at the input
 	- derivative - evaluated derivative at the given point. We are thinking of implementing this as a dictionary, so we can store the value and the derivative-evaluation pairs, and reuse it if needed later.
-	- trace - trace table (we are not sure, still thinking of this)
+
+It is worthwhile to mention that the methods will take inputs as Nodes and will output Nodes. This will ensure that we can still perform various operations with our outputs. 
 
 2. Class 2 &quot;Methods&quot; - class for overriding all the elementary mathematical functions. We discussed that it will be cleaner to have all the methods in one class. This class will include these major methods:
 
@@ -205,16 +206,20 @@ Alternatively, a user can git clone the repository, ```pip install requirements.
 
 Once the modules are loaded, the user will be able to use the code as follows:
 
-_Evaluating a function like $f(x) = 200 + x^3$ at point (-2):
+Evaluating a function like $f(x) = 200 + x^3$ at point x = (-2):
 
 ```
 from gitfighters import Node
 
-# instantiate variables
+# instantiate the trace variables
 a = Node(-2)
 b = 200
+
+# perform elementary operations on them
 v1 = a.exp(3)
 v2 = a + v1
+# ...
+#  all elementary operations done
 ```
 User can then access the function value and derivative value by:
 
@@ -223,16 +228,16 @@ print(v2.fnc_val, v2.drv_val)
 >>> 192, 12
 ```
 
-Alternatively, user can define a function, set a point and get the derivative value at that point by doing the following:
+Alternatively, user can skip doing all the elementary operations manually and just call ```drv_eval(f, x)```, feeding it a mathematical function and a point (or vector) at which it should be evaluated like follows:
 ```
 from gitfighters import drv_eval
 
-def func(x):
+def func(x):  # example mathematical function
 	return 200 + x**3
 
-b = -2
+x = -2  # point at which we want func() evaluated
 
-evaluation = drv_eval(func, (a,b))
+evaluation = drv_eval(func, x)
 print(evaluation)
 >>> 192, 12
 ```
