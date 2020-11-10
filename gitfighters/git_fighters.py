@@ -63,7 +63,8 @@ class fightingAD():
     #Overload multiplication
     def __mul__(self, other):
         try:
-            return fightingAD(self.val * other.val, 2 * self.val * other.der)
+            return fightingAD(self.val * other.val, \
+                              self.val * other.der + self.der * other.value)
         except AttributeError:
             try:
                 return fightingAD(self.val * other, self.der * other)
@@ -80,7 +81,11 @@ class fightingAD():
     #Overload division
     def __div__(self, other):
         try:
-            return fightingAD(self.val / other.val, self.der / other.der)
+            if other.val == 0:
+                raise ZeroDivisionError('division by zero')
+            return fightingAD(self.val / other.val,\
+                             (self.der * other.val - self.val * other.der) / \
+                             (other.val * other.val)) 
         except AttributeError:
             try:            
                 return fightingAD(self.val / other, self.der / other)
@@ -93,7 +98,7 @@ class fightingAD():
     #Overload division with reversed operand
     def __rdiv__(self, other):
         try:
-            return fightingAD(other / self.val,
-                              -other * self.der / (self.val**2))
+            return fightingAD(other).__div__(self)
         except:
             raise Exception('unsupported operation for /')
+
