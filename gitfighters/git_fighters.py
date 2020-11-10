@@ -5,14 +5,26 @@
 class fightingAD():
 
     #Constructor to set class up
-    def __init__(self, value, derivative=1):
+    def __init__(self, value, derivative=1.0):
         self.val = value
         self.der = derivative
 
     #Overload str
     def __str__(self):
-        return 'Function with value of {} and derivative of {}'\
+        return 'AD object with value of {} and derivative of {}'\
                .format(self.val, self.der)
+
+    #Overload repr
+    def __repr__(self):
+        return 'AD: {}, {}'.format(self.val, self.der)
+
+    #Overload eq
+    def __eq__(self, other):
+        try:
+            return (self.val == other.val) and (self.der == other.der)
+        except:
+            raise TypeError('unsupported operand type(s) for =: {} and {}'\
+                      .format(type(self).__name__, type(other).__name__))
 
     #Overload addition
     def __add__(self, other):
@@ -25,11 +37,28 @@ class fightingAD():
                 raise TypeError('unsupported operand type(s) for +: {} and {}'\
                       .format(type(self).__name__, type(other).__name__))      
         else:
-            raise TypeError('unsupported operand type(s) for +: {} and {}'\
-                      .format(type(self).__name__, type(other).__name__)) 
+            raise Exception('unsupported operation for +')
 
+    #Overload addition with reversed operands
     def __radd__(self, other):
         return self.__add__(other)    
+
+    #Overload subtraction
+    def __sub__(self, other):
+        try:
+            return fightingAD(self.val - other.val, self.der - other.der)
+        except AttributeError:
+            try:
+                return fightingAD(self.val - other, self.der)
+            except:
+                raise TypeError('unsupported operand type(s) for -: {} and {}'\
+                      .format(type(self).__name__, type(other).__name__))
+        else:
+            raise Exception('unsupported operation for -')
+
+    #Overload subtraction with reversed operand by negating values
+    def __rsub__(self, other):
+        return fightingAD(-self.val, -self.der).__add__(other)
 
     #Overload multiplication
     def __mul__(self, other):
@@ -42,48 +71,29 @@ class fightingAD():
                 raise TypeError('unsupported operand type(s) for *: {} and {}'\
                       .format(type(self).__name__, type(other).__name__)) 
         else:
-            raise TypeError('unsupported operand type(s) for +: {} and {}'\
-                      .format(type(self).__name__, type(other).__name__)) 
+            raise Exception('unsupported operation for *') 
 
+    #Overload multiplication with reversed operand
     def __rmul__(self, other):
         return self.__mul__(other)
 
-
-#Demo code
-a = 5.0
-x = fightingAD(a)
-alpha = 2.0
-beta = 3.0
-
-f1 = alpha * x + beta
-print('f1 = alpha * x + beta | x = 5, alpha = 2, beta = 3')
-print('output: val der')
-print(f1.val, f1.der)
-
-f2 = x * alpha + beta
-print('f2 = x * alpha + beta | x = 5, alpha = 2, beta = 3')
-print('output: val der')
-print(f2.val, f2.der)
-
-f3 = beta + alpha * x
-print('f3 = beta + alpha * x | x = 5, alpha = 2, beta = 3')
-print('output: val der')
-print(f3.val, f3.der)
-
-f4 = beta + x * alpha
-print('f4 = beta + x + alpha | x = 5, alpha = 2, beta = 3')
-print('output: val der')
-print(f4.val, f4.der)
-
-f5 = x * x
-print('f5 = x * x | x = 5')
-print('output: val der')
-print(f5.val, f5.der)
-
-f6 = x * x * x
-print('f6 = x * x * x | x = 5')
-print(f6.val, f6.der)
-
-f7 = x + x
-print('f7 = x + x | x = 5')
-print(f7.val, f7.der) 
+    #Overload division
+    def __div__(self, other):
+        try:
+            return fightingAD(self.val / other.val, self.der / other.der)
+        except AttributeError:
+            try:            
+                return fightingAD(self.val / other, self.der / other)
+            except:
+                raise TypeError('unsupported operand type(s) for /: {} and {}'\
+                      .format(type(self).__name__, type(other).__name__))
+        else:
+            raise Exception('unsupported operation for /')
+   
+    #Overload division with reversed operand
+    def __rdiv__(self, other):
+        try:
+            return fightingAD(other / self.val,
+                              -other * self.der / (self.val**2))
+        except:
+            raise Exception('unsupported operation for /')
