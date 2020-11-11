@@ -1,7 +1,6 @@
-# !/usr/bin/env python3
-# This package aiming to enable automatic differentiation with Python.
-# By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
-
+#!/usr/bin/env python3
+#Package aiming to enable automatic differentiation with Python.
+#By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
 
 class fightingAD:
 
@@ -30,6 +29,14 @@ class fightingAD:
                     type(self).__name__, type(other).__name__
                 )
             )
+
+    #Overload negation
+    def __neg__(self):
+        return fightingAD(-self.val, -self.der)
+
+    #Overload pos
+    def __pos__(self):
+        return fightingAD(self.val, self.der)
 
     # Overload addition
     def __add__(self, other):
@@ -75,7 +82,7 @@ class fightingAD:
     def __mul__(self, other):
         try:
             return fightingAD(
-                self.val * other.val, self.val * other.der + self.der * other.value
+                self.val * other.val, self.val * other.der + self.der * other.val 
             )
         except AttributeError:
             try:

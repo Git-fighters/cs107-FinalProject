@@ -26,22 +26,34 @@ def test_multiplication():
     x1 = fightingAD(-4)
     x2 = x1 * 3
     assert x2.val == -12
-    assert x2.der == 1
+    assert x2.der == 3
 
     x2 = 3 * x1
     assert x2.val == -12
-    assert x2.der == 1
+    assert x2.der == 3
     
     x2 = fightingAD(-4)
     x3 = x1 * x2
     assert x3.val == 16
-    assert x3.der == 2  # derivative should be 2 here. this gives error
+    assert x3.der == -8  # derivative should be 2 here. this gives error
 
+def test_neg():
+    x1 = fightingAD(5)
+    x2 = -x1
+    assert x2.val == -5
+    assert x2.der == -1
 
 def test_division():
-    pass
+    x1 = fightingAD(5)
+    x2 = x1.__div__(2)
+    assert x2.val == 2.5
+    assert x2.der == 0.5
 
-
+    x3 = fightingAD(5)
+    x4 = x1.__div__(x3)
+    assert x4.val == 1
+    assert x4.der == 0
+    
 def test_trigonometry():
     pass
 
