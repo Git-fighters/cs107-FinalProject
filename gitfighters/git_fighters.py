@@ -154,7 +154,9 @@ class fightingAD:
     # Overload division with reversed operand
     def __rdiv__(self, other):
         try:
-            return fightingAD(other).__div__(self)
+            if other.val == 0:
+                raise ZeroDivisionError("division by zero")
+            return fightingAD((-self * other.der) / (other.val * other.val))
         except:
             raise Exception("unsupported operation for /")
 
