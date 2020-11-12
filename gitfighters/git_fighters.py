@@ -161,3 +161,57 @@ class fightingAD:
 
     def __pow__(self, power):
         return fightingAD(self.val ** power, power * self.der ** (power - 1))
+
+    def sin(x):
+      # Check if the input is a fightingAD object or a constant
+      try:
+        val = np.sin(x.val)
+        der = x.der*np.cos(x.val)
+        return fightingAD(val,der)
+      except AttributeError:
+        return fightingAD(np.sin(x))
+
+    def cos(x):
+      # Check if the input is a fightingAD object or a constant
+      try:
+        val = np.cos(x.val)
+        der = -x.der*np.sin(x.val)
+        return fightingAD(val,der)
+      except AttributeError:
+        return fightingAD(np.cos(x))
+
+    def tan(x):
+      # Check if the input is a fightingAD object or a constant
+      try:
+        val = np.tan(x.val)
+        der = x.der*np.cos(x.val)**2
+        return fightingAD(val,der)
+      except AttributeError:
+        return fightingAD(np.tan(x))
+
+    def arcsin(x):
+      # Check if the input is a fightingAD object or a constant
+      try:
+        val = np.arcsin(x.val)
+        der = x.der*(1/np.sqrt(1 - x.val**2))
+        return fightingAD(val,der)
+      except AttributeError:
+        return fightingAD(np.arcsin(x))
+    
+    def arccos(x):
+      # Check if the input is a fightingAD object or a constant
+      try:
+        val = np.arccos(x.val)
+        der = -x.der*(1/np.sqrt(1 - x.val**2))
+        return fightingAD(val,der)
+      except AttributeError:
+        return fightingAD(np.arccos(x))
+
+    def arctan(x):
+      # Check if the input is a fightingAD object or a constant
+      try:
+        val = np.arctan(x.val)
+        der = x.der*(1/(1 + x.val**2))
+        return fightingAD(val,der)
+      except AttributeError:
+        return fightingAD(np.arctan(x))

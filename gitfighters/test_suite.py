@@ -63,7 +63,26 @@ def test_division():
 
 
 def test_trigonometry():
-    pass
+    x1 = fightingAD(np.pi/2)
+    x2 = fightingAD(np.pi/4)
+
+    assert fightingAD.sin(x1).val == 1 
+    assert fightingAD.sin(x1).der <= 1e-16 # Expected value 0 (to machine precision)
+    
+    assert fightingAD.cos(x1).val <= 1e-16 # Expected value 0 (to machine precision)
+    assert fightingAD.cos(x1).der == -1
+
+    assert fightingAD.tan(x2).val == 1-1e-16 # Expected value 1 (to machine precision)
+    assert fightingAD.tan(x2).der == 0.5+1e-16 # Expected value 0.5 (to machine precision)
+    
+    assert fightingAD.arcsin(x2).val == 0.9033391107665127
+    assert fightingAD.arcsin(x2).der == 1.6155326551693476
+    
+    assert fightingAD.arccos(x2).val == 0.6674572160283838
+    assert fightingAD.arccos(x2).der == -1.6155326551693476
+    
+    assert fightingAD.arctan(x2).val == 0.6657737500283538
+    assert fightingAD.arctan(x2).der == 0.6184864581588363
 
 
 def test_pow():
