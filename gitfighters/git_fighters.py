@@ -2,6 +2,15 @@
 #Package aiming to enable automatic differentiation with Python.
 #By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
 
+"""
+Notes from Manana:
+
+Check: __abs__ 
+
+"""
+
+import numpy as np
+
 class fightingAD:
 
     # Constructor to set class up
@@ -30,9 +39,30 @@ class fightingAD:
                 )
             )
 
+    # Overload ne
+    def __ne__(self, other):
+        try:
+            return (self.val != other.val) or (self.der != other.der)
+        except:
+            raise TypeError(
+                "unsupported operand type(s) for =: {} and {}".format(
+                    type(self).__name__, type(other).__name__
+                )
+            )
+
     #Overload negation
     def __neg__(self):
         return fightingAD(-self.val, -self.der)
+
+    #Overload absolute value
+    def __abs__(self):
+
+        # derivative
+        if self.val < 0:
+            self.der = - self.der
+
+        return fightingAD(np.abs(self.val), self.der)
+
 
     #Overload pos
     def __pos__(self):
@@ -127,3 +157,9 @@ class fightingAD:
             return fightingAD(other).__div__(self)
         except:
             raise Exception("unsupported operation for /")
+
+
+    # Overload pow
+
+    def __pow__(self, power):
+        return fightingAD(self.val ** power, power * self.der**(power-1))
