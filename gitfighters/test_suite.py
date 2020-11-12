@@ -112,3 +112,19 @@ def test_combined():
 
 def test_general():
     pass
+
+def test_newton():
+    # initial root value
+    x = fightingAD(2)
+    st_condition = 1
+
+    # Newton's method main loop
+    while st_condition > 1e-16:
+        y = x1 * x1 + fightingAD.sin(x1)
+        xval = x1 - y.val/y.der
+        x_old = np.copy(x1.val)
+        x = fightingAD(xval.val)
+        st_condition = np.abs(x-x_old).val
+
+    assert x.val == 0
+
