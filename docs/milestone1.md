@@ -259,11 +259,11 @@ Our response: Added own graph and table.
 
 Feedback:  What is "a" in your second example?
 
-Answer: temp variable, basically. We perform elementary operations on that until we get the whole function
+Answer: temp variable, basically. We perform elementary operations on that until we get the whole function.
 
 Feedback: I did not see any information about drv_eval in your implementation. Would be good to get more info on that.
 
-Answer: utility function of our package that takes in a math function and a point, and outputs a tuple with the function value and the derivative value at that point
+Answer: utility function of our package that takes in a math function and a point, and outputs a tuple with the function value and the derivative value at that point 
 
 ### 4 Software Organization
 Feedback: Why would the software not fit in any of the conventional software packaging frameworks? Explain further.

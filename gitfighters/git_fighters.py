@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-#Package aiming to enable automatic differentiation with Python.
-#By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
+# Package aiming to enable automatic differentiation with Python.
+# By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
 
 """
 Notes from Manana:
@@ -10,6 +10,7 @@ Check: __abs__
 """
 
 import numpy as np
+
 
 class fightingAD:
 
@@ -50,21 +51,20 @@ class fightingAD:
                 )
             )
 
-    #Overload negation
+    # Overload negation
     def __neg__(self):
         return fightingAD(-self.val, -self.der)
 
-    #Overload absolute value
+    # Overload absolute value
     def __abs__(self):
 
         # derivative
         if self.val < 0:
-            self.der = - self.der
+            self.der = -self.der
 
         return fightingAD(np.abs(self.val), self.der)
 
-
-    #Overload pos
+    # Overload pos
     def __pos__(self):
         return fightingAD(self.val, self.der)
 
@@ -112,7 +112,7 @@ class fightingAD:
     def __mul__(self, other):
         try:
             return fightingAD(
-                self.val * other.val, self.val * other.der + self.der * other.val 
+                self.val * other.val, self.val * other.der + self.der * other.val
             )
         except AttributeError:
             try:
@@ -142,10 +142,10 @@ class fightingAD:
         except AttributeError:
             try:
                 return fightingAD(self.val / other, self.der / other)
-            except:
+            except Exception as e:
                 raise TypeError(
-                    "unsupported operand type(s) for /: {} and {}".format(
-                        type(self).__name__, type(other).__name__
+                    "unsupported operand type(s) for /: {} and {}, e={}".format(
+                        type(self).__name__, type(other).__name__, e
                     )
                 )
         else:
@@ -158,8 +158,7 @@ class fightingAD:
         except:
             raise Exception("unsupported operation for /")
 
-
     # Overload pow
 
     def __pow__(self, power):
-        return fightingAD(self.val ** power, power * self.der**(power-1))
+        return fightingAD(self.val ** power, power * self.der ** (power - 1))
