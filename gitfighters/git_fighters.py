@@ -131,7 +131,7 @@ class fightingAD:
         return self.__mul__(other)
 
     # Overload division
-    def __div__(self, other):
+    def __truediv__(self, other):
         try:
             if other.val == 0:
                 raise ZeroDivisionError("division by zero")
@@ -142,21 +142,20 @@ class fightingAD:
         except AttributeError:
             try:
                 return fightingAD(self.val / other, self.der / other)
-            except Exception as e:
+            except Exception as e:  
                 raise TypeError(
                     "unsupported operand type(s) for /: {} and {}, e={}".format(
                         type(self).__name__, type(other).__name__, e
                     )
                 )
-        else:
-            raise Exception("unsupported operation for /")
 
     # Overload division with reversed operand
-    def __rdiv__(self, other):
+    def __rtruediv__(self, other):
         try:
-            return fightingAD(other).__div__(self)
+            return fightingAD(other, derivative=0).__truediv__(self)
         except:
             raise Exception("unsupported operation for /")
+
 
     # Overload pow
 

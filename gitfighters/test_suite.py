@@ -47,7 +47,7 @@ def test_neg():
 
 def test_division():
     x1 = fightingAD(5)
-    x2 = x1.__div__(2)
+    x2 = x1.__truediv__(2)
     assert x2.val == 2.5
     assert x2.der == 0.5
 
@@ -59,12 +59,7 @@ def test_division():
     x1 = fightingAD(5)
     x2 = 2 / x1
     assert x2.val == 2 / 5
-    assert x2.der == -1(2 / 25)
-
-    x3 = fightingAD(5)
-    x4 = x1.__div__(x3)
-    assert x4.val == 1
-    assert x4.der == 0
+    assert x2.der == -1 * (2 / 25)
 
 
 def test_trigonometry():
