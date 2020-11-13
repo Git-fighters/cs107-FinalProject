@@ -12,12 +12,48 @@ Check: __abs__
 import numpy as np
 
 
-class fightingAD:
+class fightingAD():
+    """Example Google style docstrings.
+
+    This class is used as the central building block of the git_fighters library.
+
+    Example Usage:
+            $ ...
+            $ ...
+            >>> ...
+
+    Section breaks are created by resuming unindented text. Section breaks
+    are also implicitly created anytime a new section starts.
+
+    Todo:
+        * Document all methods properly and show example usecases
+        * Extend testing
+
+    """
 
     # Constructor to set class up
     def __init__(self, value, derivative=1.0):
+        """Example of docstring on the __init__ method.
+
+        The __init__ method may be documented in either the class level
+        docstring, or as a docstring on the __init__ method itself.
+
+        Either form is acceptable, but the two should not be mixed. Choose one
+        convention to document the __init__ method and be consistent with it.
+
+        Note:
+            Do not include the `self` parameter in the ``Args`` section.
+
+        Args:
+            value (float): point at which to evaluate the function
+            derivative (float, optional): Derivative
+                lines are supported.
+
+        """
         self.val = value
         self.der = derivative
+        # COMMENT: I think this should be ```self.der = derivative * value```
+        # Or something similar. As it stands now it is problematic for a few things (like __pow__)
 
     # Overload str
     def __str__(self):
@@ -31,6 +67,16 @@ class fightingAD:
 
     # Overload eq
     def __eq__(self, other):
+        """Equality method
+        Checks if this object is equal to another object
+
+        Args:
+            other: The object we are comparing to. Can be scalar or fightingAD object
+
+        Returns:
+            True if equal, False otherwise.
+
+        """
         try:
             return (self.val == other.val) and (self.der == other.der)
         except:
@@ -142,7 +188,7 @@ class fightingAD:
         except AttributeError:
             try:
                 return fightingAD(self.val / other, self.der / other)
-            except Exception as e:  
+            except Exception as e:
                 raise TypeError(
                     "unsupported operand type(s) for /: {} and {}, e={}".format(
                         type(self).__name__, type(other).__name__, e
@@ -156,62 +202,68 @@ class fightingAD:
         except:
             raise Exception("unsupported operation for /")
 
-
     # Overload pow
 
     def __pow__(self, power):
         return fightingAD(self.val ** power, power * self.der ** (power - 1))
 
-    def sin(x):
-      # Check if the input is a fightingAD object or a constant
-      try:
+
+# FUNCTION DEFINITIONS
+# 
+def sin(x):
+    # Check if the input is a fightingAD object or a constant
+    try:
         val = np.sin(x.val)
-        der = x.der*np.cos(x.val)
-        return fightingAD(val,der)
-      except AttributeError:
+        der = x.der * np.cos(x.val)
+        return fightingAD(val, der)
+    except AttributeError:
         return fightingAD(np.sin(x))
 
-    def cos(x):
-      # Check if the input is a fightingAD object or a constant
-      try:
+def cos(x):
+    # Check if the input is a fightingAD object or a constant
+    try:
         val = np.cos(x.val)
-        der = -x.der*np.sin(x.val)
-        return fightingAD(val,der)
-      except AttributeError:
+        der = -x.der * np.sin(x.val)
+        return fightingAD(val, der)
+    except AttributeError:
         return fightingAD(np.cos(x))
 
-    def tan(x):
-      # Check if the input is a fightingAD object or a constant
-      try:
+def tan(x):
+    # Check if the input is a fightingAD object or a constant
+    try:
         val = np.tan(x.val)
-        der = x.der*np.cos(x.val)**2
-        return fightingAD(val,der)
-      except AttributeError:
+        der = x.der * np.cos(x.val) ** 2
+        return fightingAD(val, der)
+    except AttributeError:
         return fightingAD(np.tan(x))
 
-    def arcsin(x):
-      # Check if the input is a fightingAD object or a constant
-      try:
+def arcsin(x):
+    # Check if the input is a fightingAD object or a constant
+    try:
         val = np.arcsin(x.val)
-        der = x.der*(1/np.sqrt(1 - x.val**2))
-        return fightingAD(val,der)
-      except AttributeError:
+        der = x.der * (1 / np.sqrt(1 - x.val ** 2))
+        return fightingAD(val, der)
+    except AttributeError:
         return fightingAD(np.arcsin(x))
-    
-    def arccos(x):
-      # Check if the input is a fightingAD object or a constant
-      try:
+
+def arccos(x):
+    # Check if the input is a fightingAD object or a constant
+    try:
         val = np.arccos(x.val)
-        der = -x.der*(1/np.sqrt(1 - x.val**2))
-        return fightingAD(val,der)
-      except AttributeError:
+        der = -x.der * (1 / np.sqrt(1 - x.val ** 2))
+        return fightingAD(val, der)
+    except AttributeError:
         return fightingAD(np.arccos(x))
 
-    def arctan(x):
-      # Check if the input is a fightingAD object or a constant
-      try:
+def arctan(x):
+    # Check if the input is a fightingAD object or a constant
+    try:
         val = np.arctan(x.val)
-        der = x.der*(1/(1 + x.val**2))
-        return fightingAD(val,der)
-      except AttributeError:
+        der = x.der * (1 / (1 + x.val ** 2))
+        return fightingAD(val, der)
+    except AttributeError:
         return fightingAD(np.arctan(x))
+
+
+# def sin(x):
+#     return x.sin()
