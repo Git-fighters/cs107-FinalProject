@@ -7,6 +7,8 @@ Notes from Manana:
 
 Check: __abs__ 
 
+Notes from Hugo:
+- why do we always instantiate a new object in every method call? Why not modify inplace and return self?
 """
 
 import numpy as np
@@ -22,10 +24,7 @@ class fightingAD():
             $ ...
             >>> ...
 
-    Section breaks are created by resuming unindented text. Section breaks
-    are also implicitly created anytime a new section starts.
-
-    Todo:
+    TODO:
         * Document all methods properly and show example usecases
         * Extend testing
 
@@ -203,9 +202,21 @@ class fightingAD():
             raise Exception("unsupported operation for /")
 
     # Overload pow
-
     def __pow__(self, power):
         return fightingAD(self.val ** power, power * self.der ** (power - 1))
+
+    # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
+    # YOU CAN SEE A BENCHMARK in benchmark.py
+    def __pow2__(self, power):
+        self.val = self.val ** power
+        self.der = power * self.der ** (power - 1)
+        return self
+
+    def __mul2__(self, other):
+        self.val = self.val * other.val
+        self.der = self.val * other.der + self.der * other.val
+        return self
+
 
 
 # FUNCTION DEFINITIONS
@@ -263,7 +274,3 @@ def arctan(x):
         return fightingAD(val, der)
     except AttributeError:
         return fightingAD(np.arctan(x))
-
-
-# def sin(x):
-#     return x.sin()
