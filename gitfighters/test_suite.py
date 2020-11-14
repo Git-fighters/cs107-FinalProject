@@ -97,25 +97,26 @@ def test_pow():
     x1 = fightingAD(5)
     x2 = x1 ** 2
     assert x2.val == 25
-    assert x2.der == 2
+    assert x2.der == 10
+
+    x1 = fightingAD(5)
+    x2 = x1 * 2
+    x3 = x1 ** x2
+    assert x3.val == 9765625
+    assert x3.der == 25482792.11361426
 
     x1 = fightingAD(0)
     x2 = x1 ** 5
     assert x2.val == 0
     assert x2.der == 0
 
-    x1 = fightingAD(0)
+    x1 = fightingAD(5)
     x2 = x1 ** (-3)
-    assert x2.val == 0
-    assert x2.der == 0
+    assert x2.val == 0.008
+    assert round(x2.der, 4)  == -0.0048
 
     x1 = fightingAD(0)
-    x2 = x1 ** (1/2)
-    assert x2.val == 0
-    assert x2.der == 0
-
-    x1 = fightingAD(0)
-    x2 = x1 ** (-(1/2))
+    x2 = x1 ** (-35)
     assert x2.val == 0
     assert x2.der == 0
 
@@ -152,8 +153,8 @@ def test_general():
 
     x1 = fightingAD(3)  # evaluate at x=3
     y1 = f(x1)
-    assert y1.val == 5
-    assert y1.der == -1
+    assert y1.val == 6
+    assert y1.der == 5
 
     def f(x):
         return x ** 5 - x ** 3 + 2 * x

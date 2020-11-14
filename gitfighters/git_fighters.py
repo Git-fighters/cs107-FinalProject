@@ -13,6 +13,7 @@ Notes from Hugo:
 Notes from Golo:
 - Documentation should follow PEP 257 because it was mentioned in class
 - I think the old implementation of __abs__ was problematic (if self.val < 0: self.der = -self.der). The val might be positive and the der negative (like f(x) = cos(x)). The old implementation would not have changed der.
+- Please check my pow implementation. It run into computer impression problems.
 """
 
 import numpy as np
@@ -238,9 +239,52 @@ class fightingAD():
         except:
             raise Exception("unsupported operation for /")
 
+
     # Overload pow
-    def __pow__(self, power):
-        return fightingAD(self.val ** power, power * self.der ** (power - 1))
+    def __pow__(self, other):
+        """Returns a fightingAD object with the power of the currenct object
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+        other: exponent
+
+        RETURNS
+        ========
+        fightingAD: new instance with power of current val and der
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> f = x**2
+        >>> f.val
+        25
+        """
+        if self.val == 0:
+            return fightingAD(0,0)
+        try:
+            if other.val == 0:
+                return fightingAD(1, 0)
+            return fightingAD(
+                self.val ** other.val, 
+                (np.log(self.val) + 1) * self.val ** other.val
+            )
+        except AttributeError:
+            try:
+                if other == 0:
+                    return fightingAD(1, 0)
+                return fightingAD(
+                    self.val ** other, other * self.val ** (other -1)
+                )
+            except:
+                raise TypeError(
+                    "unsupported operand type(s) for **: {} and {}".format(
+                        type(self).__name__, type(other).__name__
+                    )
+                )
+        else:
+            raise Exception("unsupported operation for **")
+
 
     # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
     # YOU CAN SEE A BENCHMARK in benchmark.py
