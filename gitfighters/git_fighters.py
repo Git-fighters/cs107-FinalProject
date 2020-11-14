@@ -14,7 +14,7 @@ Notes from Golo:
 - Documentation should follow PEP 257 because it was mentioned in class
 - I think the old implementation of __abs__ was problematic (if self.val < 0: self.der = -self.der). The val might be positive and the der negative (like f(x) = cos(x)). The old implementation would not have changed der.
 - Please check my pow implementation. It run into computer impression problems.
-- I do not think that there is a __log__ function in python :-)
+- I do not think that there are __exp__ or __log__ functions in python :-)
 - We should consider a gitignore file
 - We assume that the derivative of integers in functions, like sin or log, is 1. Are we fine with this assumption?
 """
@@ -341,7 +341,7 @@ def log(x):
 
     INPUTS
     =======
-    x: fightingAD object
+    x: an object
 
     RETURNS
     ========
@@ -360,7 +360,40 @@ def log(x):
         else:    
             return fightingAD(np.log(x.val), 1 / x.val)
     except AttributeError:
-        return fightingAD(np.log(x))
+        if x == 0:
+            raise ValueError("log(0) is undefined")
+        else:
+            return fightingAD(np.log(x))
+
+
+def exp(x):
+    """Returns the exponential of the current object: e^x
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the exponential of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = exp(x)
+    >>> f.val
+    148.413159103
+    """
+    try:
+        if x.val == 0:
+            return fightingAD(1, 0)
+        else:    
+            return fightingAD(np.exp(x.val), np.exp(x.val))
+    except AttributeError:
+        if x == 0:
+            return fightingAD(1, 0)
+        else:
+            return fightingAD(np.exp(x))
 
 
 def sin(x):

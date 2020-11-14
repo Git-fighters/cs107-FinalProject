@@ -138,8 +138,18 @@ def test_abs():
 
 def test_exp():
     x1 = fightingAD(5)
-    x2 = log(x1)
-    x2.val = 0.69897000433 
+    x2 = exp(x1)
+    assert round(x2.val, 5) == 148.41316
+    assert round(x2.der, 5) == 148.41316
+
+    x1 = fightingAD(0)
+    x2 = exp(x1)
+    assert x2.val == 1
+    assert x2.der == 0
+
+    x1 = fightingAD(5)
+    x2 = exp(5)
+    assert round(x2.val, 5) == 148.41316
 
 
 def test_log():
