@@ -119,6 +119,11 @@ def test_pow():
     assert x2.val == 0
     assert x2.der == 0
 
+def test_abs():
+    x1 = fightingAD(0.54, -0.84)
+    x2 = abs(x1)
+    assert x2.val == 0.54
+    assert x2.der == 0.84
 
 def test_exp():
     pass

@@ -9,6 +9,10 @@ Check: __abs__
 
 Notes from Hugo:
 - why do we always instantiate a new object in every method call? Why not modify inplace and return self?
+
+Notes from Golo:
+- Documentation should follow PEP 257 because it was mentioned in class
+- I think the old implementation of __abs__ was problematic (if self.val < 0: self.der = -self.der). The val might be positive and the der negative (like f(x) = cos(x)). The old implementation would not have changed der.
 """
 
 import numpy as np
@@ -119,12 +123,28 @@ class fightingAD():
 
     # Overload absolute value
     def __abs__(self):
+        """Returns a fightingAD object with the absolute values of val and der.
 
-        # derivative
+        INPUTS
+        =======
+        self: the current fightingAD object
+
+        RETURNS
+        ========
+        fightingAD: new instance with absolute values of current val and der
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(0.54, -0.84)
+        >>> f = abs(x)
+        >>> f.der
+        0.84
+        """
         if self.val < 0:
+            self.val = -self.val
+        if self.der < 0:
             self.der = -self.der
-
-        return fightingAD(np.abs(self.val), self.der)
+        return fightingAD(self.val, self.der)
 
     # Overload pos
     def __pos__(self):
