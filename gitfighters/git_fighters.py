@@ -98,6 +98,23 @@ class fightingAD():
 
     # Overload negation
     def __neg__(self):
+        """Returns the negation of the current fightingAD object.
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+
+        RETURNS
+        ========
+        fightingAD: new instance with negation of current val and der
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> f = -x
+        >>> f.val
+        -5
+        """
         return fightingAD(-self.val, -self.der)
 
     # Overload absolute value
