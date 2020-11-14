@@ -120,6 +120,16 @@ def test_pow():
     assert x2.val == 0
     assert x2.der == 0
 
+    x1 = fightingAD(5)
+    x2 = 2**x1
+    assert x2.val == 32
+    assert x2.der == 80
+
+    x1 = fightingAD(5)
+    x2 = 0**x1
+    assert x2.val == 0
+    assert x2.der == 0
+
 def test_abs():
     x1 = fightingAD(0.54, -0.84)
     x2 = abs(x1)

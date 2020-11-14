@@ -246,7 +246,7 @@ class fightingAD():
 
         INPUTS
         =======
-        self: the current fightingAD object
+        self: base (the current fightingAD object)
         other: exponent
 
         RETURNS
@@ -285,6 +285,36 @@ class fightingAD():
         else:
             raise Exception("unsupported operation for **")
 
+    def __rpow__(self, other):
+        """Returns an object with the power of the value of another class
+
+        INPUTS
+        =======
+        self: exponent (value of a fightingAD object)
+        other: base (value of other class such as integer) 
+
+        RETURNS
+        ========
+        fightingAD: new instance with power of the value of another class
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> f = 2**x
+        >>> f.val
+        32
+        """
+        if other == 0:
+            return fightingAD(0, 0)
+        elif self.val == 0:
+            return fightingAD(1, 0)
+        else:
+            try:
+                return fightingAD(
+                    other ** self.val, self.val * other ** (self.val -1)
+                )
+            except:
+                raise Exception("unsupported operation for **")
 
     # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
     # YOU CAN SEE A BENCHMARK in benchmark.py
