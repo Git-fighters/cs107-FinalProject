@@ -137,11 +137,19 @@ def test_abs():
     assert x2.der == 0.84
 
 def test_exp():
-    pass
+    x1 = fightingAD(5)
+    x2 = log(x1)
+    x2.val = 0.69897000433 
 
 
 def test_log():
-    pass
+    x1 = fightingAD(5)
+    x2 = log(x1)
+    x2.val = 0.69897000433
+
+    x1 = fightingAD(5)
+    x2 = log(2)
+    x2.val = 0.30102999566
 
 
 def test_other_elementary():
