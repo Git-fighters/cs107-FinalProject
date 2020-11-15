@@ -451,7 +451,7 @@ def log(x):
         if x == 0:
             raise ValueError("log(0) is undefined")
         else:
-            return fightingAD(np.log(x))
+            return np.log(x)
 
 
 def exp(x):
@@ -481,7 +481,7 @@ def exp(x):
         if x == 0:
             return fightingAD(1, 0)
         else:
-            return fightingAD(np.exp(x))
+            return np.exp(x)
 
 
 def sin(x):
@@ -491,7 +491,7 @@ def sin(x):
         der = x.der * np.cos(x.val)
         return fightingAD(val, der)
     except AttributeError:
-        return fightingAD(np.sin(x))
+        return np.sin(x)
 
 def cos(x):
     # Check if the input is a fightingAD object or a constant
@@ -500,7 +500,7 @@ def cos(x):
         der = -x.der * np.sin(x.val)
         return fightingAD(val, der)
     except AttributeError:
-        return fightingAD(np.cos(x))
+        return np.cos(x)
 
 def tan(x):
     # Check if the input is a fightingAD object or a constant
@@ -509,7 +509,7 @@ def tan(x):
         der = x.der * np.cos(x.val) ** 2
         return fightingAD(val, der)
     except AttributeError:
-        return fightingAD(np.tan(x))
+        return np.tan(x)
 
 def arcsin(x):
     # Check if the input is a fightingAD object or a constant
@@ -518,7 +518,7 @@ def arcsin(x):
         der = x.der * (1 / np.sqrt(1 - x.val ** 2))
         return fightingAD(val, der)
     except AttributeError:
-        return fightingAD(np.arcsin(x))
+        return np.arcsin(x)
 
 def arccos(x):
     # Check if the input is a fightingAD object or a constant
@@ -527,7 +527,7 @@ def arccos(x):
         der = -x.der * (1 / np.sqrt(1 - x.val ** 2))
         return fightingAD(val, der)
     except AttributeError:
-        return fightingAD(np.arccos(x))
+        return np.arccos(x)
 
 def arctan(x):
     # Check if the input is a fightingAD object or a constant
@@ -536,4 +536,4 @@ def arctan(x):
         der = x.der * (1 / (1 + x.val ** 2))
         return fightingAD(val, der)
     except AttributeError:
-        return fightingAD(np.arctan(x))
+        return np.arctan(x)

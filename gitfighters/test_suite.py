@@ -202,7 +202,7 @@ def test_general():
     x1 = fightingAD(3)
     y1 = f(x1)
     assert y1.val == float(-(728/3) + 3**(1/2) + log(3) + sin(cos(3)))
-    assert y1.der == float((1/18) * (3 * 3**(1/2) - 7286) - sin(3)*cos(cos(3)))
+    assert y1.der == float(((1/18) * (3 * 3**(1/2) - 7286) - sin(3)*cos(cos(3)))
 
 
 
