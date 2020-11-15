@@ -95,6 +95,17 @@ class fightingAD():
 
     # Overload ne
     def __ne__(self, other):
+        """
+        Checks if this object is unequal to another object reference object.
+        We assume two objects are equal only if they are both of type fightingAD
+        and have the same derivative and function values.
+
+        Args:
+            other: The object we are comparing to. Is a fightingAD object
+
+        Returns:
+            True if unequal, False otherwise.
+        """
         try:
             return (self.val != other.val) or (self.der != other.der)
         except:
@@ -196,6 +207,22 @@ class fightingAD():
 
     # Overload multiplication
     def __mul__(self, other):
+        """Multiplies an fAD object
+
+        INPUTS
+        =======
+        other: object to multiply with. Can be scalar or fAD object.
+
+        RETURNS
+        ========
+        fightingAD: new instance with multiplied derivative and function values
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(1)
+        >>> print((x * 2).val, (x * 2).der)
+        2, 2
+        """
         try:
             return fightingAD(
                 self.val * other.val, self.val * other.der + self.der * other.val
@@ -214,10 +241,48 @@ class fightingAD():
 
     # Overload multiplication with reversed operand
     def __rmul__(self, other):
+        """Multiplies an fAD object
+        
+        Used in case that the first value to be multiplied with is not an fAD object.
+        Since multiplication is commutative, we can swap the order and call __mul__
+
+        INPUTS
+        =======
+        other: object to multiply with. Can be scalar or fAD object.
+
+        RETURNS
+        ========
+        fightingAD: new instance with multiplied derivative and function values
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(1)
+        >>> x = 2 * x
+        >>> print(x.val, x.der)
+        2, 2
+        """
         return self.__mul__(other)
 
     # Overload division
     def __truediv__(self, other):
+        """Divides an fAD object
+
+        INPUTS
+        =======
+        other: object to divide with. Can be scalar or fAD object.
+
+        RETURNS
+        ========
+        fightingAD: new instance with divided derivative and function values
+
+        EXAMPLES
+        =========
+        >>> x1 = fightingAD(1)
+        >>> x2 = fightingAD(2)
+        >>> y = x1/x2
+        >>> print(y.val)
+        0.5
+        """
         try:
             if other.val == 0:
                 raise ZeroDivisionError("division by zero")
@@ -237,6 +302,25 @@ class fightingAD():
 
     # Overload division with reversed operand
     def __rtruediv__(self, other):
+        """Divides a non-fAD object by a fAD object
+
+        Is called when the first operand in a division is a scalar.
+
+        INPUTS
+        =======
+        other: object to divide with. Is scalar/vector
+
+        RETURNS
+        ========
+        fightingAD: new instance with divided derivative and function values
+
+        EXAMPLES
+        =========
+        >>> x1 = fightingAD(10)
+        >>> y = 2 / x
+        >>> print(y.val)
+        0.2
+        """
         try:
             return fightingAD(other, derivative=0).__truediv__(self)
         except:
