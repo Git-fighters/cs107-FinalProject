@@ -21,6 +21,11 @@ Reconvene Tuesday - 9pm EU - 3pm EST
 Notes from Manana:
 
 Check: __abs__ 
+- I think __eq__ method should be redefined but let's discuss this today
+- check the __add__ example
+- check the __sub__ example
+- check __mul__
+- I do not understand __pow__
 
 Notes from Hugo:
 - why do we always instantiate a new object in every method call? Why not modify inplace and return self? ❌
@@ -83,25 +88,71 @@ class fightingAD():
 
     # Overload str
     def __str__(self):
+
+        """Returns the string representation of the current fightingAD object.
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+
+        RETURNS
+        ========
+        fightingAD: the string representation of the fightingAD object
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> print(x)
+        AD object with value of 5 and derivative of 1.
+        """
         return "AD object with value of {} and derivative of {}".format(
             self.val, self.der
         )
 
     # Overload repr
     def __repr__(self):
+
+        """Returns the representation of the current fightingAD object.
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+
+        RETURNS
+        ========
+        fightingAD: the representation of the fightingAD object
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> x.repr()
+        AD: 5, 1
+        """
         return "AD: {}, {}".format(self.val, self.der)
 
     # Overload eq
     def __eq__(self, other):
-        """Equality method
-        Checks if this object is equal to another object
 
-        Args:
-            other: The object we are comparing to. Can be scalar or fightingAD object
 
-        Returns:
-            True if equal, False otherwise.
+        
+        """Equality method: Checks if this object is equal to another object
 
+        INPUTS
+        =======
+        self: the current fightingAD object
+        other: The object we are comparing to. Can be scalar or fightingAD object
+
+        RETURNS
+        ========
+        True if equal, False otherwise.
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> y = fightingAD(6)
+        >>> x == y
+        False
+        
         """
         try:
             return (self.val == other.val) and (self.der == other.der)
@@ -114,17 +165,29 @@ class fightingAD():
 
     # Overload ne
     def __ne__(self, other):
-        """
-        Checks if this object is unequal to another object reference object.
-        We assume two objects are equal only if they are both of type fightingAD
-        and have the same derivative and function values.
+=
 
-        Args:
-            other: The object we are comparing to. Is a fightingAD object
+    """Inequality method: Checks if this object is not equal to another object
 
-        Returns:
-            True if unequal, False otherwise.
+        INPUTS
+        =======
+        self: the current fightingAD object
+        other: The object we are comparing to. Can be scalar or fightingAD object
+
+        RETURNS
+        ========
+        True if NOT equal, False otherwise.
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> y = fightingAD(6)
+        >>> x != y
+        True
+        
         """
+
+
         try:
             return (self.val != other.val) or (self.der != other.der)
         except:
@@ -182,11 +245,46 @@ class fightingAD():
 
     # Overload pos
     def __pos__(self):
+        """Returns a fightingAD object with the unary plus operator.
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+
+        RETURNS
+        ========
+        fightingAD: new instance with absolute values of current val and der
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> +x
+        5
+        """
         return fightingAD(self.val, self.der)
 
     # Overload addition
     def __add__(self, other):
-        # ADD DOCUMENTATION
+        """Addition operand: adds self to the other
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+        other: The object we are adding to. Can be scalar or fightingAD object
+
+        RETURNS
+        ========
+        new fightingAD object with added value and derivative.
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> y = fightingAD(6)
+        >>> s = x + y
+        >>> print(s)
+        AD object with value of 11 and derivative of 2 ?????? 
+        
+        """
         try:
             return fightingAD(self.val + other.val, self.der + other.der)
         except AttributeError:
@@ -207,6 +305,26 @@ class fightingAD():
 
     # Overload subtraction
     def __sub__(self, other):
+        """Subraction operand: subtracts other from self
+
+        INPUTS
+        =======
+        self: the current fightingAD object
+        other: The object we are subracting. Can be scalar or fightingAD object
+
+        RETURNS
+        ========
+        new fightingAD object with subtracted value and derivative.
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(5)
+        >>> y = fightingAD(6)
+        >>> s = x - y
+        >>> print(s)
+        AD object with value of -1 and derivative of 0 ?????? 
+        
+        """
         try:
             return fightingAD(self.val - other.val, self.der - other.der)
         except AttributeError:
@@ -227,21 +345,26 @@ class fightingAD():
 
     # Overload multiplication
     def __mul__(self, other):
-        """Multiplies an fAD object
+
+        """Multiplication operand: multiplies self by other
 
         INPUTS
         =======
-        other: object to multiply with. Can be scalar or fAD object.
+        self: the current fightingAD object
+        other: The object to multiply with. Can be scalar or fightingAD object
 
         RETURNS
         ========
-        fightingAD: new instance with multiplied derivative and function values
+        new fightingAD object with multiplied value and derivative.
 
         EXAMPLES
         =========
-        >>> x = fightingAD(1)
-        >>> print((x * 2).val, (x * 2).der)
-        2, 2
+        >>> x = fightingAD(5)
+        >>> y = fightingAD(6)
+        >>> m = x * y
+        >>> print(m)
+        AD object with value of 30 and derivative of 11?????? 
+        
         """
         try:
             return fightingAD(
@@ -258,6 +381,15 @@ class fightingAD():
                 )
         else:
             raise Exception("unsupported operation for *")
+
+    def __div__(self, other):
+
+        ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __truediv__?
+        return
+
+    def __rdiv__(self, other):
+        ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __rtruediv__?
+
 
     # Overload multiplication with reversed operand
     def __rmul__(self, other):
@@ -285,23 +417,28 @@ class fightingAD():
 
     # Overload division
     def __truediv__(self, other):
-        """Divides an fAD object
+
+        """Division operand: divides self by other
 
         INPUTS
         =======
-        other: object to divide with. Can be scalar or fAD object.
+        self: the current fightingAD object
+        other: The object to divide with. Can be scalar or fightingAD object
 
         RETURNS
         ========
-        fightingAD: new instance with divided derivative and function values
+        new fightingAD object with divided value and derivative.
 
         EXAMPLES
         =========
-        >>> x1 = fightingAD(1)
-        >>> x2 = fightingAD(2)
-        >>> y = x1/x2
-        >>> print(y.val)
-        0.5
+        >>> x = fightingAD(30)
+        >>> y = fightingAD(6)
+        >>> d = x / y
+        >>> print(d)
+        AD object with value of 5 and derivative of -25/36?????? 
+        
+
+
         """
         try:
             if other.val == 0:
@@ -376,7 +513,7 @@ class fightingAD():
             return fightingAD(
                 self.val ** other.val, 
                 (np.log(self.val) + 1) * self.val ** other.val
-            )
+            ) ### SHOULDN'T we also multiply by the derivatives, pretty sure something is missing
         except AttributeError:
             try:
                 if other == 0:
