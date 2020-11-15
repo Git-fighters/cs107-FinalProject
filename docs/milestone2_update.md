@@ -147,36 +147,36 @@ We plan to implement one class:
 
 The 'fightingAD' class aims to store and compute the value and the derivative of a given instance at a specific point. The easy access to all of these information will give us flexibility to extend the project in any of the directions we decide to explore later. The class has two variables with global scope:
 
-	- value - for the value of the function evaluated at the input
-	- derivative - evaluated derivative at the given point
+	- val - the value of the function evaluated at a given point
+	- der - the derivative at a given point
 
 This class will include these major methods (incl. elementary mathematical functions):
 
 	- \_\_str\_\_
 	- \_\_repr\_\_
-        - \_\_eq\_\_
-        - \_\_ne\_\_
-        - \_\_neg\_\_
-        - \_\_pos\_\_
-        - \_\_abs\_\_
+	- \_\_eq\_\_
+	- \_\_ne\_\_
+	- \_\_neg\_\_
+	- \_\_pos\_\_
+	- \_\_abs\_\_
 	- \_\_mul\_\_
 	- \_\_rmul\_\_
 	- \_\_add\_\_
 	- \_\_radd\_\_
-        - \_\_sub\_\_
-        - \_\_rsub\_\_
+	- \_\_sub\_\_
+	- \_\_rsub\_\_
 	- \_\_pow\_\_
-        - \_\_rpow\_\_
+	- \_\_rpow\_\_
 	- \_\_trudiv\_\_
 	- \_\_rtruediv\_\_
-        - log
-        - exp
-        - sin
-        - cos
-        - tan
-        - arcsin
-        - arccos
-        - arctan
+	- log
+	- exp
+	- sin
+	- cos
+	- tan
+	- arcsin
+	- arccos
+	- arctan
 
 It is worthwhile to mention that the methods can be performed on 'fightingAD' objects and on some other objects such as integers. This will ensure that we can perform various operations with our class.
 
