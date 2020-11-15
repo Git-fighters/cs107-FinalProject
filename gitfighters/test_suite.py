@@ -125,6 +125,11 @@ def test_pow():
     assert x2.val == 32
     assert x2.der == 80
 
+    x1 = fightingAD(2)
+    x2 = 2**(x1*2)
+    assert x2.val == 16
+    assert x2.der == 32 * log(2)
+
     x1 = fightingAD(5)
     x2 = 0**x1
     assert x2.val == 0
@@ -202,22 +207,22 @@ def test_general():
     x1 = fightingAD(3)
     y1 = f(x1)
     assert y1.val == float(-(728/3) + 3**(1/2) + log(3) + sin(cos(3)))
-    assert y1.der == float(((1/18) * (3 * 3**(1/2) - 7286) - sin(3)*cos(cos(3)))
+    assert y1.der == float((1/18) * (3 * 3**(1/2) - 7286) - sin(3)*cos(cos(3)))
 
 
 
 # this newton function gives NameError. I tried to fix it, but it goes into an eternal loop
-# def test_newton():
-#     # initial root value
-#     x = fightingAD(2)
-#     st_condition = 1
+def test_newton():
+    # initial root value
+    x1 = fightingAD(2)
+    st_condition = 1
 
-#     # Newton's method main loop
-#     while st_condition > 1e-16:
-#         y = x1 * x1 + fightingAD.sin(x1)
-#         xval = x1 - y.val/y.der
-#         x_old = np.copy(x1.val)
-#         x = fightingAD(xval.val)
-#         st_condition = np.abs(x-x_old).val
+    # Newton's method main loop
+    while st_condition > 1e-16:
+        y = x1 * x1 + sin(x1)
+        xval = x1 - y.val/y.der
+        x_old = np.copy(x1.val)
+        x1 = fightingAD(xval.val)
+        st_condition = np.abs(x1-x_old).val
 
-#     assert x.val == 0
+    assert x1.val == 0

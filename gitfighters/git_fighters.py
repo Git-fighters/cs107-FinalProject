@@ -3,13 +3,28 @@
 # By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
 
 """
+TODO for Thursday:
+- fix __pow__ : f(g(x)) = f'(g(x))* g'(x) - Manana
+- add documentation
+    - in code (docstrings) - Tale - PEP 257
+    - in /docs folder too (ideally in .ipynb) - Hugo
+    - Extra feature - Manana
+- add MANY testcases - everyone
+    - --> fix subsequenterrors
+- CodeCov/TravisCI integration - golo
+    - > 90% coverage and all tests passed
+- Harvard Zoom - Golo
+
+Reconvene Tuesday - 9pm EU - 3pm EST
+
+
 Notes from Manana:
 
 Check: __abs__ 
 
 Notes from Hugo:
-- why do we always instantiate a new object in every method call? Why not modify inplace and return self?
-- sin/cos/etc.. standalone functions should not return fAD object if input is not fAD object
+- why do we always instantiate a new object in every method call? Why not modify inplace and return self? ❌
+- sin/cos/etc.. standalone functions should not return fAD object if input is not fAD object ✅
 - need more tests
 - newton function needs fix
 - should we consider keeping track of past operations?
@@ -17,7 +32,7 @@ Notes from Hugo:
 - 
 
 Notes from Golo:
-- Documentation should follow PEP 257 because it was mentioned in class
+- Documentation should follow PEP 257 because it was mentioned in class ✅
 - I think the old implementation of __abs__ was problematic (if self.val < 0: self.der = -self.der). The val might be positive and the der negative (like f(x) = cos(x)). The old implementation would not have changed der.
 - Please check my pow implementation. It run into computer impression problems.
 - I do not think that there are __exp__ or __log__ functions in python :-)
@@ -171,6 +186,7 @@ class fightingAD():
 
     # Overload addition
     def __add__(self, other):
+        # ADD DOCUMENTATION
         try:
             return fightingAD(self.val + other.val, self.der + other.der)
         except AttributeError:
@@ -339,6 +355,7 @@ class fightingAD():
         =======
         self: base (the current fightingAD object)
         other: exponent
+        f(g(x)) = f'(g(x))* g'(x)
 
         RETURNS
         ========
