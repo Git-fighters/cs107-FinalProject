@@ -14,6 +14,12 @@ Check: __abs__
 
 Notes from Hugo:
 - why do we always instantiate a new object in every method call? Why not modify inplace and return self?
+- sin/cos/etc.. standalone functions should not return fAD object if input is not fAD object
+- need more tests
+- newton function needs fix
+- should we consider keeping track of past operations?
+- should we consider writing documentation/code compatible with vectorized implementation?
+- 
 
 Notes from Golo:
 - Documentation should follow PEP 257 because it was mentioned in class
@@ -28,7 +34,7 @@ import numpy as np
 
 
 class fightingAD():
-    """Example Google style docstrings.
+    """Main object of the gf library.
 
     This class is used as the central building block of the git_fighters library.
 
@@ -64,8 +70,6 @@ class fightingAD():
         """
         self.val = value
         self.der = derivative
-        # COMMENT: I think this should be ```self.der = derivative * value```
-        # Or something similar. As it stands now it is problematic for a few things (like __pow__)
 
     # Overload str
     def __str__(self):
@@ -146,6 +150,7 @@ class fightingAD():
 
     # Overload ne
     def __ne__(self, other):
+=
 
     """Inequality method: Checks if this object is not equal to another object
 
@@ -166,6 +171,7 @@ class fightingAD():
         True
         
         """
+
 
         try:
             return (self.val != other.val) or (self.der != other.der)
@@ -325,6 +331,7 @@ class fightingAD():
 
     # Overload multiplication
     def __mul__(self, other):
+
         """Multiplication operand: multiplies self by other
 
         INPUTS
@@ -372,10 +379,31 @@ class fightingAD():
 
     # Overload multiplication with reversed operand
     def __rmul__(self, other):
+        """Multiplies an fAD object
+        
+        Used in case that the first value to be multiplied with is not an fAD object.
+        Since multiplication is commutative, we can swap the order and call __mul__
+
+        INPUTS
+        =======
+        other: object to multiply with. Can be scalar or fAD object.
+
+        RETURNS
+        ========
+        fightingAD: new instance with multiplied derivative and function values
+
+        EXAMPLES
+        =========
+        >>> x = fightingAD(1)
+        >>> x = 2 * x
+        >>> print(x.val, x.der)
+        2, 2
+        """
         return self.__mul__(other)
 
     # Overload division
     def __truediv__(self, other):
+
         """Division operand: divides self by other
 
         INPUTS
@@ -395,6 +423,8 @@ class fightingAD():
         >>> print(d)
         AD object with value of 5 and derivative of -25/36?????? 
         
+
+
         """
         try:
             if other.val == 0:
@@ -415,6 +445,25 @@ class fightingAD():
 
     # Overload division with reversed operand
     def __rtruediv__(self, other):
+        """Divides a non-fAD object by a fAD object
+
+        Is called when the first operand in a division is a scalar.
+
+        INPUTS
+        =======
+        other: object to divide with. Is scalar/vector
+
+        RETURNS
+        ========
+        fightingAD: new instance with divided derivative and function values
+
+        EXAMPLES
+        =========
+        >>> x1 = fightingAD(10)
+        >>> y = 2 / x
+        >>> print(y.val)
+        0.2
+        """
         try:
             return fightingAD(other, derivative=0).__truediv__(self)
         except:
@@ -567,7 +616,7 @@ def exp(x):
             return fightingAD(1, 0)
         else:    
             return fightingAD(np.exp(x.val), np.exp(x.val))
-    except AttributeError:
+    except AttributeError:  # Hugo: I think here we should return a scalar, and not a new fAD object
         if x == 0:
             return fightingAD(1, 0)
         else:

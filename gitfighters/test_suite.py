@@ -197,6 +197,14 @@ def test_general():
     assert y1.val == 28
     assert y1.der == 70
 
+    def f(x):
+        return x**(1/2) + log(x) - x**5 + x/x**2 + sin(cos(x))
+    x1 = fightingAD(3)
+    y1 = f(x1)
+    assert y1.val == float(-(728/3) + 3**(1/2) + log(3) + sin(cos(3)))
+    assert y1.der == float((1/18) * (3 * 3**(1/2) - 7286) - sin(3)*cos(cos(3)))
+
+
 
 # this newton function gives NameError. I tried to fix it, but it goes into an eternal loop
 # def test_newton():
