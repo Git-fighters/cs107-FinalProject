@@ -387,7 +387,7 @@ class fightingAD():
 
     def __rdiv__(self, other):
         ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __rtruediv__?
-
+	return
 
     # Overload multiplication with reversed operand
     def __rmul__(self, other):
