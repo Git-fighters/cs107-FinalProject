@@ -165,9 +165,7 @@ class fightingAD():
 
     # Overload ne
     def __ne__(self, other):
-=
-
-    """Inequality method: Checks if this object is not equal to another object
+        """Inequality method: Checks if this object is not equal to another object
 
         INPUTS
         =======
