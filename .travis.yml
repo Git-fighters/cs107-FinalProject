@@ -8,7 +8,7 @@ before_install:
     - pip install codecov
 
 script:
-    - pytest --cov-report=xml --cov=Git-fighters tests/
+    - pytest --cov-report=xml --cov=./
 
 after_success:
     - codecov
