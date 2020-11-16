@@ -154,7 +154,7 @@ def test_exp():
 
     x1 = fightingAD(5)
     x2 = exp(5)
-    assert round(x2.val, 5) == 148.41316
+    assert round(x2, 5) == 148.41316
 
 
 def test_log():
@@ -164,7 +164,7 @@ def test_log():
 
     x1 = fightingAD(5)
     x2 = log(2)
-    x2.val = 0.30102999566
+    x2 = 0.30102999566
 
 
 def test_other_elementary():
