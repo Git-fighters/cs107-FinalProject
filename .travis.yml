@@ -8,7 +8,10 @@ before_install:
     - pip install codecov
 
 script:
-    - pytest gitfighters/test_suite.py --cov-report=xml --cov=./
+    - pytest --cov-report=xml --cov=./
+
+env:
+  - CODECOV_TOKEN="7e8bbc89-aba6-4a10-8b4f-39e6d15da7a3"
 
 after_success:
     - codecov
