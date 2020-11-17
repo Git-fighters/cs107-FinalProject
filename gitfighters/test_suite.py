@@ -11,8 +11,9 @@ def test_constructor():
 
 
 def test_str():
-    x = fightingAD(5)
-    print(x.__str__)
+    x = fightingAD(5, 1)
+    a = x.__str__()
+    assert a == "AD object with value of 5 and derivative of 1"    
 
 
 def test_equality():
