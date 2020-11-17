@@ -167,6 +167,39 @@ def test_log():
     x2 = 0.30102999566
 
 
+def test_pow1():
+
+    x = fightingAD(2)
+    f = x**2
+    assert f.val == 4
+    assert f.der == 4
+
+def test_pow2():
+    x = fightingAD(2)
+    f = 2**x
+    assert f.val == 4
+    assert f.der == np.log(2) * 4
+
+
+def test_pow3():
+    x = fightingAD(2)
+    f = x**x
+    assert f.val == 4
+    assert f.der == np.log(2) * 4 + 4
+
+
+def test_pow4():
+    x = fightingAD(3)
+    f = x**(x-2)
+    assert f.val == 3
+    assert f.der == np.log(3)*3 + 1
+
+def test_pow5():
+    x = fightingAD(3)
+    f = (x-2)**x
+    assert f.val == 1
+    assert f.der == 3
+
 def test_other_elementary():
     pass
 
@@ -214,6 +247,7 @@ def test_general():
 # this newton function gives NameError. I tried to fix it, but it goes into an eternal loop
 def test_newton():
     # initial root value
+
     x1 = fightingAD(2)
     st_condition = 1
 
@@ -226,3 +260,7 @@ def test_newton():
         st_condition = np.abs(x1-x_old).val
 
     assert x1.val == 0
+    print('Passed the Newton test')
+
+
+

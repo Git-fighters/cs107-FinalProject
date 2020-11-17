@@ -505,12 +505,15 @@ class fightingAD():
         if self.val == 0:
             return fightingAD(0,0)
         try:
-            if other.val == 0:
-                return fightingAD(1, 0)
-            return fightingAD(
-                self.val ** other.val, 
-                (np.log(self.val) + 1) * self.val ** other.val
-            ) ### SHOULDN'T we also multiply by the derivatives, pretty sure something is missing
+            # if other.val == 0:
+            #     return fightingAD(1, 0)
+            # return fightingAD(
+            #     self.val ** other.val, 
+            #     (np.log(self.val) + 1) * self.val ** other.val
+            # ) 
+            return fightingAD(self.val**other.val, 
+                np.log(self.val)* self.val**other.val * other.der + 
+                other.val * self.der * self.val ** (other.val - 1))
         except AttributeError:
             try:
                 if other == 0:
@@ -552,11 +555,13 @@ class fightingAD():
             return fightingAD(1, 0)
         else:
             try:
-                return fightingAD(
-                    other ** self.val, self.val * other ** (self.val -1)
-                )
+                # return fightingAD(
+                #     other ** self.val, self.val * other ** (self.val -1)
+                # )
+                return other.__pow__(self)
             except:
                 raise Exception("unsupported operation for **")
+
 
     # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
     # YOU CAN SEE A BENCHMARK in benchmark.py
