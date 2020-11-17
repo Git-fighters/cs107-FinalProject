@@ -519,7 +519,7 @@ class fightingAD():
                 if other == 0:
                     return fightingAD(1, 0)
                 return fightingAD(
-                    self.val ** other, other * self.val ** (other -1)
+                    self.val ** other, other * self.val ** (other -1) * self.der
                 )
             except:
                 raise TypeError(
@@ -558,7 +558,9 @@ class fightingAD():
                 # return fightingAD(
                 #     other ** self.val, self.val * other ** (self.val -1)
                 # )
-                return other.__pow__(self)
+                return fightingAD(
+                    other ** self.val, np.log(other) * other ** self.val * self.der
+                )
             except:
                 raise Exception("unsupported operation for **")
 
