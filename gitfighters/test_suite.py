@@ -24,9 +24,19 @@ def test_repr():
 def test_equality():
     x1 = fightingAD(10)
     x2 = fightingAD(10) + 3 - 3
-    x3 = fightingAD(10) * 2 + 4
-    assert x1 == x2
-    assert x1 != x3
+    try:
+        assert x1 == 5
+    except TypeError:
+        assert x1 == x2
+
+
+def test_inequality():
+    x1 = fightingAD(5)
+    x2 = fightingAD(5) + 3 
+    try:
+        assert x1 != 5
+    except TypeError:
+        assert x1 != x2
 
 
 def test_addition():
