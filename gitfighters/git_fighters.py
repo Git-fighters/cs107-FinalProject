@@ -380,13 +380,13 @@ class fightingAD():
         else:
             raise Exception("unsupported operation for *")
 
-    def __div__(self, other):
+    #def __div__(self, other):
         ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __truediv__?
-        return
+        #return
 
-    def __rdiv__(self, other):
+    #def __rdiv__(self, other):
         ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __rtruediv__?
-        return
+        #return
 
     # Overload multiplication with reversed operand
     def __rmul__(self, other):

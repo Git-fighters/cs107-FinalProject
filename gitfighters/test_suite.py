@@ -16,6 +16,11 @@ def test_str():
     assert a == "AD object with value of 5 and derivative of 1"    
 
 
+def test_repr():
+    x = fightingAD(5, 1)
+    a = x.__repr__()
+    assert a == "AD: 5, 1"
+
 def test_equality():
     x1 = fightingAD(10)
     x2 = fightingAD(10) + 3 - 3
