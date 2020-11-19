@@ -111,6 +111,9 @@ def test_pos():
     x2 = +x1
     assert x2.val == 1
 
+    x1 = fightingAD(1)
+    assert +x1.val == 1
+
 
 def test_division():
     x1 = fightingAD(5)
@@ -361,8 +364,3 @@ def test_wrong_input():
     b = fightingAD(1)
     with pytest.raises(TypeError):
         a * b
-
-
-def test_pos():
-    a = fightingAD(1)
-    assert +a.val == 1
