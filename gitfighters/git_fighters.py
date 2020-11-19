@@ -511,20 +511,6 @@ class fightingAD:
             except:
                 raise Exception("unsupported operation for **")
 
-    # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
-    # YOU CAN SEE A BENCHMARK IN benchmark.py
-    # THIS IS MORE PERFORMANT, BUT HAS SOME UX IMPLICATIONS
-    # FURTHER OPTIMIZATIONS LIKE DIVISION AND THREADING OF LARGE FUNCTIONS CAN BE DONE
-    def __pow2__(self, power):
-        self.val = self.val ** power
-        self.der = power * self.der ** (power - 1)
-        return self
-
-    def __mul2__(self, other):
-        self.val = self.val * other.val
-        self.der = self.val * other.der + self.der * other.val
-        return self
-
 
 ##############################
 #### FUNCTION DEFINITIONS ####
