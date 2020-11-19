@@ -85,11 +85,7 @@ def test_addition():
 def test_subtraction():
     x1 = fightingAD(3)
     x2 = 5 - x1
-<<<<<<< HEAD
     assert x2.val == 2
-=======
-    assert x2.val == 3
->>>>>>> 01bbc894e4f0b53360d603139784371f6f2137b1
     assert x2.der == -1
 
     with pytest.raises(TypeError):
