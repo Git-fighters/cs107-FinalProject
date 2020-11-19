@@ -156,38 +156,6 @@ def test_pow():
     assert x2.val == 0
     assert x2.der == 0
 
-def test_abs():
-    x1 = fightingAD(0.54, -0.84)
-    x2 = abs(x1)
-    assert x2.val == 0.54
-    assert x2.der == 0.84
-
-def test_exp():
-    x1 = fightingAD(5)
-    x2 = exp(x1)
-    assert round(x2.val, 5) == 148.41316
-    assert round(x2.der, 5) == 148.41316
-
-    x1 = fightingAD(0)
-    x2 = exp(x1)
-    assert x2.val == 1
-    assert x2.der == 0
-
-    x1 = fightingAD(5)
-    x2 = exp(5)
-    assert round(x2, 5) == 148.41316
-
-
-def test_log():
-    x1 = fightingAD(5)
-    x2 = log(x1)
-    x2.val = 0.69897000433
-
-    x1 = fightingAD(5)
-    x2 = log(2)
-    x2 = 0.30102999566
-
-
 def test_pow1():
 
     x = fightingAD(2)
@@ -220,6 +188,40 @@ def test_pow5():
     f = (x-2)**x
     assert f.val == 1
     assert f.der == 3
+
+
+def test_abs():
+    x1 = fightingAD(0.54, -0.84)
+    x2 = abs(x1)
+    assert x2.val == 0.54
+    assert x2.der == 0.84
+
+def test_exp():
+    x1 = fightingAD(5)
+    x2 = exp(x1)
+    assert round(x2.val, 5) == 148.41316
+    assert round(x2.der, 5) == 148.41316
+
+    x1 = fightingAD(0)
+    x2 = exp(x1)
+    assert x2.val == 1
+    assert x2.der == 0
+
+    x1 = fightingAD(5)
+    x2 = exp(5)
+    assert round(x2, 5) == 148.41316
+
+
+def test_log():
+    x1 = fightingAD(5)
+    x2 = log(x1)
+    x2.val = 0.69897000433
+
+    x1 = fightingAD(5)
+    x2 = log(2)
+    x2 = 0.30102999566
+
+
 
 def test_other_elementary():
     pass
