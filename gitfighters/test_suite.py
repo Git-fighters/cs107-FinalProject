@@ -1,7 +1,16 @@
-# This file is meant as a demo and early testing tool
+##############################################################################
+# This is where the tests that ensure correct functionality reside.
+# Pytest executes each of these, and sends a report to TravisCI and Codecov,
+# for an easy visualization. All of them must pass before a PR is approved.
+# if new functionality is 
 
 from git_fighters import *
 import pytest
+
+
+##########################
+######### Basic ##########
+##########################
 
 
 def test_constructor():
@@ -20,6 +29,18 @@ def test_repr():
     x = fightingAD(5, 1)
     a = x.__repr__()
     assert a == "AD: 5, 1"
+
+
+##########################
+###### Operations ########
+##########################
+
+
+def test_abs():
+    x1 = fightingAD(0.54, -0.84)
+    x2 = abs(x1)
+    assert x2.val == 0.54
+    assert x2.der == 0.84
 
 
 def test_equality():
@@ -65,7 +86,7 @@ def test_multiplication():
     x2 = fightingAD(-4)
     x3 = x1 * x2
     assert x3.val == 16
-    assert x3.der == -8  # derivative should be 2 here. this gives error
+    assert x3.der == -8
 
 
 def test_neg():
@@ -90,6 +111,11 @@ def test_division():
     x2 = 2 / x1
     assert x2.val == 2 / 5
     assert x2.der == -1 * (2 / 25)
+
+
+##########################
+###### Trigonometry ######
+##########################
 
 
 def test_trigonometry():
@@ -120,6 +146,11 @@ def test_trigonometry():
     assert arcsin(np.pi / 4) == 0.9033391107665127
     assert arccos(np.pi / 4) == 0.6674572160283838
     assert arctan(np.pi / 4) == 0.6657737500283538
+
+
+##########################
+######### Power ##########
+##########################
 
 
 def test_pow():
@@ -206,11 +237,9 @@ def test_pow6():
     pass
 
 
-def test_abs():
-    x1 = fightingAD(0.54, -0.84)
-    x2 = abs(x1)
-    assert x2.val == 0.54
-    assert x2.der == 0.84
+##########################
+########## e**x ##########
+##########################
 
 
 def test_exp():
@@ -229,6 +258,11 @@ def test_exp():
     assert round(x2, 5) == 148.41316
 
 
+##########################
+####### logarithms #######
+##########################
+
+
 def test_log():
     x1 = fightingAD(5)
     x2 = log(x1)
@@ -239,12 +273,9 @@ def test_log():
     x2 = 0.30102999566
 
 
-def test_other_elementary():
-    pass
-
-
-def test_combined():
-    pass
+##########################
+######## General #########
+##########################
 
 
 def test_general():
@@ -300,7 +331,7 @@ def test_newton():
 
 
 ##########################
-#### Edge cases ##########
+####### Edge cases #######
 ##########################
 
 
