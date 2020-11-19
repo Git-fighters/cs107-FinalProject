@@ -25,20 +25,18 @@ def test_repr():
 def test_equality():
     x1 = fightingAD(10)
     x2 = fightingAD(10) + 3 - 3
-    try:
-        assert x1 == 5
-    except TypeError:
-        assert x1 == x2
+    assert x1 == x2
+    with pytest.raises(TypeError):
+        x1 == 5    
 
 
 def test_inequality():
     x1 = fightingAD(5)
     x2 = fightingAD(5) + 3
-    try:
-        assert x1 != 5
-    except TypeError:
-        assert x1 != x2
-
+    assert x1 != x2
+    with pytest.raises(TypeError):
+        x1 != 5
+    
 
 def test_addition():
     x1 = fightingAD(3)
@@ -73,6 +71,12 @@ def test_neg():
     x2 = -x1
     assert x2.val == -5
     assert x2.der == -1
+
+
+def test_pos():
+    x1 = fightingAD(-1)
+    x2 = +x1
+    assert x2.val == 1
 
 
 def test_division():
