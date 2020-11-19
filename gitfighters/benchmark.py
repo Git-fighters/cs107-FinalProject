@@ -1,5 +1,5 @@
 """
-Little Benchmark of git_fighters library code to evaluate different implementations
+Benchmark of git_fighters library code to evaluate different implementations
 """
 
 from git_fighters import *
@@ -7,7 +7,6 @@ import time
 
 
 # add alternative __mul__ and __pow__ methods:
-
 class fightingAD2(fightingAD):
     # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
     # THIS IS MORE PERFORMANT, BUT HAS SOME UX IMPLICATIONS
