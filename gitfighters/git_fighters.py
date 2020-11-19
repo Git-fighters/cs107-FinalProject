@@ -63,7 +63,6 @@ class fightingAD():
         * Extend testing
 
     """
-
     # Constructor to set class up
     def __init__(self, value, derivative=1.0):
         """Example of docstring on the __init__ method.
@@ -83,12 +82,12 @@ class fightingAD():
                 lines are supported.
 
         """
+
         self.val = value
         self.der = derivative
 
     # Overload str
     def __str__(self):
-
         """Returns the string representation of the current fightingAD object.
 
         INPUTS
@@ -105,13 +104,10 @@ class fightingAD():
         >>> print(x)
         AD object with value of 5 and derivative of 1.
         """
-        return "AD object with value of {} and derivative of {}".format(
-            self.val, self.der
-        )
+        return "AD object with value of {} and derivative of {}".format(self.val, self.der)
 
     # Overload repr
     def __repr__(self):
-
         """Returns the representation of the current fightingAD object.
 
         INPUTS
@@ -132,9 +128,6 @@ class fightingAD():
 
     # Overload eq
     def __eq__(self, other):
-
-
-        
         """Equality method: Checks if this object is equal to another object
 
         INPUTS
@@ -152,7 +145,6 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> x == y
         False
-        
         """
         try:
             return (self.val == other.val) and (self.der == other.der)
@@ -182,10 +174,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> x != y
         True
-        
         """
-
-
         try:
             return (self.val != other.val) or (self.der != other.der)
         except:
@@ -280,8 +269,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> s = x + y
         >>> print(s)
-        AD object with value of 11 and derivative of 2 ?????? 
-        
+        AD object with value of 11 and derivative of 2 ?????        
         """
         try:
             return fightingAD(self.val + other.val, self.der + other.der)
@@ -320,8 +308,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> s = x - y
         >>> print(s)
-        AD object with value of -1 and derivative of 0 ?????? 
-        
+        AD object with value of -1 and derivative of 0 ??????         
         """
         try:
             return fightingAD(self.val - other.val, self.der - other.der)
@@ -343,7 +330,6 @@ class fightingAD():
 
     # Overload multiplication
     def __mul__(self, other):
-
         """Multiplication operand: multiplies self by other
 
         INPUTS
@@ -361,8 +347,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> m = x * y
         >>> print(m)
-        AD object with value of 30 and derivative of 11?????? 
-        
+        AD object with value of 30 and derivative of 11??????         
         """
         try:
             return fightingAD(
@@ -414,7 +399,6 @@ class fightingAD():
 
     # Overload division
     def __truediv__(self, other):
-
         """Division operand: divides self by other
 
         INPUTS
@@ -433,9 +417,6 @@ class fightingAD():
         >>> d = x / y
         >>> print(d)
         AD object with value of 5 and derivative of -25/36?????? 
-        
-
-
         """
         try:
             if other.val == 0:
@@ -643,7 +624,23 @@ def exp(x):
 
 
 def sin(x):
-    # Check if the input is a fightingAD object or a constant
+    """Returns the sine of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with sine of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(np.pi/2)
+    >>> f = sin(x)
+    >>> print(f)
+    AD object with value of 1.0 and derivative of 6.123233995736766e-17
+    """
     try:
         val = np.sin(x.val)
         der = x.der * np.cos(x.val)
@@ -652,7 +649,23 @@ def sin(x):
         return np.sin(x)
 
 def cos(x):
-    # Check if the input is a fightingAD object or a constant
+    """Returns the cosine of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with cosine of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(np.pi)
+    >>> f = cos(x)
+    >>> print(f)
+    AD object with value of -1.0 and derivative of -1.2246467991473532e-16
+    """
     try:
         val = np.cos(x.val)
         der = -x.der * np.sin(x.val)
@@ -661,7 +674,23 @@ def cos(x):
         return np.cos(x)
 
 def tan(x):
-    # Check if the input is a fightingAD object or a constant
+    """Returns the tangent of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with tangent of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(np.pi/4)
+    >>> f = tan(x)
+    >>> print(f)
+    AD object with value of 0.9999999999999999 and derivative of 0.5000000000000001
+    """
     try:
         val = np.tan(x.val)
         der = x.der * np.cos(x.val) ** 2
@@ -670,7 +699,23 @@ def tan(x):
         return np.tan(x)
 
 def arcsin(x):
-    # Check if the input is a fightingAD object or a constant
+    """Returns the arcsine of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with arcsine of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(0.5)
+    >>> f = arcsin(x)
+    >>> print(f)
+    AD object with value of 0.5235987755982988 and derivative of 1.1547005383792517
+    """
     try:
         val = np.arcsin(x.val)
         der = x.der * (1 / np.sqrt(1 - x.val ** 2))
@@ -679,7 +724,23 @@ def arcsin(x):
         return np.arcsin(x)
 
 def arccos(x):
-    # Check if the input is a fightingAD object or a constant
+    """Returns the arccosine of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with arccosine of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(0.5)
+    >>> f = arccos(x)
+    >>> print(f)
+    AD object with value of 1.0471975511965979 and derivative of -1.1547005383792517
+    """
     try:
         val = np.arccos(x.val)
         der = -x.der * (1 / np.sqrt(1 - x.val ** 2))
@@ -688,7 +749,23 @@ def arccos(x):
         return np.arccos(x)
 
 def arctan(x):
-    # Check if the input is a fightingAD object or a constant
+    """Returns the arctangent of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with arctangent of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(1)
+    >>> f = arctan(x)
+    >>> print(f)
+    AD object with value of 0.7853981633974483 and derivative of 0.5
+    """
     try:
         val = np.arctan(x.val)
         der = x.der * (1 / (1 + x.val ** 2))
