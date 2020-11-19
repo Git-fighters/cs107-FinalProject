@@ -64,6 +64,9 @@ def test_inequality():
 def test_addition():
     x1 = fightingAD(3)
     x1 = x1 + 5
+    x2 = 3 + x1
+    assert x2.val == 6
+    assert x2.der == 1
     assert x1.val == 8
     assert x1.der == 1
 
@@ -78,6 +81,15 @@ def test_addition():
     
     with pytest.raises(TypeError):
         x2 + 'String'
+
+def test_subtraction():
+    x1 = fightingAD(3)
+    x2 = 5 - x1
+    assert x2.val = 3
+    assert x2.der = -1
+
+    with pytest.raises(TypeError):
+        x1 - 'String'    
 
 
 def test_multiplication():
@@ -290,6 +302,8 @@ def test_exp():
     x2 = exp(5)
     assert round(x2, 5) == 148.41316
 
+    assert exp(0) == fightingAD(1, 0)
+
 
 ##########################
 ####### logarithms #######
@@ -304,6 +318,14 @@ def test_log():
     x1 = fightingAD(5)
     x2 = log(2)
     x2 = 0.30102999566
+
+    x = fightingAD(0)
+    with pytest.raises(ValueError):
+        log(x)
+    
+    with pytest.raises(ValueError):
+        log(0)
+
 
 
 ##########################
