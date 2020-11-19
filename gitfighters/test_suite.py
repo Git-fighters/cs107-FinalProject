@@ -82,6 +82,15 @@ def test_addition():
     with pytest.raises(TypeError):
         x2 + 'String'
 
+def test_subtraction():
+    x1 = fightingAD(3)
+    x2 = 5 - x1
+    assert x2.val = 3
+    assert x2.der = -1
+
+    with pytest.raises(TypeError):
+        x1 - 'String'    
+
 
 def test_multiplication():
     x1 = fightingAD(-4)
