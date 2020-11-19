@@ -315,6 +315,24 @@ class fightingAD():
 
     # Overload addition with reversed operands
     def __radd__(self, other):
+        """Called when the left object does not have the __add__ method implemented.
+        Since addition is commutative, we can swap the order and call __add__
+        
+        INPUTS
+        =======
+        other: scalar object to add
+        
+        RETURNS
+        ========
+        fightingAD: new instance with derivative and function values
+        
+        EXAMPLES
+        =========
+        >>> x = fightingAD(1)
+        >>> x = 2 + x
+        >>> print(x.val, x.der)
+        3, 1
+        """
         return self.__add__(other)
 
     # Overload subtraction
@@ -354,6 +372,25 @@ class fightingAD():
 
     # Overload subtraction with reversed operand by negating values
     def __rsub__(self, other):
+        """Called when the left object does not have the __sub__ method implemented.
+        Since subtraction can be represented as addition with negative object,
+        we negate the right object, swap the order and call __add__
+        
+        INPUTS
+        =======
+        other: scalar object to subtract
+        
+        RETURNS
+        ========
+        fightingAD: new instance with derivative and function values
+        
+        EXAMPLES
+        =========
+        >>> x = fightingAD(1)
+        >>> x = 2 - x
+        >>> print(x.val, x.der)
+        1, -1
+        """
         return fightingAD(-self.val, -self.der).__add__(other)
 
     # Overload multiplication
