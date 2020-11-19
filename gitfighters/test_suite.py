@@ -70,6 +70,13 @@ def test_addition():
     assert x3.val == 11
     assert x3.der == 2
 
+    x4 = 2 + x2
+    assert x4.val == 5
+    assert x4.der == 1 
+    
+    with pytest.raises(TypeError):
+        x2 + 'String'
+
 
 def test_multiplication():
     x1 = fightingAD(-4)
