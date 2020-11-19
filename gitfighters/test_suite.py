@@ -121,7 +121,7 @@ def test_neg():
 def test_pos():
     x1 = fightingAD(-1)
     x2 = +x1
-    assert x2.val == 1
+    assert x2.val == -1
 
     x1 = fightingAD(1)
     assert +x1.val == 1
@@ -142,6 +142,14 @@ def test_division():
     x2 = 2 / x1
     assert x2.val == 2 / 5
     assert x2.der == -1 * (2 / 25)
+
+    x2 = fightingAD(5)
+    x1 = fightingAD(0)
+    with pytest.raises(ZeroDivisionError):
+        x2 / x1
+
+    with pytest.raises(TypeError):
+        x2 / 'String' 
 
 
 ##########################

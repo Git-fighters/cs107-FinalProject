@@ -190,11 +190,7 @@ class fightingAD:
         >>> f.der
         0.84
         """
-        if self.val < 0:
-            self.val = -self.val
-        if self.der < 0:
-            self.der = -self.der
-        return fightingAD(self.val, self.der)
+        return fightingAD(abs(self.val), abs(self.der))
 
     def __pos__(self):
         """Returns a fightingAD object with the unary plus operator.
@@ -213,12 +209,8 @@ class fightingAD:
         >>> +x
         5
         """
-<<<<<<< HEAD
-        return self
-=======
         return fightingAD(self.val, self.der)
 
->>>>>>> c200ca0405a15255be4a392f29b8affc4092c043
 
     def __add__(self, other):
         """Addition operand: adds self to the other.
@@ -251,8 +243,6 @@ class fightingAD:
                         type(self).__name__, type(other).__name__
                     )
                 )
-        else:
-            raise Exception("unsupported operation for +")
 
     def __radd__(self, other):
         """Called when the left object does not have the __add__ method implemented.
@@ -306,8 +296,6 @@ class fightingAD:
                         type(self).__name__, type(other).__name__
                     )
                 )
-        else:
-            raise Exception("unsupported operation for -")
 
     def __rsub__(self, other):
         """Called when the left object does not have the __sub__ method implemented.
