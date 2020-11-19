@@ -190,11 +190,7 @@ class fightingAD:
         >>> f.der
         0.84
         """
-        if self.val < 0:
-            tempval = -self.val
-        if self.der < 0:
-            tempder = -self.der
-        return fightingAD(tempval, tempder)
+        return fightingAD(abs(self.val), abs(self.der))
 
     def __pos__(self):
         """Returns a fightingAD object with the unary plus operator.
