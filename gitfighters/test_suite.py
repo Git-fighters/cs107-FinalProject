@@ -64,6 +64,9 @@ def test_inequality():
 def test_addition():
     x1 = fightingAD(3)
     x1 = x1 + 5
+    x2 = 3 + x1
+    assert x2.val == 6
+    assert x2.der == 1
     assert x1.val == 8
     assert x1.der == 1
 
@@ -78,6 +81,15 @@ def test_addition():
     
     with pytest.raises(TypeError):
         x2 + 'String'
+
+def test_subtraction():
+    x1 = fightingAD(3)
+    x2 = 5 - x1
+    assert x2.val = 3
+    assert x2.der = -1
+
+    with pytest.raises(TypeError):
+        x1 - 'String'    
 
 
 def test_multiplication():
