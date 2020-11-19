@@ -124,7 +124,7 @@ def test_pow():
     x2 = x1 * 2
     x3 = x1 ** x2
     assert x3.val == 9765625
-    #assert x3.der == 25482792.11361426
+    assert x3.der == 19531250*(1 + log(5))
 
     x1 = fightingAD(0)
     x2 = x1 ** 5
@@ -144,12 +144,12 @@ def test_pow():
     x1 = fightingAD(5)
     x2 = 2**x1
     assert x2.val == 32
-    #assert x2.der == 80
+    assert x2.der == 32*log(2)
 
     x1 = fightingAD(2)
     x2 = 2**(x1*2)
     assert x2.val == 16
-    #assert x2.der == 32 * log(2)
+    assert x2.der == 32 * log(2)
 
     x1 = fightingAD(5)
     x2 = 0**x1
