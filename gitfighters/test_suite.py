@@ -2,7 +2,7 @@
 # This is where the tests that ensure correct functionality reside.
 # Pytest executes each of these, and sends a report to TravisCI and Codecov,
 # for an easy visualization. All of them must pass before a PR is approved.
-# if new functionality is 
+# if new functionality is
 
 from git_fighters import *
 import pytest
@@ -48,7 +48,7 @@ def test_equality():
     x2 = fightingAD(10) + 3 - 3
     assert x1 == x2
     with pytest.raises(TypeError):
-        x1 == 5    
+        x1 == 5
 
 
 def test_inequality():
@@ -57,7 +57,7 @@ def test_inequality():
     assert x1 != x2
     with pytest.raises(TypeError):
         x1 != 5
-    
+
 
 def test_addition():
     x1 = fightingAD(3)

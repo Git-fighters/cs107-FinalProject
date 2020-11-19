@@ -56,7 +56,6 @@ class fightingAD:
         self.val = value
         self.der = derivative
 
-    # Overload str
     def __str__(self):
         """Returns the string representation of the current fightingAD object.
 
