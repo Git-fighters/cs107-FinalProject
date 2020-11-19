@@ -49,6 +49,18 @@ import numpy as np
 
 
 class fightingAD():
+    """Main object of the git_fighters library. 
+
+    This class is used as the central building block of the git_fighters library. 
+    Creates a fightingAD objects supporting custom operations for Automatic Differentiation.
+
+    Attributes
+	  ==========
+	  val : int, float
+		    The value of user defined function(s) 'f' evaluated at point 'x'.
+	  der : int, float
+		    The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'. 
+    """
     """Main object of the gf library.
 
     This class is used as the central building block of the git_fighters library.
@@ -61,10 +73,27 @@ class fightingAD():
     TODO:
         * Document all methods properly and show example usecases
         * Extend testing
-
+    ????????
     """
     # Constructor to set class up
     def __init__(self, value, derivative=1.0):
+        """
+	INPUTS
+	=======
+	val : int, float
+		The value of user defined function(s) 'f' evaluated at point 'x'.
+	der : int, float, optional (default=1.0)
+		The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'.
+		
+	EXAMPLES
+        =========
+	# Input a constant
+	>>> fightingAD(1.0, None) 
+	AD: 1.0, None
+	# Input a scalar variable
+        >>> fightingAD(1.0) 
+	AD: 1.0, 1.0
+        """
         """Example of docstring on the __init__ method.
 
         The __init__ method may be documented in either the class level
@@ -80,7 +109,6 @@ class fightingAD():
             value (float): point at which to evaluate the function
             derivative (float, optional): Derivative
                 lines are supported.
-
         """
 
         self.val = value
@@ -128,7 +156,7 @@ class fightingAD():
 
     # Overload eq
     def __eq__(self, other):
-        """Equality method: Checks if this object is equal to another object
+        """Equality method: Checks if this object is equal to another object.
 
         INPUTS
         =======
@@ -137,7 +165,7 @@ class fightingAD():
 
         RETURNS
         ========
-        True if equal, False otherwise.
+        True if equal, False otherwise
 
         EXAMPLES
         =========
@@ -157,7 +185,7 @@ class fightingAD():
 
     # Overload ne
     def __ne__(self, other):
-        """Inequality method: Checks if this object is not equal to another object
+        """Inequality method: Checks if this object is not equal to another object.
 
         INPUTS
         =======
@@ -166,7 +194,7 @@ class fightingAD():
 
         RETURNS
         ========
-        True if NOT equal, False otherwise.
+        True if NOT equal, False otherwise
 
         EXAMPLES
         =========
@@ -252,7 +280,7 @@ class fightingAD():
 
     # Overload addition
     def __add__(self, other):
-        """Addition operand: adds self to the other
+        """Addition operand: adds self to the other.
 
         INPUTS
         =======
@@ -261,7 +289,7 @@ class fightingAD():
 
         RETURNS
         ========
-        new fightingAD object with added value and derivative.
+        new fightingAD object with added value and derivative
 
         EXAMPLES
         =========
@@ -269,7 +297,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> s = x + y
         >>> print(s)
-        AD object with value of 11 and derivative of 2 ?????        
+        AD object with value of 11 and derivative of 2       
         """
         try:
             return fightingAD(self.val + other.val, self.der + other.der)
@@ -291,16 +319,16 @@ class fightingAD():
 
     # Overload subtraction
     def __sub__(self, other):
-        """Subraction operand: subtracts other from self
+        """Subraction operand: subtracts other from self.
 
         INPUTS
         =======
         self: the current fightingAD object
-        other: The object we are subracting. Can be scalar or fightingAD object
+        other: The object we are subracting, can be scalar or fightingAD object
 
         RETURNS
         ========
-        new fightingAD object with subtracted value and derivative.
+        new fightingAD object with subtracted value and derivative
 
         EXAMPLES
         =========
@@ -308,7 +336,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> s = x - y
         >>> print(s)
-        AD object with value of -1 and derivative of 0 ??????         
+        AD object with value of -1 and derivative of 0    
         """
         try:
             return fightingAD(self.val - other.val, self.der - other.der)
@@ -330,7 +358,7 @@ class fightingAD():
 
     # Overload multiplication
     def __mul__(self, other):
-        """Multiplication operand: multiplies self by other
+        """Multiplication operand: multiplies self by other.
 
         INPUTS
         =======
@@ -339,7 +367,7 @@ class fightingAD():
 
         RETURNS
         ========
-        new fightingAD object with multiplied value and derivative.
+        new fightingAD object with multiplied value and derivative
 
         EXAMPLES
         =========
@@ -347,7 +375,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> m = x * y
         >>> print(m)
-        AD object with value of 30 and derivative of 11??????         
+        AD object with value of 30 and derivative of 11         
         """
         try:
             return fightingAD(
@@ -375,14 +403,14 @@ class fightingAD():
 
     # Overload multiplication with reversed operand
     def __rmul__(self, other):
-        """Multiplies an fAD object
+        """Multiplies an fAD object.
         
         Used in case that the first value to be multiplied with is not an fAD object.
         Since multiplication is commutative, we can swap the order and call __mul__
 
         INPUTS
         =======
-        other: object to multiply with. Can be scalar or fAD object.
+        other: object to multiply with, can be scalar or fAD object
 
         RETURNS
         ========
@@ -399,7 +427,7 @@ class fightingAD():
 
     # Overload division
     def __truediv__(self, other):
-        """Division operand: divides self by other
+        """Division operand: divides self by other.
 
         INPUTS
         =======
@@ -437,13 +465,13 @@ class fightingAD():
 
     # Overload division with reversed operand
     def __rtruediv__(self, other):
-        """Divides a non-fAD object by a fAD object
+        """Divides a non-fAD object by a fAD object.
 
         Is called when the first operand in a division is a scalar.
 
         INPUTS
         =======
-        other: object to divide with. Is scalar/vector
+        other: object to divide with, is scalar/vector
 
         RETURNS
         ========
@@ -464,7 +492,7 @@ class fightingAD():
 
     # Overload pow
     def __pow__(self, other):
-        """Returns a fightingAD object with the power of the currenct object
+        """Returns a fightingAD object with the power of the currenct object.
 
         INPUTS
         =======
@@ -512,7 +540,7 @@ class fightingAD():
             raise Exception("unsupported operation for **")
 
     def __rpow__(self, other):
-        """Returns an object with the power of the value of another class
+        """Returns an object with the power of the value of another class.
 
         INPUTS
         =======
@@ -594,7 +622,7 @@ def log(x):
 
 
 def exp(x):
-    """Returns the exponential of the current object: e^x
+    """Returns the exponential of the current object: e^x.
 
     INPUTS
     =======
@@ -628,11 +656,11 @@ def sin(x):
 
     INPUTS
     =======
-    x: an object
+    x: fAD object or scalar
 
     RETURNS
     ========
-    fightingAD: new instance with sine of the current object
+    fightingAD: new instance with sine of the current object or scalar
 
     EXAMPLES
     =========
@@ -653,11 +681,11 @@ def cos(x):
 
     INPUTS
     =======
-    x: an object
+    x: fAD object or scalar
 
     RETURNS
     ========
-    fightingAD: new instance with cosine of the current object
+    fightingAD: new instance with cosine of the current object or scalar
 
     EXAMPLES
     =========
@@ -678,11 +706,11 @@ def tan(x):
 
     INPUTS
     =======
-    x: an object
+    x: fAD object or scalar
 
     RETURNS
     ========
-    fightingAD: new instance with tangent of the current object
+    fightingAD: new instance with tangent of the current object or scalar
 
     EXAMPLES
     =========
@@ -703,11 +731,11 @@ def arcsin(x):
 
     INPUTS
     =======
-    x: an object
+    x: fAD object or scalar
 
     RETURNS
     ========
-    fightingAD: new instance with arcsine of the current object
+    fightingAD: new instance with arcsine of the current object or scalar
 
     EXAMPLES
     =========
@@ -728,11 +756,11 @@ def arccos(x):
 
     INPUTS
     =======
-    x: an object
+    x: fAD object or scalar
 
     RETURNS
     ========
-    fightingAD: new instance with arccosine of the current object
+    fightingAD: new instance with arccosine of the current object or scalar
 
     EXAMPLES
     =========
@@ -753,11 +781,11 @@ def arctan(x):
 
     INPUTS
     =======
-    x: an object
+    x: fAD object or scalar
 
     RETURNS
     ========
-    fightingAD: new instance with arctangent of the current object
+    fightingAD: new instance with arctangent of the current object or scalar
 
     EXAMPLES
     =========
