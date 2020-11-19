@@ -113,6 +113,13 @@ def test_trigonometry():
     assert arctan(x2).val == 0.6657737500283538
     assert arctan(x2).der == 0.6184864581588363
 
+    assert sin(np.pi / 2) == 1
+    assert cos(np.pi / 2) <= 1e-16  # Expected value 0 (to machine precision)
+    assert tan(np.pi / 4) == 1 - 1e-16  # Expected value 1 (to machine precision)
+    assert arcsin(np.pi / 4) == 0.9033391107665127
+    assert arccos(np.pi / 4) == 0.6674572160283838
+    assert arctan(np.pi / 4) == 0.6657737500283538
+
 
 def test_pow():
     x1 = fightingAD(5)
