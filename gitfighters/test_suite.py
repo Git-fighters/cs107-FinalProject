@@ -85,7 +85,11 @@ def test_addition():
 def test_subtraction():
     x1 = fightingAD(3)
     x2 = 5 - x1
+<<<<<<< HEAD
     assert x2.val == 2
+=======
+    assert x2.val == 3
+>>>>>>> 01bbc894e4f0b53360d603139784371f6f2137b1
     assert x2.der == -1
 
     with pytest.raises(TypeError):
@@ -150,6 +154,9 @@ def test_division():
 
     with pytest.raises(TypeError):
         x2 / 'String' 
+
+    with pytest.raises(Exception):
+        5 / x1
 
 
 ##########################
@@ -224,17 +231,23 @@ def test_pow():
     assert x2.val == 32
     assert x2.der == 32*log(2)
 
-
     x1 = fightingAD(2)
     x2 = 2 ** (x1 * 2)
     assert x2.val == 16
     assert x2.der == 32 * log(2)
 
-
     x1 = fightingAD(5)
     x2 = 0 ** x1
     assert x2.val == 0
     assert x2.der == 0
+
+    x1 = fightingAD(5)
+    x2 = x1 ** 0
+    assert x2.val == 1
+    assert x2.der == 0
+
+    with pytest.raises(TypeError):
+        x1 ** 'String' 
 
 
 def test_pow1():
