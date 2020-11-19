@@ -2,7 +2,9 @@
 # This is where the tests that ensure correct functionality reside.
 # Pytest executes each of these, and sends a report to TravisCI and Codecov,
 # for an easy visualization. All of them must pass before a PR is approved.
-# if new functionality is
+# if new functionality is defined, please add appropriate test cases, such
+# that coverage remains at 100%.
+##############################################################################
 
 from git_fighters import *
 import pytest
