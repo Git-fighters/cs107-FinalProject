@@ -213,7 +213,7 @@ class fightingAD:
         >>> +x
         5
         """
-        return self.__abs__()
+        return self
 
     def __add__(self, other):
         """Addition operand: adds self to the other.
