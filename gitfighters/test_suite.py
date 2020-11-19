@@ -128,6 +128,14 @@ def test_division():
     assert x2.val == 2 / 5
     assert x2.der == -1 * (2 / 25)
 
+    x2 = fightingAD(5)
+    x1 = fightingAD(0)
+    with pytest.raises(ZeroDivisionError):
+        x2 / x1
+
+    with pytest.raises(TypeError):
+        x2 / 'String' 
+
 
 ##########################
 ###### Trigonometry ######
