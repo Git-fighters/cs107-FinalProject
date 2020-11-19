@@ -95,6 +95,9 @@ def test_multiplication():
     assert x3.val == 16
     assert x3.der == -8
 
+    with pytest.raises(TypeError):
+        x2 * 'String'
+
 
 def test_neg():
     x1 = fightingAD(5)
