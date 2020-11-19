@@ -13,13 +13,14 @@ def test_constructor():
 def test_str():
     x = fightingAD(5, 1)
     a = x.__str__()
-    assert a == "AD object with value of 5 and derivative of 1"    
+    assert a == "AD object with value of 5 and derivative of 1"
 
 
 def test_repr():
     x = fightingAD(5, 1)
     a = x.__repr__()
     assert a == "AD: 5, 1"
+
 
 def test_equality():
     x1 = fightingAD(10)
@@ -32,7 +33,7 @@ def test_equality():
 
 def test_inequality():
     x1 = fightingAD(5)
-    x2 = fightingAD(5) + 3 
+    x2 = fightingAD(5) + 3
     try:
         assert x1 != 5
     except TypeError:
@@ -131,7 +132,7 @@ def test_pow():
     x2 = x1 * 2
     x3 = x1 ** x2
     assert x3.val == 9765625
-    #assert x3.der == 25482792.11361426
+    # assert x3.der == 25482792.11361426
 
     x1 = fightingAD(0)
     x2 = x1 ** 5
@@ -141,7 +142,7 @@ def test_pow():
     x1 = fightingAD(5)
     x2 = x1 ** (-3)
     assert x2.val == 0.008
-    assert round(x2.der, 4)  == -0.0048
+    assert round(x2.der, 4) == -0.0048
 
     x1 = fightingAD(0)
     x2 = x1 ** (-35)
@@ -149,62 +150,68 @@ def test_pow():
     assert x2.der == 0
 
     x1 = fightingAD(5)
-    x2 = 2**x1
+    x2 = 2 ** x1
     assert x2.val == 32
-    #assert x2.der == 80
+    # assert x2.der == 80
 
     x1 = fightingAD(2)
-    x2 = 2**(x1*2)
+    x2 = 2 ** (x1 * 2)
     assert x2.val == 16
-    #assert x2.der == 32 * log(2)
+    # assert x2.der == 32 * log(2)
 
     x1 = fightingAD(5)
-    x2 = 0**x1
+    x2 = 0 ** x1
     assert x2.val == 0
     assert x2.der == 0
+
 
 def test_pow1():
 
     x = fightingAD(2)
-    f = x**2
+    f = x ** 2
     assert f.val == 4
     assert f.der == 4
 
+
 def test_pow2():
     x = fightingAD(2)
-    f = 2**x
+    f = 2 ** x
     assert f.val == 4
     assert f.der == np.log(2) * 4
 
 
 def test_pow3():
     x = fightingAD(2)
-    f = x**x
+    f = x ** x
     assert f.val == 4
     assert f.der == np.log(2) * 4 + 4
 
 
 def test_pow4():
     x = fightingAD(3)
-    f = x**(x-2)
+    f = x ** (x - 2)
     assert f.val == 3
-    assert f.der == np.log(3)*3 + 1
+    assert f.der == np.log(3) * 3 + 1
+
 
 def test_pow5():
     x = fightingAD(3)
-    f = (x-2)**x
+    f = (x - 2) ** x
     assert f.val == 1
     assert f.der == 3
 
+
 def test_pow6():
-	#write a test for negative values
-	pass 
+    # write a test for negative values
+    pass
+
 
 def test_abs():
     x1 = fightingAD(0.54, -0.84)
     x2 = abs(x1)
     assert x2.val == 0.54
     assert x2.der == 0.84
+
 
 def test_exp():
     x1 = fightingAD(5)
@@ -230,7 +237,6 @@ def test_log():
     x1 = fightingAD(5)
     x2 = log(2)
     x2 = 0.30102999566
-
 
 
 def test_other_elementary():
@@ -269,31 +275,42 @@ def test_general():
     assert y1.der == 70
 
     def f(x):
-        return x**(1/2) + log(x) - x**5 + x/x**2 + sin(cos(x))
+        return x ** (1 / 2) + log(x) - x ** 5 + x / x ** 2 + sin(cos(x))
+
     x1 = fightingAD(3)
     y1 = f(x1)
-    assert y1.val == float(-(728/3) + 3**(1/2) + log(3) + sin(cos(3)))
-    assert y1.der == float((1/18) * (3 * 3**(1/2) - 7286) - sin(3)*cos(cos(3)))
+    assert y1.val == float(-(728 / 3) + 3 ** (1 / 2) + log(3) + sin(cos(3)))
+    assert y1.der == float((1 / 18) * (3 * 3 ** (1 / 2) - 7286) - sin(3) * cos(cos(3)))
 
 
-
-# this newton function gives NameError. I tried to fix it, but it goes into an eternal loop
 def test_newton():
     # initial root value
-
     x1 = fightingAD(2)
     st_condition = 1
 
     # Newton's method main loop
     while st_condition > 1e-16:
         y = x1 * x1 + sin(x1)
-        xval = x1 - y.val/y.der
+        xval = x1 - y.val / y.der
         x_old = np.copy(x1.val)
         x1 = fightingAD(xval.val)
-        st_condition = np.abs(x1-x_old).val
+        st_condition = np.abs(x1 - x_old).val
 
     assert x1.val == 0
-    print('Passed the Newton test')
 
 
+##########################
+#### Edge cases ##########
+##########################
 
+
+def test_wrong_input():
+    a = "tale"
+    b = fightingAD(1)
+    with pytest.raises(TypeError):
+        a * b
+
+
+def test_pos():
+    a = fightingAD(1)
+    assert +a.val == 1
