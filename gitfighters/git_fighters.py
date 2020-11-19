@@ -55,11 +55,11 @@ class fightingAD():
     Creates a fightingAD objects supporting custom operations for Automatic Differentiation.
 
     Attributes
-	  ==========
-	  val : int, float
-		    The value of user defined function(s) 'f' evaluated at point 'x'.
-	  der : int, float
-		    The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'. 
+    ==========
+        val : int, float
+            The value of user defined function(s) 'f' evaluated at point 'x'.
+	der : int, float
+	    The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'. 
     """
     """Main object of the gf library.
 
