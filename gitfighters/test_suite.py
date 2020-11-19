@@ -281,6 +281,8 @@ def test_exp():
     x2 = exp(5)
     assert round(x2, 5) == 148.41316
 
+    assert exp(0) == fightingAD(1, 0)
+
 
 ##########################
 ####### logarithms #######
@@ -295,6 +297,14 @@ def test_log():
     x1 = fightingAD(5)
     x2 = log(2)
     x2 = 0.30102999566
+
+    x = fightingAD(0)
+    with pytest.raises(ValueError):
+        log(x)
+    
+    with pytest.raises(ValueError):
+        log(0)
+
 
 
 ##########################
