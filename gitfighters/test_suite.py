@@ -191,6 +191,7 @@ def test_pow5():
 
 def test_pow6():
 	#write a test for negative values
+	pass 
 
 def test_abs():
     x1 = fightingAD(0.54, -0.84)
