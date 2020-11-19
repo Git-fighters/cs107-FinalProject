@@ -151,6 +151,9 @@ def test_division():
     with pytest.raises(TypeError):
         x2 / 'String' 
 
+    with pytest.raises(Exception):
+        5 / x1
+
 
 ##########################
 ###### Trigonometry ######
@@ -224,17 +227,23 @@ def test_pow():
     assert x2.val == 32
     assert x2.der == 32*log(2)
 
-
     x1 = fightingAD(2)
     x2 = 2 ** (x1 * 2)
     assert x2.val == 16
     assert x2.der == 32 * log(2)
 
-
     x1 = fightingAD(5)
     x2 = 0 ** x1
     assert x2.val == 0
     assert x2.der == 0
+
+    x1 = fightingAD(5)
+    x2 = x1 ** 0
+    assert x2.val == 1
+    assert x2.der == 0
+
+    with pytest.raises(TypeError):
+        x1 ** 'String' 
 
 
 def test_pow1():
@@ -293,6 +302,8 @@ def test_exp():
     x2 = exp(5)
     assert round(x2, 5) == 148.41316
 
+    assert exp(0) == fightingAD(1, 0)
+
 
 ##########################
 ####### logarithms #######
@@ -307,6 +318,14 @@ def test_log():
     x1 = fightingAD(5)
     x2 = log(2)
     x2 = 0.30102999566
+
+    x = fightingAD(0)
+    with pytest.raises(ValueError):
+        log(x)
+    
+    with pytest.raises(ValueError):
+        log(0)
+
 
 
 ##########################
