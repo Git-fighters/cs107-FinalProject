@@ -2,97 +2,40 @@
 # Package aiming to enable automatic differentiation with Python.
 # By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
 
-"""
-TODO for Thursday:
-- fix __pow__ : f(g(x)) = f'(g(x))* g'(x) - Manana
-- add documentation
-    - in code (docstrings) - Tale - PEP 257
-    - in /docs folder too (ideally in .ipynb) - Hugo
-    - Extra feature - Manana
-- add MANY testcases - everyone
-    - --> fix subsequenterrors
-- CodeCov/TravisCI integration - golo
-    - > 90% coverage and all tests passed
-- Harvard Zoom - Golo
-
-Reconvene Tuesday - 9pm EU - 3pm EST
-
-
-Notes from Manana:
-
-Check: __abs__ 
-- I think __eq__ method should be redefined but let's discuss this today
-- check the __add__ example
-- check the __sub__ example
-- check __mul__
-- I do not understand __pow__
-
-Notes from Hugo:
-- why do we always instantiate a new object in every method call? Why not modify inplace and return self? ❌
-- sin/cos/etc.. standalone functions should not return fAD object if input is not fAD object ✅
-- need more tests
-- newton function needs fix
-- should we consider keeping track of past operations?
-- should we consider writing documentation/code compatible with vectorized implementation?
-- 
-
-Notes from Golo:
-- Documentation should follow PEP 257 because it was mentioned in class ✅
-- I think the old implementation of __abs__ was problematic (if self.val < 0: self.der = -self.der). The val might be positive and the der negative (like f(x) = cos(x)). The old implementation would not have changed der.
-- Please check my pow implementation. It run into computer impression problems.
-- I do not think that there are __exp__ or __log__ functions in python :-)
-- We should consider a gitignore file
-- We assume that the derivative of integers in functions, like sin or log, is 1. Are we fine with this assumption?
-"""
-
 import numpy as np
 
 
-class fightingAD():
-    """Main object of the git_fighters library. 
+class fightingAD:
+    """Main object of the git_fighters library.
 
-    This class is used as the central building block of the git_fighters library. 
+    This class is used as the central building block of the git_fighters library.
     Creates a fightingAD objects supporting custom operations for Automatic Differentiation.
 
     Attributes
     ==========
-        val : int, float
-            The value of user defined function(s) 'f' evaluated at point 'x'.
-	der : int, float
-	    The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'. 
+    val : int, float
+        The value of user defined function(s) 'f' evaluated at point 'x'.
+        der : int, float
+            The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'.
     """
-    """Main object of the gf library.
 
-    This class is used as the central building block of the git_fighters library.
-
-    Example Usage:
-            $ ...
-            $ ...
-            >>> ...
-
-    TODO:
-        * Document all methods properly and show example usecases
-        * Extend testing
-    ????????
-    """
-    # Constructor to set class up
     def __init__(self, value, derivative=1.0):
         """
-	INPUTS
-	=======
-	val : int, float
-		The value of user defined function(s) 'f' evaluated at point 'x'.
-	der : int, float, optional (default=1.0)
-		The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'.
-		
-	EXAMPLES
+        INPUTS
+        =======
+        val : int, float
+                The value of user defined function(s) 'f' evaluated at point 'x'.
+        der : int, float, optional (default=1.0)
+                The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'.
+
+        EXAMPLES
         =========
-	# Input a constant
-	>>> fightingAD(1.0, None) 
-	AD: 1.0, None
-	# Input a scalar variable
-        >>> fightingAD(1.0) 
-	AD: 1.0, 1.0
+        # Input a constant
+        >>> fightingAD(1.0, None)
+        AD: 1.0, None
+        # Input a scalar variable
+        >>> fightingAD(1.0)
+        AD: 1.0, 1.0
         """
         """Example of docstring on the __init__ method.
 
@@ -110,11 +53,9 @@ class fightingAD():
             derivative (float, optional): Derivative
                 lines are supported.
         """
-
         self.val = value
         self.der = derivative
 
-    # Overload str
     def __str__(self):
         """Returns the string representation of the current fightingAD object.
 
@@ -132,9 +73,10 @@ class fightingAD():
         >>> print(x)
         AD object with value of 5 and derivative of 1.
         """
-        return "AD object with value of {} and derivative of {}".format(self.val, self.der)
+        return "AD object with value of {} and derivative of {}".format(
+            self.val, self.der
+        )
 
-    # Overload repr
     def __repr__(self):
         """Returns the representation of the current fightingAD object.
 
@@ -154,7 +96,6 @@ class fightingAD():
         """
         return "AD: {}, {}".format(self.val, self.der)
 
-    # Overload eq
     def __eq__(self, other):
         """Equality method: Checks if this object is equal to another object.
 
@@ -183,7 +124,6 @@ class fightingAD():
                 )
             )
 
-    # Overload ne
     def __ne__(self, other):
         """Inequality method: Checks if this object is not equal to another object.
 
@@ -212,7 +152,6 @@ class fightingAD():
                 )
             )
 
-    # Overload negation
     def __neg__(self):
         """Returns the negation of the current fightingAD object.
 
@@ -233,7 +172,6 @@ class fightingAD():
         """
         return fightingAD(-self.val, -self.der)
 
-    # Overload absolute value
     def __abs__(self):
         """Returns a fightingAD object with the absolute values of val and der.
 
@@ -258,7 +196,6 @@ class fightingAD():
             self.der = -self.der
         return fightingAD(self.val, self.der)
 
-    # Overload pos
     def __pos__(self):
         """Returns a fightingAD object with the unary plus operator.
 
@@ -276,9 +213,13 @@ class fightingAD():
         >>> +x
         5
         """
+<<<<<<< HEAD
+        return self
+=======
         return fightingAD(self.val, self.der)
 
-    # Overload addition
+>>>>>>> c200ca0405a15255be4a392f29b8affc4092c043
+
     def __add__(self, other):
         """Addition operand: adds self to the other.
 
@@ -297,7 +238,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> s = x + y
         >>> print(s)
-        AD object with value of 11 and derivative of 2       
+        AD object with value of 11 and derivative of 2
         """
         try:
             return fightingAD(self.val + other.val, self.der + other.der)
@@ -313,19 +254,18 @@ class fightingAD():
         else:
             raise Exception("unsupported operation for +")
 
-    # Overload addition with reversed operands
     def __radd__(self, other):
         """Called when the left object does not have the __add__ method implemented.
         Since addition is commutative, we can swap the order and call __add__
-        
+
         INPUTS
         =======
         other: scalar object to add
-        
+
         RETURNS
         ========
         fightingAD: new instance with derivative and function values
-        
+
         EXAMPLES
         =========
         >>> x = fightingAD(1)
@@ -335,7 +275,6 @@ class fightingAD():
         """
         return self.__add__(other)
 
-    # Overload subtraction
     def __sub__(self, other):
         """Subraction operand: subtracts other from self.
 
@@ -354,7 +293,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> s = x - y
         >>> print(s)
-        AD object with value of -1 and derivative of 0    
+        AD object with value of -1 and derivative of 0
         """
         try:
             return fightingAD(self.val - other.val, self.der - other.der)
@@ -370,20 +309,19 @@ class fightingAD():
         else:
             raise Exception("unsupported operation for -")
 
-    # Overload subtraction with reversed operand by negating values
     def __rsub__(self, other):
         """Called when the left object does not have the __sub__ method implemented.
         Since subtraction can be represented as addition with negative object,
         we negate the right object, swap the order and call __add__
-        
+
         INPUTS
         =======
         other: scalar object to subtract
-        
+
         RETURNS
         ========
         fightingAD: new instance with derivative and function values
-        
+
         EXAMPLES
         =========
         >>> x = fightingAD(1)
@@ -393,7 +331,6 @@ class fightingAD():
         """
         return fightingAD(-self.val, -self.der).__add__(other)
 
-    # Overload multiplication
     def __mul__(self, other):
         """Multiplication operand: multiplies self by other.
 
@@ -412,7 +349,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> m = x * y
         >>> print(m)
-        AD object with value of 30 and derivative of 11         
+        AD object with value of 30 and derivative of 11
         """
         try:
             return fightingAD(
@@ -427,21 +364,10 @@ class fightingAD():
                         type(self).__name__, type(other).__name__
                     )
                 )
-        else:
-            raise Exception("unsupported operation for *")
 
-    #def __div__(self, other):
-        ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __truediv__?
-        #return
-
-    #def __rdiv__(self, other):
-        ### QUESTION: DO WE NEED TO DEFINE THIS IF WE HAVE THE __rtruediv__?
-        #return
-
-    # Overload multiplication with reversed operand
     def __rmul__(self, other):
         """Multiplies an fAD object.
-        
+
         Used in case that the first value to be multiplied with is not an fAD object.
         Since multiplication is commutative, we can swap the order and call __mul__
 
@@ -462,7 +388,6 @@ class fightingAD():
         """
         return self.__mul__(other)
 
-    # Overload division
     def __truediv__(self, other):
         """Division operand: divides self by other.
 
@@ -481,7 +406,7 @@ class fightingAD():
         >>> y = fightingAD(6)
         >>> d = x / y
         >>> print(d)
-        AD object with value of 5 and derivative of -25/36?????? 
+        AD object with value of 5 and derivative of -25/36??????
         """
         try:
             if other.val == 0:
@@ -500,7 +425,6 @@ class fightingAD():
                     )
                 )
 
-    # Overload division with reversed operand
     def __rtruediv__(self, other):
         """Divides a non-fAD object by a fAD object.
 
@@ -526,8 +450,6 @@ class fightingAD():
         except:
             raise Exception("unsupported operation for /")
 
-
-    # Overload pow
     def __pow__(self, other):
         """Returns a fightingAD object with the power of the currenct object.
 
@@ -549,23 +471,19 @@ class fightingAD():
         25
         """
         if self.val == 0:
-            return fightingAD(0,0)
+            return fightingAD(0, 0)
         try:
-            # if other.val == 0:
-            #     return fightingAD(1, 0)
-            # return fightingAD(
-            #     self.val ** other.val, 
-            #     (np.log(self.val) + 1) * self.val ** other.val
-            # ) 
-            return fightingAD(self.val**other.val, 
-                np.log(self.val)* self.val**other.val * other.der + 
-                other.val * self.der * self.val ** (other.val - 1))
+            return fightingAD(
+                self.val ** other.val,
+                np.log(self.val) * self.val ** other.val * other.der
+                + other.val * self.der * self.val ** (other.val - 1),
+            )
         except AttributeError:
             try:
                 if other == 0:
                     return fightingAD(1, 0)
                 return fightingAD(
-                    self.val ** other, other * self.val ** (other -1) * self.der
+                    self.val ** other, other * self.val ** (other - 1) * self.der
                 )
             except:
                 raise TypeError(
@@ -573,8 +491,6 @@ class fightingAD():
                         type(self).__name__, type(other).__name__
                     )
                 )
-        else:
-            raise Exception("unsupported operation for **")
 
     def __rpow__(self, other):
         """Returns an object with the power of the value of another class.
@@ -582,7 +498,7 @@ class fightingAD():
         INPUTS
         =======
         self: exponent (value of a fightingAD object)
-        other: base (value of other class such as integer) 
+        other: base (value of other class such as integer)
 
         RETURNS
         ========
@@ -601,18 +517,16 @@ class fightingAD():
             return fightingAD(1, 0)
         else:
             try:
-                # return fightingAD(
-                #     other ** self.val, self.val * other ** (self.val -1)
-                # )
                 return fightingAD(
                     other ** self.val, np.log(other) * other ** self.val * self.der
                 )
             except:
                 raise Exception("unsupported operation for **")
 
-
     # EXAMPLE OF HOW FUNCTIONS WOULD BE IF WE CHANGED VALUES IN PLACE:
-    # YOU CAN SEE A BENCHMARK in benchmark.py
+    # YOU CAN SEE A BENCHMARK IN benchmark.py
+    # THIS IS MORE PERFORMANT, BUT HAS SOME UX IMPLICATIONS
+    # FURTHER OPTIMIZATIONS LIKE DIVISION AND THREADING OF LARGE FUNCTIONS CAN BE DONE
     def __pow2__(self, power):
         self.val = self.val ** power
         self.der = power * self.der ** (power - 1)
@@ -624,9 +538,10 @@ class fightingAD():
         return self
 
 
+##############################
+#### FUNCTION DEFINITIONS ####
+##############################
 
-# FUNCTION DEFINITIONS
-# 
 
 def log(x):
     """Returns the natural log of the current object.
@@ -649,7 +564,7 @@ def log(x):
     try:
         if x.val == 0:
             raise ValueError("log(0) is undefined")
-        else:    
+        else:
             return fightingAD(np.log(x.val), 1 / x.val)
     except AttributeError:
         if x == 0:
@@ -679,9 +594,9 @@ def exp(x):
     try:
         if x.val == 0:
             return fightingAD(1, 0)
-        else:    
+        else:
             return fightingAD(np.exp(x.val), np.exp(x.val))
-    except AttributeError:  # Hugo: I think here we should return a scalar, and not a new fAD object
+    except AttributeError:
         if x == 0:
             return fightingAD(1, 0)
         else:
@@ -713,6 +628,7 @@ def sin(x):
     except AttributeError:
         return np.sin(x)
 
+
 def cos(x):
     """Returns the cosine of the current object.
 
@@ -737,6 +653,7 @@ def cos(x):
         return fightingAD(val, der)
     except AttributeError:
         return np.cos(x)
+
 
 def tan(x):
     """Returns the tangent of the current object.
@@ -763,6 +680,7 @@ def tan(x):
     except AttributeError:
         return np.tan(x)
 
+
 def arcsin(x):
     """Returns the arcsine of the current object.
 
@@ -788,6 +706,7 @@ def arcsin(x):
     except AttributeError:
         return np.arcsin(x)
 
+
 def arccos(x):
     """Returns the arccosine of the current object.
 
@@ -812,6 +731,7 @@ def arccos(x):
         return fightingAD(val, der)
     except AttributeError:
         return np.arccos(x)
+
 
 def arctan(x):
     """Returns the arctangent of the current object.
