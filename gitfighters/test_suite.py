@@ -249,9 +249,11 @@ def test_pow():
     assert x2.der == 0
 
     with pytest.raises(TypeError):
+        x1 = fightingAD(1)
         x1 ** 'String'
 
     with pytest.raises(Exception):
+        x1 = fightingAD(1)
         'String' ** x1
 
 
