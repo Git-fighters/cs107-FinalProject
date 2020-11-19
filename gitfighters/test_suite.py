@@ -189,6 +189,8 @@ def test_pow5():
     assert f.val == 1
     assert f.der == 3
 
+def test_pow6():
+	#write a test for negative values
 
 def test_abs():
     x1 = fightingAD(0.54, -0.84)
