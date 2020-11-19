@@ -42,6 +42,9 @@ def test_inequality():
 def test_addition():
     x1 = fightingAD(3)
     x1 = x1 + 5
+    x2 = 3 + x1
+    assert x2.val == 6
+    assert x2.der == 1
     assert x1.val == 8
     assert x1.der == 1
 
