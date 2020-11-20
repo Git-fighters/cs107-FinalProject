@@ -516,6 +516,7 @@ class fightingAD:
             return fightingAD(
                 other ** self.val, np.log(other) * other ** self.val * self.der
             )
+            
         except:
             raise Exception("unsupported operation for **")
 
