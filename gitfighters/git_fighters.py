@@ -458,8 +458,6 @@ class fightingAD:
         >>> f.val
         25
         """
-        if self.val == 0:
-            return fightingAD(0, 0)
         try:
             return fightingAD(
                 self.val ** other.val,
@@ -468,8 +466,6 @@ class fightingAD:
             )
         except AttributeError:
             try:
-                if other == 0:
-                    return fightingAD(1, 0)
                 return fightingAD(
                     self.val ** other, other * self.val ** (other - 1) * self.der
                 )
@@ -499,17 +495,12 @@ class fightingAD:
         >>> f.val
         32
         """
-        if other == 0:
-            return fightingAD(0, 0)
-        elif self.val == 0:
-            return fightingAD(1, 0)
-        else:
-            try:
-                return fightingAD(
-                    other ** self.val, np.log(other) * other ** self.val * self.der
-                )
-            except:
-                raise Exception("unsupported operation for **")
+        try:
+            return fightingAD(
+                other ** self.val, np.log(other) * other ** self.val * self.der
+            )
+        except:
+            raise Exception("unsupported operation for **")
 
 
 ##############################

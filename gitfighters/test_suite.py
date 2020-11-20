@@ -70,13 +70,13 @@ def test_addition():
     assert x1.val == 8
     assert x1.der == 1
 
-    x2 = fightingAD(3)
-    x3 = x1 + x2
-    assert x3.val == 11
-    assert x3.der == 2
+    x3 = fightingAD(3)
+    x4 = x1 + x3
+    assert x4.val == 11
+    assert x4.der == 2
 
     x4 = 2 + x2
-    assert x4.val == 5
+    assert x4.val == 13
     assert x4.der == 1 
     
     with pytest.raises(TypeError):
@@ -108,7 +108,6 @@ def test_multiplication():
     assert x3.der == -8
 
     with pytest.raises(TypeError):
-        x2 = fightingAD(-4)
         x2 * 'String'
 
 
@@ -243,21 +242,12 @@ def test_pow():
     assert x2.val == 1
     assert x2.der == 0
 
-    x1 = fightingAD(0)
-    x2 = 5 ** x1
-    assert x2.val == 1
-    assert x2.der == 0
-
     with pytest.raises(TypeError):
-        x1 = fightingAD(1)
-        x1 ** 'String'
-
-    with pytest.raises(Exception):
-        x1 = fightingAD(1)
-        'String' ** x1
+        x1 ** 'String' 
 
 
 def test_pow1():
+
     x = fightingAD(2)
     f = x ** 2
     assert f.val == 4
@@ -405,3 +395,8 @@ def test_wrong_input():
     b = fightingAD(1)
     with pytest.raises(TypeError):
         a * b
+
+    with pytest.raises(TypeError):
+        a**b
+    
+
