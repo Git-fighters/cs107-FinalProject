@@ -1,12 +1,17 @@
-install: pip install --user -r requirements.txt
+language: python
+
+python:
+    - "3.6"
+
+before_install:
+    - pip install pytest pytest-cov
+    - pip install codecov
+
+script:
+    - pytest --cov-report=xml --cov=./
 
 env:
-  - CODECOV_TOKEN="7e8bbc89-aba6-4a10-8b4f-39e6d15da7a3"
+    - CODECOV_TOKEN="7e8bbc89-aba6-4a10-8b4f-39e6d15da7a3"
 
-language:
-  python
-  
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-
+    - codecov
