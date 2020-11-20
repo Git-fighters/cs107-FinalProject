@@ -217,11 +217,6 @@ def test_pow():
     assert x2.val == 0.008
     assert round(x2.der, 4) == -0.0048
 
-    x1 = fightingAD(0)
-    x2 = x1 ** (-35)
-    assert x2.val == 0
-    assert x2.der == 0
-
     x1 = fightingAD(5)
     x2 = 2 ** x1
     assert x2.val == 32
