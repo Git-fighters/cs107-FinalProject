@@ -459,6 +459,15 @@ class fightingAD:
         25
         """
         try:
+            if self.val == 0:
+                return fightingAD(0, 0)
+        except AttributeError:
+            raise TypeError(
+                    "unsupported operand type(s) for **: {} and {}".format(
+                        type(self).__name__, type(other).__name__
+                    )
+                )
+        try:
             return fightingAD(
                 self.val ** other.val,
                 np.log(self.val) * self.val ** other.val * other.der
@@ -495,6 +504,14 @@ class fightingAD:
         >>> f.val
         32
         """
+        try:
+            if other == 0:
+                if self.val < 0:
+                    raise Exception("Cannot raise 0 to a negative power")
+                else:
+                    return fightingAD(0,0)
+        except:
+            raise Exception("unsupported operation for **")
         try:
             return fightingAD(
                 other ** self.val, np.log(other) * other ** self.val * self.der
