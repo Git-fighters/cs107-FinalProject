@@ -458,15 +458,7 @@ class fightingAD:
         >>> f.val
         25
         """
-        try:
-            if self.val == 0:
-                return fightingAD(0, 0)
-        except AttributeError:
-            raise TypeError(
-                    "unsupported operand type(s) for **: {} and {}".format(
-                        type(self).__name__, type(other).__name__
-                    )
-                )
+
         try:
             return fightingAD(
                 self.val ** other.val,
