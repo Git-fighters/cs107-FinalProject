@@ -395,8 +395,3 @@ def test_wrong_input():
     b = fightingAD(1)
     with pytest.raises(TypeError):
         a * b
-
-    with pytest.raises(TypeError):
-        a**b
-    
-
