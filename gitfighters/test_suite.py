@@ -299,6 +299,13 @@ def test_exp():
 
     assert exp(0) == fightingAD(1, 0)
 
+    x1 = fightingAD(5)
+    x2 = fightingAD(2)
+    x3 = x1 * x2
+    x4 = exp(x3)
+    assert round(x4.val, 5) == 22026.46579
+    assert round(x4.der, 5) == 154185.26056
+
 
 ##########################
 ####### logarithms #######

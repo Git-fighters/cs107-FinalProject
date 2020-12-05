@@ -53,13 +53,8 @@ class fightingAD:
             derivative (float, optional): Derivative
                 lines are supported.
         """
-
-        self.val = np.array(value)  # list of inputs
-        self.der = np.array(derivative)  # list of derivatives (jacobian 1-row matrix)
-        if not isinstance(name, list):
-            self.name = [name]
-        else:
-            self.name = name
+        self.val = value
+        self.der = derivative
         
 
     def __str__(self):
@@ -238,35 +233,17 @@ class fightingAD:
         >>> print(s)
         AD object with value of 11 and derivative of 2
         """
-
-        # create placeholder arrays
-        values = self.val
-        derivatives = self.der
-        names = list.copy(self.name)
-
         try:
-            # if variable names are the same, then we add them together
-            for i, name in enumerate(self.name):
-                for j, o_name in enumerate(other.name):
-                    if o_name == name:
-                        # then we add it
-                        numpy.put(values, i, self.val.item(i) + other.val.item(j))
-                        numpy.put(derivatives, i, self.der.item(i) + other.der.item(j))
-
-            # if the other variable has new var names, then we append them
-            for i, o_name in enumerate(other.name):
-                if o_name not in self.name:
-                    values = np.append(values, other.val.item(i))
-                    derivatives = np.append(derivatives, other.der.item(i))
-                    names.append(other.name[i])
-
-            # return a new vector with the placeholder arrays
-            return fightingAD(values, derivatives, names)
-        except AttributeError as e:
-            print(e)
-            return fightingAD(self.val + other, self.der, self.name)  # elementwise addition
-        except Exception as e:
-            print(e)
+            return fightingAD(self.val + other.val, self.der + other.der)
+        except AttributeError:
+            try:
+                return fightingAD(self.val + other, self.der)
+            except:
+                raise TypeError(
+                    "unsupported operand type(s) for +: {} and {}".format(
+                        type(self).__name__, type(other).__name__
+                    )
+                )
 
     def __radd__(self, other):
         """Called when the left object does not have the __add__ method implemented.
@@ -594,7 +571,7 @@ def exp(x):
         if x.val == 0:
             return fightingAD(1, 0)
         else:
-            return fightingAD(np.exp(x.val), np.exp(x.val))
+            return fightingAD(np.exp(x.val), np.exp(x.val) * x.der)
     except AttributeError:
         if x == 0:
             return fightingAD(1, 0)
