@@ -459,24 +459,35 @@ class fightingAD:
         >>> f.val
         25
         """
-
-        try:
-            return fightingAD(
-                self.val ** other.val,
-                np.log(self.val) * self.val ** other.val * other.der
-                + other.val * self.der * self.val ** (other.val - 1),
-            )
-        except AttributeError:
+        if (self.val == 0):
+            try:
+                if (other.val < 0):
+                    raise ZeroDivisionError("0.0 cannot be raised to a negative power")
+                else:
+                    return fightingAD(0,0)
+            except AttributeError:
+                if (other < 0):
+                    raise ZeroDivisionError("0.0 cannot be raised to a negative power")
+                else:
+                    return fightingAD(0,0)
+        else: 
             try:
                 return fightingAD(
-                    self.val ** other, other * self.val ** (other - 1) * self.der
+                    self.val ** other.val,
+                    np.log(self.val) * self.val ** other.val * other.der
+                    + other.val * self.der * self.val ** (other.val - 1),
                 )
-            except:
-                raise TypeError(
-                    "unsupported operand type(s) for **: {} and {}".format(
-                        type(self).__name__, type(other).__name__
+            except AttributeError:
+                try:               
+                    return fightingAD(
+                        self.val ** other, other * self.val ** (other - 1) * self.der
                     )
-                )
+                except:
+                    raise TypeError(
+                        "unsupported operand type(s) for **: {} and {}".format(
+                            type(self).__name__, type(other).__name__
+                        )
+                    )
 
     def __rpow__(self, other):
         """Returns an object with the power of the value of another class.
@@ -497,21 +508,18 @@ class fightingAD:
         >>> f.val
         32
         """
-        try:
-            if other == 0:
-                if self.val < 0:
-                    raise Exception("Cannot raise 0 to a negative power")
-                else:
-                    return fightingAD(0,0)
-        except:
-            raise Exception("unsupported operation for **")
-        try:
-            return fightingAD(
-                other ** self.val, np.log(other) * other ** self.val * self.der
-            )
-            
-        except:
-            raise Exception("unsupported operation for **")
+        if (other == 0):           
+            if (self.val < 0):
+                raise ZeroDivisionError("0.0 cannot be raised to a negative power")
+            else:
+                return fightingAD(0,0)
+        else:
+            try:
+                return fightingAD(
+                    other ** self.val, np.log(other) * other ** self.val * self.der
+                )
+            except:
+                raise Exception("unsupported operation for **")
 
 
 ##############################

@@ -240,6 +240,15 @@ def test_pow():
     with pytest.raises(TypeError):
         x1 ** 'String' 
 
+    with pytest.raises(Exception):
+        fightingAD(0) ** (-5)
+
+    with pytest.raises(Exception):
+        0 ** fightingAD(-5)
+
+    with pytest.raises(Exception):
+        fightingAD(0) ** fightingAD(-5)
+
 
 def test_pow1():
 
