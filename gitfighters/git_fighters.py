@@ -526,6 +526,35 @@ class fightingAD:
 #### FUNCTION DEFINITIONS ####
 ##############################
 
+def sqrt(x):
+    """Returns the positive square-root of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    =======
+    fightingAD: new instance with positive square-root of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(9)
+    >>> f = sqrt(x)
+    >>> f.val
+    3
+    """
+    try:
+        if x.val < 0:
+            return float('NaN')
+        else:
+            return fightingAD(x.val, x.der).__pow__(0.5)
+    except AttributeError:
+        if x < 0:
+            return float('NaN')
+        else:
+            return np.sqrt(x)
+
 
 def log(x):
     """Returns the natural log of the current object.
@@ -549,7 +578,7 @@ def log(x):
         if x.val == 0:
             raise ValueError("log(0) is undefined")
         else:
-            return fightingAD(np.log(x.val), 1 / x.val)
+            return fightingAD(np.log(x.val), 1 / x.val * x.der)
     except AttributeError:
         if x == 0:
             raise ValueError("log(0) is undefined")

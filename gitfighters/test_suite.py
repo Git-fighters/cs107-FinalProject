@@ -7,6 +7,7 @@
 ##############################################################################
 
 from git_fighters import *
+import numpy as np
 import pytest
 
 
@@ -324,11 +325,16 @@ def test_exp():
 def test_log():
     x1 = fightingAD(5)
     x2 = log(x1)
-    x2.val = 0.69897000433
+    assert round(x2.val,5) == 1.60944
+
+    x1 = log(2)
+    assert round(x1,5) == 0.69315
 
     x1 = fightingAD(5)
-    x2 = log(2)
-    x2 = 0.30102999566
+    x2 = 2 * x1
+    x3 = log(x2)
+    assert round(x3.val,5) == 2.30259
+    assert x3.der == 0.2
 
     x = fightingAD(0)
     with pytest.raises(ValueError):
@@ -337,6 +343,33 @@ def test_log():
     with pytest.raises(ValueError):
         log(0)
 
+
+##########################
+####### sqare-root #######
+##########################
+
+
+def test_sqrt():
+    x1 = sqrt(-1)
+    x2 = np.isnan(x1)
+    assert x2 == True
+
+    x1 = sqrt(9)
+    assert x1 == 3
+
+    x1 = sqrt(fightingAD(-2))
+    x2 = np.isnan(x1)
+    assert x2 == True
+   
+    x1 = sqrt(fightingAD(4))
+    assert x1.val == 2
+    assert round(x1.der, 5) == 0.25
+
+    x1 = fightingAD(3)
+    x2 = x1 * x1
+    x3 = sqrt(x2)
+    assert x3.val == 3
+    assert x3.der == 1
 
 
 ##########################
