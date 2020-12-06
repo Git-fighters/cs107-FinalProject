@@ -213,6 +213,12 @@ def test_pow():
     assert x2.val == 0
     assert x2.der == 0
 
+    x1 = fightingAD(0)
+    x2 = fightingAD(5)
+    x3 = x1 ** x2
+    assert x3.val == 0
+    assert x3.der == 0
+
     x1 = fightingAD(5)
     x2 = x1 ** (-3)
     assert x2.val == 0.008
@@ -249,6 +255,9 @@ def test_pow():
 
     with pytest.raises(Exception):
         fightingAD(0) ** fightingAD(-5)
+
+    with pytest.raises(Exception):
+        'String' ** fightingAD(5)
 
 
 def test_pow1():
