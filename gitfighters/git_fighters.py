@@ -616,6 +616,32 @@ def exp(x):
             return np.exp(x)
 
 
+def sigmoid(x):
+    """Returns the value of the logistic sigmoid function at x.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the value of the logistic sigmoid function at x.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = sigmoid(x)
+    >>> f.val
+    0.99330714907
+    """
+    try:
+        val = (1 / (1 + np.exp(-x.val)))
+        der = val * (1 - val) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return (1 / (1 + np.exp(-x)))
+
+
 def sin(x):
     """Returns the sine of the current object.
 

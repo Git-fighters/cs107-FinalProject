@@ -382,6 +382,27 @@ def test_sqrt():
 
 
 ##########################
+### logistic function ####
+##########################
+
+    x1 = fightingAD(5)
+    x2 = sigmoid(x1)
+    assert round(x2.val, 5) == 0.99331
+    assert round(x2.der, 5) == 0.00665
+
+    x1 = fightingAD(-5)
+    x2 = sigmoid(x1)
+    assert round(x2.val, 5) == 0.00669
+    assert round(x2.der, 5) == 0.00665
+
+    x1 = sigmoid(0)
+    assert x1 == 0.5
+
+    x1 = sigmoid(100000000)
+    assert x1 == 1
+
+
+##########################
 ######## General #########
 ##########################
 
