@@ -403,6 +403,37 @@ def test_sqrt():
 
 
 ##########################
+## hyperbolic functions ##
+##########################
+
+def test_hyperbolic():
+
+    x1 = fightingAD(5)
+    x2 = sinh(x1)
+    assert round(x2.val, 5) == 74.20321
+    assert round(x2.der, 5) == 74.20995
+
+    x1 = sinh(3)
+    assert round(x1, 5) == 10.01787
+
+    x1 = fightingAD(5)
+    x2 = cosh(x1)
+    assert round(x2.val, 5) == 74.20995
+    assert round(x2.der, 5) == 74.20321
+
+    x1 = cosh(3)
+    assert round(x1, 5) == 10.06766
+
+    x1 = fightingAD(5)
+    x2 = tanh(x1)
+    assert round(x2.val, 5) == 0.99991
+    assert round(x2.der, 5) == 0.00018
+
+    x1 = tanh(3)
+    assert round(x1, 5) == 0.99505
+
+
+##########################
 ######## General #########
 ##########################
 

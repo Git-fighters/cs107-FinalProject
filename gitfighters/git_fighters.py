@@ -796,3 +796,81 @@ def arctan(x):
         return fightingAD(val, der)
     except AttributeError:
         return np.arctan(x)
+
+
+def sinh(x):
+    """Returns the hyperbolic sine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the hyperbolic sine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = sinh(x)
+    >>> f.val
+    74.20321
+    """
+    try:
+        val = np.sinh(x.val)
+        der = np.cosh(x.val) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.sinh(x)
+
+
+def cosh(x):
+    """Returns the hyperbolic cosine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+    
+    RETURNS
+    ========
+    fightingAD: new instance with the hyperbolic cosine value of the current object.
+    
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = cosh(x)
+    >>> f.val
+    74.2099485248
+    """
+    try:
+        val = np.cosh(x.val)
+        der = np.sinh(x.val) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.cosh(x)
+
+
+def tanh(x):
+    """Returns the hyperbolic tangent value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+    
+    RETURNS
+    ========
+    fightingAD: new instance with the hyperbolic tangent value of the current object.
+    
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = tanh(x)
+    >>> f.val
+    0.99990920426
+    """
+    try:
+        val = np.tanh(x.val)
+        der = (1 - (np.sinh(x.val)**2 / np.cosh(x.val)**2)) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.tanh(x)
