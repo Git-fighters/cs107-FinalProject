@@ -434,24 +434,24 @@ def test_hyperbolic():
 
     x1 = fightingAD(0.75)
     x2 = arcsinh(x1)
-    assert x2.val == 0.6931471805599453
-    assert x2.der == 0.8
+    assert round(x2.val, 5) == 0.69315
+    assert round(x2.der, 5) == 0.8
 
     x1 = arcsinh(0.5)
-    assert x1 == 0.4812118250596034
+    assert round(x1, 5) == 0.48121
 
     x1 = fightingAD(2)
     x2 = arccosh(x1)
-    assert x2.val == 1.3169578969248166
-    assert x2.der == 0.5773502691896258
+    assert round(x2.val, 5) == 1.31696
+    assert round(x2.der, 5) == 0.57735
 
     x1 = arccosh(1.5)
-    assert x1 == 0.9624236501192069
+    assert round(x1, 5) == 0.96242
 
     x1 = fightingAD(0.5)
     x2 = arctanh(x1)
-    assert x2.val == 0.5493061443340549
-    assert x2.der == 1.3333333333333333
+    assert round(x2.val, 5) == 0.54931
+    assert round(x2.der, 5) == 1.33333
 
     x1 = arctanh(0)
     assert x1 == 0 
