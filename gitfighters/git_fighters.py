@@ -874,3 +874,81 @@ def tanh(x):
         return fightingAD(val, der)
     except AttributeError:
         return np.tanh(x)
+
+
+def arcsinh(x):
+    """Returns the inverse hyperbolic sine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the inverse hyperbolic sine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(0.5)
+    >>> f = arcsinh(x)
+    >>> f.val
+    0.4812118250596034
+    """
+    try:
+        val = np.arcsinh(x.val)
+        der = (1 / (np.sqrt(x.val**2 + 1))) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.arcsinh(x)
+
+
+def arccosh(x):
+    """Returns the inverse hyperbolic cosine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the inverse hyperbolic cosine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(1.5)
+    >>> f = arccosh(x)
+    >>> f.val
+    0.9624236501192069
+    """
+    try:
+        val = np.arccosh(x.val)
+        der = (1 / (np.sqrt(x.val**2 - 1))) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.arccosh(x)
+
+
+def arctanh(x):
+    """Returns the inverse hyperbolic tangent value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the inverse hyperbolic tangent value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(0.5)
+    >>> f = arctanh(x)
+    >>> f.val
+    0.5493061443340549
+    """
+    try:
+        val = np.arctanh(x.val)
+        der = ( -1 / (x.val**2 - 1)) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.arctanh(x)
