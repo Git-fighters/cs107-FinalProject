@@ -20,3 +20,11 @@ def test_constructor():
     x1 = AD(1)
     assert x1.values == 1
     assert x1.derivatives == 1
+    assert x1.ads == fightingAD(1)
+
+    x1 = AD([1, 2])
+    assert x1.values[0] == 1
+    assert x1.derivatives[0][1] == 0
+
+    with pytest.raises(Exception):
+        x1 = AD([1, 2], [1, 2, 3])
