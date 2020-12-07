@@ -2,8 +2,8 @@
 # Package aiming to enable automatic differentiation with Python.
 # By Manana Hakobyan, Tale Lokvenec, Hugo Fernandez-Montenegro, and Golo Feige
 
-import numpy as np
-from git_fighters import *
+import numpy as np 
+from gitfighters.git_fighters import *
 
 class AD:
     """Main object to handle vector functions with multiple real scalar or vector inputs.
