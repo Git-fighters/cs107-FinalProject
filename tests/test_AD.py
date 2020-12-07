@@ -11,20 +11,64 @@ from gitfighters.vector import *
 import numpy as np
 import pytest
 
-
 ##########################
 ######### Basic ##########
 ##########################
 
+
 def test_constructor():
     x1 = AD(1)
-    assert x1.values == 1
-    assert x1.derivatives == 1
+    assert x1.val == 1
+    assert x1.der == 1
     assert x1.ads == fightingAD(1)
 
     x1 = AD([1, 2])
-    assert x1.values[0] == 1
-    assert x1.derivatives[0][1] == 0
+    assert x1.val[0] == 1
+    assert x1.der[0][1] == 0
+
+    x1 = AD([1, 2],[3, 4])
+    assert x1.ads[0].val == 1
+    assert x1.ads[0].der[0] == 3
 
     with pytest.raises(Exception):
         x1 = AD([1, 2], [1, 2, 3])
+
+
+def test_str():
+    x1 = AD([1, 2])
+    x2 = x1.__str__()
+    assert x2 == "AD object with value of [1 2] and derivative of [[1.0, 0.0], [0.0, 1.0]]"
+
+
+def test_repr():
+    x1 = AD([1, 2])
+    x2 = x1.__repr__()
+    assert x2 == "AD: [1 2], [[1.0, 0.0], [0.0, 1.0]]"
+
+
+##########################
+###### Operations ########
+##########################
+
+
+def test_equality():
+    x1 = AD([1, 2])
+    x2 = AD([1, 2], [1, 1])
+    assert x1 == x2
+    assert not (x1 != x2)
+
+
+    x1 = AD([1, 2])
+    x2 = AD([3, 4])
+    assert x1 != x2
+    assert not (x1 == x2)
+
+
+    with pytest.raises(TypeError):
+        x1 = AD([1, 2])        
+        x1 == 5
+
+
+    with pytest.raises(TypeError):
+        x1 = AD([1, 2])
+        x1 != 5

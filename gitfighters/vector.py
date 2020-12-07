@@ -13,9 +13,9 @@ class AD:
     
     Attributes
     ==========
-    values : np.array
+    val : np.array
         Array storing n different variables to evaluate.
-    derivatives : np.array 
+    der : np.array 
         Matrix (n x n) of derivatives. The default value is In.
     ads : np.array
         Array storing n different fightingAD objects representing the n variables.
@@ -41,18 +41,18 @@ class AD:
         AD: 1, [1]
         # Input a scalar variable
         >>> f = AD([1, 2])
-        >>> f.values
+        >>> f.val
         [1 2]
-        >>> f.derivatives
-        [[1. 0.]
-         [0. 1.]]
+        >>> f.der
+        [[1.0, 0.0]
+         [0.0, 1.0]]
         """ 
         if np.array(values).shape == ():
-            self.values = np.array([values])
+            self.val = np.array([values])
         else:
-            self.values = np.array(values) 
+            self.val = np.array(values) 
     
-        dim = len(list(self.values))
+        dim = len(list(self.val))
         der_matrix = np.identity(dim) 
         self.ads = np.array([])
         
@@ -63,12 +63,120 @@ class AD:
                
         try:
             for i in range(dim):
-                der_matrix[i, i] = self.values[i].der 
-                self.ads = np.append(self.ads, fightingAD(self.values[i].val, der_matrix[i, :]))
+                der_matrix[i, i] = self.val[i].der 
+                self.ads = np.append(self.ads, fightingAD(self.val[i].val, der_matrix[i, :]))
         except AttributeError:
             for i in range(dim):
-                self.ads = np.append(self.ads, fightingAD(self.values[i], der_matrix[i, :]))
-        self.derivatives = der_matrix
+                self.ads = np.append(self.ads, fightingAD(self.val[i], der_matrix[i, :]))
+        self.der = der_matrix
+
+    
+    def __str__(self):
+        """Returns the string representation of the current AD object.
+
+        INPUTS
+        =======
+        self: the current AD object
+
+        RETURNS
+        ========
+        AD: the string representation of the AD object
+        
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2])
+        >>> x.__str__()
+        AD object with value of [1 2] and derivative of [1.0, 0.0][0.0, 1.0]
+        """
+        return "AD object with value of {} and derivative of {}".format(
+            self.val, self.der.tolist()
+        )
+
+
+    def __repr__(self):
+        """Returns the representation of the current AD object.
+
+        INPUTS
+        =======
+        self: the current AD object
+
+        RETURNS
+        ========
+        AD: the representation of the AD object
+
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2])
+        >>> x.__repr__()
+        AD: [1 2], [1.0, 0.0][0.0, 1.0]
+        """
+        return "AD: {}, {}".format(
+            self.val, self.der.tolist()
+        )
+
+   
+    def __eq__(self, other):
+        """Equality method: Checks if this object is equal to another object.
+        
+        Assumes that objects are the same when values and derivatives are the same.
+
+        INPUTS
+        =======
+        self: the current AD object
+        other: The object we are comparing to.
+
+        RETURNS
+        ========
+        True if equal, False otherwise
+
+        EXAMPLES
+        =========
+        >>> x = AD(5)
+        >>> y = AD(6)
+        >>> x == y
+        False
+        """
+        try:
+            return (np.array_equal(self.val, other.val) and 
+                    np.array_equal(self.der, other.der))
+        except:
+            raise TypeError(
+                "unsupported operand type(s) for =: {} and {}".format(
+                    type(self).__name__, type(other).__name__
+                )
+            )
+
+
+    def __ne__(self, other):
+        """Inequality method: Checks if this object is not equal to another object.
+
+        Assumes that objects are not the same when values or derivatives are not the same.
+
+        INPUTS
+        =======
+        self: the current AD object
+        other: The object we are comparing to.
+
+        RETURNS
+        ========
+        True if not equal, False otherwise
+
+        EXAMPLES
+        =========
+        >>> x = AD(5)
+        >>> y = AD(6)
+        >>> x != y
+        True
+        """
+        try:
+            return not (np.array_equal(self.val, other.val) and
+                        np.array_equal(self.der, other.der))
+        except:
+            raise TypeError(
+                "unsupported operand type(s) for =: {} and {}".format(
+                    type(self).__name__, type(other).__name__
+                )
+            )
 
 
     def __add__(self, ):
