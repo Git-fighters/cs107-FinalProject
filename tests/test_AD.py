@@ -105,3 +105,18 @@ def test_abs():
     assert x2.val[1] == 2
     assert x2.der[0][0] == 1
     assert x2.der[1][1] == 1
+
+
+##########################
+##### Iterator Test ######
+##########################
+
+
+def test_iterator():
+    i = -1
+    y = np.array([1, 2, 3, 4, 5])
+    x1 = AD(y)
+
+    for AD_obj in x1:
+        i += 1
+        assert AD_obj.val == y[i]

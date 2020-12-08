@@ -259,7 +259,96 @@ class AD:
         pass
     
     def __iter__(self):
-        return self
+        """Returns an ADIterator object for the current AD object.
 
-    def __next__():
-        pass
+        INPUTS
+        =======
+        self: the current AD object
+
+        RETURNS
+        ========
+        ADIterator: iterator object for current the AD object
+        
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2])
+        >>> for AD_obj in x:
+        AD_obj
+        """
+        return ADIterator(self.ads)
+
+
+class ADIterator():
+    """Main object is to allow iteration over all fightingAD objects in the currect AD object.
+    
+    It returns fightingAD objects when people iterate over the currect AD object.
+    
+    Attributes
+    ==========
+    ads : np.array
+        Array storing n different fightingAD objects representing the n variables.
+    index : integer
+        Variable tracking the position during the iteration.
+    """  
+
+
+    def __init__(self, ads):
+        """
+        INPUTS
+        =======    
+        values : np.array
+            Array storing n different fightingAD objects to iterate over.
+
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2])
+        >>> for AD_obj in x:
+        AD_obj
+        """ 
+        self.index = 0
+        self.ads = ads
+
+
+    def __next__(self):
+        """Returns the next fightingAD object in the current ADIterator object.
+
+        INPUTS
+        =======
+        self: the current ADIterator object
+
+        RETURNS
+        ========
+        fightingAD: next fightingAD object in the current ADIterator object
+
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2])
+        >>> for AD_obj in x:
+        AD_obj
+        """
+        try:
+            next_ads = self.ads[self.index]
+        except IndexError:
+            raise StopIteration()
+        self.index += 1
+        return next_ads
+
+
+    def __iter__(self):
+        """Returns the current ADIterator object.
+
+        INPUTS
+        =======
+        self: the current ADIterator object
+        
+        RETURNS
+        ========
+        ADIterator: the current ADIterator object
+        
+        EXAMPLES
+        =========      
+        >>> x = AD([1, 2])
+        >>> for AD_obj in x:
+        AD_obj
+        """
+        return self
