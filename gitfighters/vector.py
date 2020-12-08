@@ -16,7 +16,7 @@ class AD:
     val : np.array
         Array storing n different variables to evaluate.
     der : np.array 
-        Matrix (n x n) of derivatives. The default value is In.
+        Arrary (n) or matrix (n x n) of derivatives. The default value is In.
     ads : np.array
         Array storing n different fightingAD objects representing the n variables.
     """   
@@ -29,7 +29,7 @@ class AD:
         values : np.array
             Array storing n different variables to evaluate.
         derivatives : np.array 
-            Matrix (n x n) of derivatives. The default value is In. 
+            Array (n) or matrix (n x n) of derivatives. The default value is In. 
 
         EXAMPLES
         =========
@@ -56,10 +56,14 @@ class AD:
         der_matrix = np.identity(dim) 
         self.ads = np.array([])
         
-        if derivatives:
-            if len(derivatives) != len(values):
+        if derivatives is not None:
+            if np.array(derivatives).shape == ():
+                self.der = np.array([derivatives])
+            else:
+                self.der = np.array(derivatives)
+            if len(self.der) != len(self.val):
                 raise Exception("derivatives and values not the same shape")
-            der_matrix = der_matrix * np.array(derivatives)
+            der_matrix = der_matrix * self.der
                
         try:
             for i in range(dim):
@@ -177,6 +181,69 @@ class AD:
                     type(self).__name__, type(other).__name__
                 )
             )
+
+
+    def __neg__(self):
+        """Returns the negation of the current AD object.
+
+        INPUTS
+        =======
+        self: the current AD object
+
+        RETURNS
+        ========
+        AD: new instance with negation of current val, der, and ads.
+
+        EXAMPLES
+        =========
+        >>> x = AD(5)
+        >>> f = -x
+        >>> f.val
+        -5
+        """
+        return AD(np.negative(self.val), np.negative(self.der))
+
+
+    def __pos__(self):
+        """Returns the current AD object with the unary plus operator.
+
+        INPUTS
+        =======
+        self: the current AD object
+
+        RETURNS
+        ========
+        AD: new instance with negation of current val, der, and ads.
+
+        EXAMPLES
+        =========
+        >>> x = AD(5)
+        >>> +x
+        >>> f.val
+        -5
+        """
+        return AD(self.val, self.der)
+
+
+    def __abs__(self):
+        """Returns the current AD object with the absolute value of val and der.
+
+        INPUTS
+        =======
+        self: the current AD object
+
+        RETURNS
+        ========
+        AD: new instance with absolute values of current val, der, and ads.
+
+        EXAMPLES
+        =========
+        >>> x = AD([-1, 2])
+        >>> f = abs(x)
+        >>> f.val[0]
+        -5
+        """
+        return AD(np.absolute(self.val), np.absolute(self.der))
 
 
     def __add__(self, ):

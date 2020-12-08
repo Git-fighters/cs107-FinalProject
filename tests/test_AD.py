@@ -22,6 +22,11 @@ def test_constructor():
     assert x1.der == 1
     assert x1.ads == fightingAD(1)
 
+    x1 = AD(1 , -5)
+    assert x1.val == 1
+    assert x1.der == -5
+    assert x1.ads == fightingAD(1, -5)
+
     x1 = AD([1, 2])
     assert x1.val[0] == 1
     assert x1.der[0][1] == 0
@@ -72,3 +77,31 @@ def test_equality():
     with pytest.raises(TypeError):
         x1 = AD([1, 2])
         x1 != 5
+
+
+def test_neg():
+    x1 = AD([-1, 2], [-3, 5])
+    x2 = -x1
+    assert x2.val[0] == 1
+    assert x2.val[1] == -2
+    assert x2.der[0][0] == 3
+    assert x2.der[1][1] == -5
+    assert x2.ads[0].val == 1
+
+
+def test_pos():
+    x1 = AD([2, 3, 4],[4, 1, 3])
+    x2 = +x1
+    assert x2.val[0] == 2
+    assert x2.der[0][0] == 4
+    assert x2.der[1][1] == 1
+    assert x2.der[2][2] == 3
+
+
+def test_abs():
+    x1 = AD([-1, 2])
+    x2 = abs(x1)
+    assert x2.val[0] == 1
+    assert x2.val[1] == 2
+    assert x2.der[0][0] == 1
+    assert x2.der[1][1] == 1
