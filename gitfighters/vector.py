@@ -332,23 +332,3 @@ class ADIterator():
             raise StopIteration()
         self.index += 1
         return next_ads
-
-
-    def __iter__(self):
-        """Returns the current ADIterator object.
-
-        INPUTS
-        =======
-        self: the current ADIterator object
-        
-        RETURNS
-        ========
-        ADIterator: the current ADIterator object
-        
-        EXAMPLES
-        =========      
-        >>> x = AD([1, 2])
-        >>> for AD_obj in x:
-        AD_obj
-        """
-        return self
