@@ -249,13 +249,70 @@ class AD:
         pass
 
     def __getitem__(self, index):
+        """Returns the fightingAD object at index i
+
+        INPUTS
+        =======
+        self: the current AD object
+        index: index of the variable
+
+        RETURNS
+        ========
+        fightingAD: appropriate object
+
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2, -5])
+        >>> x[0] == x.ads[0]
+        True
+        """
         return self.ads[index]
 
-    def __setitem__(self, index):
-        pass
+    def __setitem__(self, index, item):
+        """Sets the fightingAD object at index i
+
+        INPUTS
+        =======
+        self: the current AD object
+        index: index of the variable
+        item: Item to set
+
+        RETURNS
+        ========
+        None
+
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2, -5])
+        >>> x[0] = fightingAD(2)
+        >>> x[0] == fightingAD(1)
+        False
+        """
+        if not isinstance(item, fightingAD):  # QC
+            raise Exception('items can only be of type fightingAD')
+
+        self.ads[index] = item
 
     def __delitem__(self, index):
-        pass
+        """Deletes the fightingAD object at index i
+
+        INPUTS
+        =======
+        self: the current AD object
+        index: index of the variable
+
+        RETURNS
+        ========
+        None
+
+        EXAMPLES
+        =========
+        >>> x = AD([1, 2, -5])
+        >>> del x[0]
+        False
+        """
+        del self.ads[index]
+        
 
     def __iter__(self):
         """Returns an ADIterator object for the current AD object.

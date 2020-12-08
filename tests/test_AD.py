@@ -111,22 +111,14 @@ def test_abs():
 ##########################
 
 
+# It was decided we do not have to support addition/subtraction and other elementary
+# operations on vector objects.
 def test_add():
-    x1 = AD([-1, 2])
-
-    assert x2.val[0] == 1
-    assert x2.val[1] == 2
-    assert x2.der[0][0] == 1
-    assert x2.der[1][1] == 1
+    pass
 
 
 def test_sub():
-    x1 = AD([-1, 2])
-    x2 = abs(x1)
-    assert x2.val[0] == 1
-    assert x2.val[1] == 2
-    assert x2.der[0][0] == 1
-    assert x2.der[1][1] == 1
+    pass
 
 
 ##########################
@@ -142,3 +134,35 @@ def test_iterator():
     for AD_obj in x1:
         i += 1
         assert AD_obj.val == y[i]
+
+
+##########################
+###### set/get item ######
+##########################
+
+def test_get():
+    x = AD([1, 2, -5])
+    assert x[0] == x.ads[0]
+    assert x[1] == x.ads[1]
+    assert x[2] == x.ads[2]
+
+    # THESE NEXT THREE FAIL
+    # Should we reconsider how we store .der values?
+    # or is it too much hassle to implement vectors in the fightingAD class?
+    assert x[0] == fightingAD(1)  
+    assert x[1] == fightingAD(2)
+    assert x[2] == fightingAD(-5)
+
+def test_set():
+    x = AD([1, 2, -5])
+    x0 = fightingAD(2)
+    x[0] = x0
+    assert x[0] == x0
+
+    # This gives error too. same problem as in test_get
+    assert x == AD([2, 2, -5])
+    
+
+def test_del():
+    # not sure how to test this
+    pass
