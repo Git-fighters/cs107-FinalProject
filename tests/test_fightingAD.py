@@ -49,7 +49,7 @@ def test_equality():
     x1 = fightingAD(10)
     x2 = fightingAD(10) + 3 - 3
     assert x1 == x2
-    with pytest.raises(TypeError):
+    with pytest.raises(Exception):
         x1 == 5
 
 

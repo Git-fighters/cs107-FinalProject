@@ -116,13 +116,18 @@ class fightingAD:
         False
         """
         try:
-            return (self.val == other.val) and (self.der == other.der)
+            return (self.val == other.val) and (self.der == other.der).all()
         except:
-            raise TypeError(
-                "unsupported operand type(s) for =: {} and {}".format(
-                    type(self).__name__, type(other).__name__
-                )
-            )
+            try:
+                return (self.val == other.val) and (self.der == other.der)
+            except Exception as e:
+                raise Exception(e)
+                # How can we know it's a TypeError?
+                # raise TypeError(
+                #     "unsupported operand type(s) for =: {} and {}".format(
+                #         type(self).__name__, type(other).__name__
+                #     )
+                # )
 
     def __ne__(self, other):
         """Inequality method: Checks if this object is not equal to another object.
