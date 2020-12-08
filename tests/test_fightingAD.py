@@ -77,10 +77,11 @@ def test_addition():
 
     x4 = 2 + x2
     assert x4.val == 13
-    assert x4.der == 1 
-    
+    assert x4.der == 1
+
     with pytest.raises(TypeError):
-        x2 + 'String'
+        x2 + "String"
+
 
 def test_subtraction():
     x1 = fightingAD(3)
@@ -89,7 +90,7 @@ def test_subtraction():
     assert x2.der == -1
 
     with pytest.raises(TypeError):
-        x1 - 'String'    
+        x1 - "String"
 
 
 def test_multiplication():
@@ -108,7 +109,7 @@ def test_multiplication():
     assert x3.der == -8
 
     with pytest.raises(TypeError):
-        x2 * 'String'
+        x2 * "String"
 
 
 def test_neg():
@@ -149,7 +150,7 @@ def test_division():
         x2 / x1
 
     with pytest.raises(TypeError):
-        x2 / 'String' 
+        x2 / "String"
 
     with pytest.raises(Exception):
         5 / x1
@@ -205,7 +206,7 @@ def test_pow():
     x2 = x1 * 2
     x3 = x1 ** x2
     assert x3.val == 9765625
-    assert x3.der == 19531250*(1 + log(5))
+    assert x3.der == 19531250 * (1 + log(5))
 
     x1 = fightingAD(0)
     x2 = x1 ** 5
@@ -226,7 +227,7 @@ def test_pow():
     x1 = fightingAD(5)
     x2 = 2 ** x1
     assert x2.val == 32
-    assert x2.der == 32*log(2)
+    assert x2.der == 32 * log(2)
 
     x1 = fightingAD(2)
     x2 = 2 ** (x1 * 2)
@@ -244,7 +245,7 @@ def test_pow():
     assert x2.der == 0
 
     with pytest.raises(TypeError):
-        x1 ** 'String' 
+        x1 ** "String"
 
     with pytest.raises(Exception):
         fightingAD(0) ** (-5)
@@ -256,7 +257,7 @@ def test_pow():
         fightingAD(0) ** fightingAD(-5)
 
     with pytest.raises(Exception):
-        'String' ** fightingAD(5)
+        "String" ** fightingAD(5)
 
 
 def test_pow1():
@@ -333,21 +334,21 @@ def test_exp():
 def test_log():
     x1 = fightingAD(5)
     x2 = log(x1)
-    assert round(x2.val,5) == 1.60944
+    assert round(x2.val, 5) == 1.60944
 
     x1 = log(2)
-    assert round(x1,5) == 0.69315
+    assert round(x1, 5) == 0.69315
 
     x1 = fightingAD(5)
     x2 = 2 * x1
     x3 = log(x2)
-    assert round(x3.val,5) == 2.30259
+    assert round(x3.val, 5) == 2.30259
     assert x3.der == 0.2
 
     x = fightingAD(0)
     with pytest.raises(ValueError):
         log(x)
-    
+
     with pytest.raises(ValueError):
         log(0)
 
@@ -368,7 +369,7 @@ def test_sqrt():
     x1 = sqrt(fightingAD(-2))
     x2 = np.isnan(x1)
     assert x2 == True
-   
+
     x1 = sqrt(fightingAD(4))
     assert x1.val == 2
     assert round(x1.der, 5) == 0.25
@@ -379,10 +380,9 @@ def test_sqrt():
     assert x3.val == 3
     assert x3.der == 1
 
-
-##########################
-### logistic function ####
-##########################
+    ##########################
+    ### logistic function ####
+    ##########################
 
     x1 = fightingAD(5)
     x2 = sigmoid(x1)
@@ -404,6 +404,7 @@ def test_sqrt():
 ##########################
 ## hyperbolic functions ##
 ##########################
+
 
 def test_hyperbolic():
 
@@ -453,7 +454,7 @@ def test_hyperbolic():
     assert round(x2.der, 5) == 1.33333
 
     x1 = arctanh(0)
-    assert x1 == 0 
+    assert x1 == 0
 
 
 ##########################

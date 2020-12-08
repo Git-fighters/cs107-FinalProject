@@ -22,7 +22,7 @@ def test_constructor():
     assert x1.der == 1
     assert x1.ads == fightingAD(1)
 
-    x1 = AD(1 , -5)
+    x1 = AD(1, -5)
     assert x1.val == 1
     assert x1.der == -5
     assert x1.ads == fightingAD(1, -5)
@@ -31,7 +31,7 @@ def test_constructor():
     assert x1.val[0] == 1
     assert x1.der[0][1] == 0
 
-    x1 = AD([1, 2],[3, 4])
+    x1 = AD([1, 2], [3, 4])
     assert x1.ads[0].val == 1
     assert x1.ads[0].der[0] == 3
 
@@ -42,7 +42,9 @@ def test_constructor():
 def test_str():
     x1 = AD([1, 2])
     x2 = x1.__str__()
-    assert x2 == "AD object with value of [1 2] and derivative of [[1.0, 0.0], [0.0, 1.0]]"
+    assert (
+        x2 == "AD object with value of [1 2] and derivative of [[1.0, 0.0], [0.0, 1.0]]"
+    )
 
 
 def test_repr():
@@ -62,17 +64,14 @@ def test_equality():
     assert x1 == x2
     assert not (x1 != x2)
 
-
     x1 = AD([1, 2])
     x2 = AD([3, 4])
     assert x1 != x2
     assert not (x1 == x2)
 
-
     with pytest.raises(TypeError):
-        x1 = AD([1, 2])        
+        x1 = AD([1, 2])
         x1 == 5
-
 
     with pytest.raises(TypeError):
         x1 = AD([1, 2])
@@ -90,7 +89,7 @@ def test_neg():
 
 
 def test_pos():
-    x1 = AD([2, 3, 4],[4, 1, 3])
+    x1 = AD([2, 3, 4], [4, 1, 3])
     x2 = +x1
     assert x2.val[0] == 2
     assert x2.der[0][0] == 4
@@ -99,6 +98,29 @@ def test_pos():
 
 
 def test_abs():
+    x1 = AD([-1, 2])
+    x2 = abs(x1)
+    assert x2.val[0] == 1
+    assert x2.val[1] == 2
+    assert x2.der[0][0] == 1
+    assert x2.der[1][1] == 1
+
+
+##########################
+####### Addition #########
+##########################
+
+
+def test_add():
+    x1 = AD([-1, 2])
+
+    assert x2.val[0] == 1
+    assert x2.val[1] == 2
+    assert x2.der[0][0] == 1
+    assert x2.der[1][1] == 1
+
+
+def test_sub():
     x1 = AD([-1, 2])
     x2 = abs(x1)
     assert x2.val[0] == 1
