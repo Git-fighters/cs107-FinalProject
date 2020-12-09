@@ -78,6 +78,7 @@ class AD:
                 )
         self.der = der_matrix
 
+
     def __str__(self):
         """Returns the string representation of the current AD object.
 
@@ -99,6 +100,7 @@ class AD:
             self.val, self.der.tolist()
         )
 
+
     def __repr__(self):
         """Returns the representation of the current AD object.
 
@@ -117,6 +119,7 @@ class AD:
         AD: [1 2], [1.0, 0.0][0.0, 1.0]
         """
         return "AD: {}, {}".format(self.val, self.der.tolist())
+
 
     def __eq__(self, other):
         """Equality method: Checks if this object is equal to another object.
@@ -149,6 +152,7 @@ class AD:
                     type(self).__name__, type(other).__name__
                 )
             )
+
 
     def __ne__(self, other):
         """Inequality method: Checks if this object is not equal to another object.
@@ -183,6 +187,7 @@ class AD:
                 )
             )
 
+
     def __neg__(self):
         """Returns the negation of the current AD object.
 
@@ -202,6 +207,7 @@ class AD:
         -5
         """
         return AD(np.negative(self.val), np.negative(self.der))
+
 
     def __pos__(self):
         """Returns the current AD object with the unary plus operator.
@@ -223,6 +229,7 @@ class AD:
         """
         return AD(self.val, self.der)
 
+
     def __abs__(self):
         """Returns the current AD object with the absolute value of val and der.
 
@@ -243,10 +250,6 @@ class AD:
         """
         return AD(np.absolute(self.val), np.absolute(self.der))
 
-    def __add__(
-        self,
-    ):
-        pass
 
     def __getitem__(self, index):
         """Returns the fightingAD object at index i
@@ -268,6 +271,7 @@ class AD:
         """
         return self.ads[index]
 
+
     def __setitem__(self, index, item):
         """Sets the fightingAD object at index i
 
@@ -285,13 +289,24 @@ class AD:
         =========
         >>> x = AD([1, 2, -5])
         >>> x[0] = fightingAD(2)
-        >>> x[0] == fightingAD(1)
-        False
+        >>> x.val[0]
+        2
         """
-        if not isinstance(item, fightingAD):  # QC
-            raise Exception('items can only be of type fightingAD')
+        try:
+            self.val[index] = item.val
+            if np.array(item.der).shape == ():
+                self.der[index][:] = np.zeros((1, len(self.der))) 
+                self.der[index][index] = item.der
+            else:
+                self.der[index][:] = item.der
+            self.ads[index] = item
+        except:
+            raise TypeError(
+                "unsupported type(s) for setitem: {} and {}".format(
+                    type(self).__name__, type(item).__name__
+                )
+            )        
 
-        self.ads[index] = item
 
     def __delitem__(self, index):
         """Deletes the fightingAD object at index i
@@ -309,9 +324,16 @@ class AD:
         =========
         >>> x = AD([1, 2, -5])
         >>> del x[0]
-        False
+        >>> x.val[0]
+        2
         """
-        del self.ads[index]
+        try:
+            self.val = np.delete(self.val, index)
+            self.der = np.delete(self.der, index, 0)
+            self.der = np.delete(self.der, index, 1)
+            self.ads = np.delete(self.ads, index)
+        except:
+            raise IndexError("AD object has only {} elements".format(len(self.val)))
         
 
     def __iter__(self):
@@ -347,6 +369,7 @@ class ADIterator:
         Variable tracking the position during the iteration.
     """
 
+
     def __init__(self, ads):
         """
         INPUTS
@@ -362,6 +385,7 @@ class ADIterator:
         """
         self.index = 0
         self.ads = ads
+
 
     def __next__(self):
         """Returns the next fightingAD object in the current ADIterator object.
