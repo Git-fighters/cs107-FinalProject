@@ -23,21 +23,22 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
     # 6. print values, derivatives
 
     ########################################################################################################
-    # # I DONT QUITE UNDERSTAND THE SEQUENCE OF THE PARSING NOTEBOOK, BUT IT SHOULD BE SMTH LIKE THIS
-    # filtered_sentence, word_tokens = parse_sentence(user_input)
-    # equation = get_equation(filtered_sentence, word_tokens)
+    # I DONT QUITE UNDERSTAND THE SEQUENCE OF THE PARSING NOTEBOOK, BUT IT SHOULD BE SMTH LIKE THIS
+    filtered_sentence, word_tokens = parse_sentence(user_input)
+    equation = get_equation(filtered_sentence, word_tokens)
     
-    # # now we have to execute
-    # exec('f = {}'.format(clean_equation))
+    clean_equation, variables
+    # now we have to execute
+    exec('f = {}'.format(clean_equation))
 
-    # # differentiate and evaluate
-    # difs = differentiate()
-    # vals = evaluate()
-    # print(f'your values are: ')
-    # print(vals)
-    # print(f'derivative values are')
-    # print(difs)
-    ########################################################################################################
+    # differentiate and evaluate
+    difs = differentiate()
+    vals = evaluate()
+    print(f'your values are: ')
+    print(vals)
+    print(f'derivative values are')
+    print(difs)
+    #######################################################################################################
 
     latex_bool = input('would you like to output a latex file? Y/n')
     if latex_bool == 'Y':

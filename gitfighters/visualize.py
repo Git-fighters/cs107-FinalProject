@@ -21,7 +21,7 @@ def visualize_1D(function, value, der, name='x'):
     # plt.plot(xs, ys, 'r')
 
     # plot the point at which the function is evaluated
-    plt.plot(value, function(value), 'g*')
+    plt.plot(value, function(value), 'r*')
     
     # labels
     plt.xlabel(f'{name}-axis')
@@ -31,8 +31,11 @@ def visualize_1D(function, value, der, name='x'):
     plt.text(value + 30, function(value), text, bbox=dict(fill=False, edgecolor='red', linewidth=2))
     
     plt.show()
+    # plt.savefig(f'graphs/{name}_graph.png')
+    # print(f'graph saved as graphs/\"{name}_graph.png\'"')
     plt.savefig(f'{name}_graph.png')
     print(f'graph saved as \"{name}_graph.png\'"')
+    
 
 
 # def visualize(function, variables):

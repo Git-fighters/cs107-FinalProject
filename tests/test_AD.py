@@ -181,3 +181,8 @@ def test_del():
         x = AD([1, 2, 3], [9, 9, 9])
         del x[3]
 
+def test_examples():
+    #
+    #
+    #
+    pass
