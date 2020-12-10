@@ -69,18 +69,9 @@ def visualize(function, variables, derivatives):
     ...
     """
 
-
-#     # We creat a plot for each variable
-#     for i, var in enumerate(variables):
-#         # determine the x range
-#     var = float(var)
-
-#     xs = np.linspace(var-50,var+50,100)
-#     # define the function
-#     if isinstance(function, string):
-#         pass
-#         # def function:
-
-
-#     else:  # we assume it's a function and therefore callable
-#         ys = function(xs)
+    # AWAITING CLI TO DECIDE ON HOW TO DO THIS
+    # 1. for each variable
+    # 2. assume all other variables become constants
+    # 3. modify function accordingly
+    # 4. Create 1D plot by calling visualize_1D(function, value, derivative)
+    pass
