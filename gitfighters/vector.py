@@ -410,3 +410,33 @@ class ADIterator:
             raise StopIteration()
         self.index += 1
         return next_ads
+
+
+def differentiate(x):
+    """
+    Function to access the derivative vector or Jacobian of a differentiable object
+    """
+    if isinstance(x, fightingAD):
+        return x.der
+    elif isinstance(x, list):
+        a = []
+        for func in x:
+            a.append(func.der)
+        return np.array(a)
+    else:
+        raise Exception('ONLY ACCEPTS LIST OR fightingAD() object')
+
+
+def evaluate(x):
+    """
+    Function to access the value or value vector of a function
+    """
+    if isinstance(x, fightingAD):
+            return x.val
+    elif isinstance(x, list):
+        a = []
+        for func in x:
+            a.append(func.val)
+        return np.array(a)
+    else:
+        raise Exception('ONLY ACCEPTS LIST OR fightingAD() object')
