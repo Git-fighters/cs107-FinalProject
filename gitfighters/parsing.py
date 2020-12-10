@@ -72,3 +72,14 @@ def get_equation(filtered_sentence, operations):
         i += 1
         
     return equation
+
+
+def get_values(set_variables, vars_vals):
+    values = {}
+    for item in set_variables:
+        ind_item = vars_vals.index(item)
+        if ind_item % 2 == 0:
+            values[item] = vars_vals[ind_item+1]
+        else:
+            values[item] = vars_vals[ind_item-1]
+    return values
