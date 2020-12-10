@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import ast 
+import ast
 from git_fighters import *
 from pylatexenc.latex2text import *
 from pylatexenc.latexwalker import LatexWalker
@@ -30,6 +30,3 @@ def create_cool_latex_jacobian(x):
 
 x = fightingAD(5)
 create_cool_latex_jacobian(x)
-
-
-
