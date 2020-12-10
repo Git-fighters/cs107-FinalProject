@@ -22,9 +22,12 @@ from gitfighters.vector import *
 
 from gitfighters.visualize import *
 
+
 def f(x):
-    return x**2
+    return x ** 2
+
+
 value = 5
 der = 10
 
-visualize_1D(f, value, der, name='x')
+visualize_1D(f, value, der, name="x")

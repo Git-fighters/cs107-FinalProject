@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import ast 
+import ast
 from git_fighters import *
 from pylatexenc.latex2text import *
 from pylatexenc.latexwalker import LatexWalker
@@ -16,4 +16,3 @@ def parse_latex(formula):
 
 
 parse_latex("$\cos({w}) - \frac{y - 5}{z} + e^{x}$")
-

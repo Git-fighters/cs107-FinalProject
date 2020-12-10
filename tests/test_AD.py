@@ -157,10 +157,10 @@ def test_set():
     assert x[0].val == 5
     assert x.val == 5
     assert x.der == 1
-    
+
     with pytest.raises(TypeError):
         x = AD([1, 2, 3], [9, 9, 9])
-        x[1] = 'String'
+        x[1] = "String"
 
     with pytest.raises(TypeError):
         x = AD([1, 2, 3], [9, 9, 9])
@@ -180,6 +180,7 @@ def test_del():
     with pytest.raises(IndexError):
         x = AD([1, 2, 3], [9, 9, 9])
         del x[3]
+
 
 def test_examples():
     #
