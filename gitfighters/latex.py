@@ -35,10 +35,15 @@ def create_cool_latex_jacobian(x):
             start = startVec
         end = endJac
 
-    with open('jabobian.tex','w') as file:
-        file.write('\\documentclass{article}\n')
+    with open('jacobian.tex','w') as file:
+        file.write('\\documentclass[12pt]{article}\n')
+        file.write('\\usepackage{amsmath}\n')
+        file.write('\\usepackage{graphicx}\n')
+        file.write('\\graphicspath{ {./graphs/} }\n')
+        file.write('\\title{Summary:}\n')
         file.write('\\begin{document}\n') 
         file.write(start + jacobian  + end + '\n')
+        file.write('\\includegraphics{x_graph.png}\n')
         file.write('\\end{document}\n')
 
 x = fightingAD(5)
