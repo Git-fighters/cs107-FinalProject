@@ -6,6 +6,23 @@ nltk.download('punkt')
 
 def parse_sentence(user_input):
 
+    """Tokenizes the user_input, gets rid of the stop words and returns a list of tokenized string parts.
+
+        INPUTS
+        =======
+        user_input: a string which typically includes some form of equation, variables and values 
+
+        RETURNS
+        ========
+        list: a list of tokenized parts of the sentence
+
+        EXAMPLES
+        =========
+        >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
+        >>> ['x^2', '+', '2x', 'x', '1']
+        
+        """
+
 
     stop_words = np.array(stopwords.words('english')) ### get the english stipwords
     stop_words_set = set(stopwords.words('english'))  ### take out the single letters since they might be variables
@@ -14,8 +31,6 @@ def parse_sentence(user_input):
             stop_words_set.remove(s)        
     stop_words_set.add('=') ### add '=' for the case when the user inputs "... where x=2, y=3"
     
-    operations = ['+', '-', '**', '^', '*', '/', '|', ':', ')', '('] ## define the operations
-    
     ### tokenize the user input and take out the stop words
     word_tokens = word_tokenize(user_input) 
     filtered_sentence = [w for w in word_tokens if not w in stop_words_set]
@@ -23,6 +38,23 @@ def parse_sentence(user_input):
     return filtered_sentence
 
 def get_equation(filtered_sentence, operations):
+
+    """ Parses and separates the equation part from the string
+
+        INPUTS
+        =======
+        filtered_sentence: a string which typically includes some form of equation, variables and values 
+
+        RETURNS
+        ========
+        list: a list of tokenized parts of the sentence
+
+        EXAMPLES
+        =========
+        >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
+        >>> ['x^2', '+', '2x', 'x', '1']
+        
+        """
 
     i = 0
     equation = ''
@@ -149,6 +181,7 @@ def pipeline(user_input):
     filtered_sentence = parse_sentence(user_input)
     
     ### separate the equation from the user input
+    operations = ['+', '-', '**', '^', '*', '/', '|', ':', ')', '('] ## define the operations
     eq = get_equation(filtered_sentence, operations)
     
     
@@ -166,7 +199,7 @@ def pipeline(user_input):
     
     
     ### possible variables from the equation (should be processed more)
-    var_regex = r"[^\d (sin) (cosin) (tan) (arctan) *.|+-:/\^]"
+    var_regex = r"[^\d (sin) (cosin) (tan) (arctan) * \.|+-:/\^]"
     variables = re.findall( var_regex, eq)
     
     ### gets the variables and values in the dictionary format
