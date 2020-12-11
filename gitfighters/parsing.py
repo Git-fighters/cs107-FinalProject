@@ -157,12 +157,12 @@ def remove_the_eq(single_eq_elements, single_filtered_elements):
 
 
 
-def get_values(set_variables, vars_vals):
+def get_values(variables, vars_vals):
     """ Returns a dictionary where the keys are the variable names and the values are the variable values
 
         INPUTS
         =======
-        set_variables: variables that are filtered via regex from the equation
+        variables: variables that are filtered via regex from the equation
         vars_vals: the remainder of the tokenized/filtered list after removing the equation part
 
         RETURNS
@@ -171,15 +171,15 @@ def get_values(set_variables, vars_vals):
 
         EXAMPLES
         =========
-        >>> ops = ['+', '-', '**', '^', '*', '/', '|', ':', ')', '(']
-        >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
-        >>> get_equation(filtered_sentence, ops)
-        >>> 'x^2 + 2x'
+        >>> variables = ['x']
+        >>> vars_vals = ['x', '1']
+        >>> get_values(variables, vars_vals)
+        >>> {'x': '1'}
         
         """
 
     values = {}
-    for item in set_variables:
+    for item in variables:
         ind_item = vars_vals.index(item)
         if ind_item % 2 == 0:
             values[item] = vars_vals[ind_item+1]
