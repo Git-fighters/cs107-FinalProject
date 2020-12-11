@@ -32,6 +32,7 @@ from gitfighters.git_fighters import *
 # visualize_1D(f, x.val, x.der, name="x")
 
 from gitfighters.latex import *
+
 y = [
     fightingAD(1, [11, 12, 13, 14]),
     fightingAD(2, [21, 22, 23, 24]),

@@ -23,33 +23,41 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
     # 5. execute: ('f = {}'.format(clean_equation))
     # 6. print values, derivatives
 
-    ########################################################################################################
-    # I DONT QUITE UNDERSTAND THE SEQUENCE OF THE PARSING NOTEBOOK, BUT IT SHOULD BE SMTH LIKE THIS
-    filtered_sentence, word_tokens = parse_sentence(user_input)
-    equation = get_equation(filtered_sentence, word_tokens)
+    # vis_bool = input("Do you want to give a seed? Y/n")
+    # if vis_bool == "Y":
+    #     # VISUALIZE FUNCTION
+    #     pass
 
-    clean_equation, variables
-    # now we have to execute
-    exec("f = {}".format(clean_equation))
+    eq, vals = pipeline(user_input)
+    vect = AD(list(vals.values()))
+    for key, val in vals.items():
+        values = list(vals.values())
+        ind = values.index(val)
+        ad = vect[ind]
+        globals()[f"{key}"] = ad
 
-    # differentiate and evaluate
-    difs = differentiate()
-    vals = evaluate()
-    print(f"your values are: ")
-    print(vals)
-    print(f"derivative values are")
-    print(difs)
-    #######################################################################################################
+    exec(f"global f; f = {eq}")
 
+    derivatives = differentiate(f)
+    values = evaluate(f)
+    print("\nWe have evaluated your function! These are the derivative values:")
+    print(derivatives)
 
-    vis_bool = input("would you like visualize your function and its derivative? Y/n")
+    vis_bool = input(
+        "    -->Would you like visualize your function and its derivative? Y/n \n"
+    )
     if vis_bool == "Y":
-        # VISUALIZE FUNCTION
-        pass
+        print(eq)
+        print(vals)
+        print(derivatives)
+        visualize(eq, vals, derivatives)
 
-    latex_bool = input("would you like to output a latex file? Y/n")
+    latex_bool = input(
+        "    -->Would you like to output a nicely formatted latex file? Y/n \n"
+    )
     if latex_bool == "Y":
         # CREATE LATEX FILE
+        print("NOT YET IMPLEMENTED")
         pass
 
 
