@@ -18,7 +18,7 @@ def parse_sentence(user_input):
 
         EXAMPLES
         =========
-        >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
+        >>> parse_sentence('x^2 + 2x when x is 1')
         >>> ['x^2', '+', '2x', 'x', '1']
         
         """
@@ -43,16 +43,19 @@ def get_equation(filtered_sentence, operations):
 
         INPUTS
         =======
-        filtered_sentence: a string which typically includes some form of equation, variables and values 
+        filtered_sentence: a list of tokenized strings from the original equation 
+        operations: a pre-defined list of mathematical operations in string format
 
         RETURNS
         ========
-        list: a list of tokenized parts of the sentence
+        string: the equation part
 
         EXAMPLES
         =========
+        >>> ops = ['+', '-', '**', '^', '*', '/', '|', ':', ')', '(']
         >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
-        >>> ['x^2', '+', '2x', 'x', '1']
+        >>> get_equation(filtered_sentence, ops)
+        >>> 'x^2 + 2x'
         
         """
 
@@ -116,6 +119,7 @@ def get_equation(filtered_sentence, operations):
 
 
 def get_values(set_variables, vars_vals):
+    
     values = {}
     for item in set_variables:
         ind_item = vars_vals.index(item)
