@@ -89,7 +89,7 @@ def get_equation(filtered_sentence, operations):
         if i == 0 and len(str_op) >= 1:
             equation += expr
 
-        elif i > 0 and len(str_op) == 1: ### second or third term
+        elif (i > 0) and (len(expr)==1) and (len(str_op) == 1): ### second or third term
             if (len(str_op_next) == 0) and (len(str_op_prev) == 0): 
                 equation += expr_prev + expr+ expr_next
         
@@ -118,19 +118,27 @@ def get_equation(filtered_sentence, operations):
     return equation
 
 
-def get_values(set_variables, vars_vals):
-    
-    values = {}
-    for item in set_variables:
-        ind_item = vars_vals.index(item)
-        if ind_item % 2 == 0:
-            values[item] = vars_vals[ind_item+1]
-        else:
-            values[item] = vars_vals[ind_item-1]
-    return values
-
-
 def remove_the_eq(single_eq_elements, single_filtered_elements):
+""" Returns a list of tokenized strings after removing the parts belonging to the equation
+
+        INPUTS
+        =======
+        single_eq_elements: a list of single string elements that constitute the equation
+        single_filtered_elements: a list of single elements that constitute the user input without the stop words
+
+        RETURNS
+        ========
+        list: a list of tokenized strings after removing the parts belonging to the equation
+
+        EXAMPLES
+        =========
+        >>> single_eq_elements = ['x', '^', '2', '+', '2', 'x']
+        >>> single_filtered_elements = ['x', '^', '2', '+', '2', 'x', 'x', '1']
+        >>> remove_the_eq(single_eq_elements, single_filtered_elements)
+        >>> ['x', '1']
+        
+        """
+
 
     first_eq_elem = single_eq_elements[0]
     last_eq_elem = single_eq_elements[-1]
@@ -146,6 +154,40 @@ def remove_the_eq(single_eq_elements, single_filtered_elements):
         remove_the_eq(single_eq_elements, single_filtered_elements[1:])
 
     return single_filtered_elements
+
+
+
+def get_values(set_variables, vars_vals):
+    """ Returns a dictionary where the keys are the variable names and the values are the variable values
+
+        INPUTS
+        =======
+        set_variables: variables that are filtered via regex from the equation
+        vars_vals: the remainder of the tokenized/filtered list after removing the equation part
+
+        RETURNS
+        ========
+        dictionary: the keys are the variable names and the values are the variable values
+
+        EXAMPLES
+        =========
+        >>> ops = ['+', '-', '**', '^', '*', '/', '|', ':', ')', '(']
+        >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
+        >>> get_equation(filtered_sentence, ops)
+        >>> 'x^2 + 2x'
+        
+        """
+
+    values = {}
+    for item in set_variables:
+        ind_item = vars_vals.index(item)
+        if ind_item % 2 == 0:
+            values[item] = vars_vals[ind_item+1]
+        else:
+            values[item] = vars_vals[ind_item-1]
+    return values
+
+
 
 def pythonize(eq, variables): 
     
