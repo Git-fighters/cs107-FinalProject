@@ -41,13 +41,15 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
     print(difs)
     #######################################################################################################
 
+
+    vis_bool = input("would you like visualize your function and its derivative? Y/n")
+    if vis_bool == "Y":
+        # VISUALIZE FUNCTION
+        pass
+
     latex_bool = input("would you like to output a latex file? Y/n")
     if latex_bool == "Y":
         # CREATE LATEX FILE
-        pass
-    vis_bool = input("would you like visualize your function and its derivaive? Y/n")
-    if vis_bool == "Y":
-        # VISUALIZE FUNCTION
         pass
 
 

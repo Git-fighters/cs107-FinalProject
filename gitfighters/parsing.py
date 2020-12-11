@@ -5,7 +5,6 @@ nltk.download('stopwords')
 nltk.download('punkt')
 
 def parse_sentence(user_input):
-
     """Tokenizes the user_input, gets rid of the stop words and returns a list of tokenized string parts.
 
         INPUTS
@@ -23,7 +22,6 @@ def parse_sentence(user_input):
         
         """
 
-
     stop_words = np.array(stopwords.words('english')) ### get the english stipwords
     stop_words_set = set(stopwords.words('english'))  ### take out the single letters since they might be variables
     for s in stop_words:
@@ -38,7 +36,6 @@ def parse_sentence(user_input):
     return filtered_sentence
 
 def get_equation(filtered_sentence, operations):
-
     """ Parses and separates the equation part from the string
 
         INPUTS
@@ -59,13 +56,10 @@ def get_equation(filtered_sentence, operations):
     i = 0
     equation = ''
 
-
-
     while i < len(filtered_sentence):
     ### current expression
         expr = filtered_sentence[i]
         str_op = [op for op in operations if op in expr]
-
 
     ### next 
         if i+1 < len(filtered_sentence):
@@ -81,7 +75,6 @@ def get_equation(filtered_sentence, operations):
         else:
             expr_prev = ''
             str_op_prev  = ['no operation']
-               
 
         if i == 0 and len(str_op) >= 1:
             equation += expr
@@ -98,19 +91,14 @@ def get_equation(filtered_sentence, operations):
               
 
             else:
-                equation += expr
-               
-            
+                equation += expr            
 
         elif (expr[-1] in operations) and (len(str_op_next) == 0) and (len(expr) > 1):
             equation += expr + expr_next
 
-
         elif len(str_op) >= 1:
             equation += expr
-
         i += 1
-
         
     return equation
 

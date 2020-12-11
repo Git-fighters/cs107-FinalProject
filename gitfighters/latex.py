@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from git_fighters import *
-from vector import *
+from gitfighters.git_fighters import *
+from gitfighters.vector import *
 
 
 def create_cool_latex_jacobian(x):
@@ -40,7 +40,7 @@ def create_cool_latex_jacobian(x):
             start = startVec
         end = endJac
 
-    with open("jabobian.tex", "w") as file:
+    with open("jacobian.tex", "w") as file:
         file.write("\\documentclass{article}\n")
         file.write("\\begin{document}\n")
         file.write(start + jacobian + end + "\n")
