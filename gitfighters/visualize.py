@@ -59,6 +59,9 @@ def visualize(function, variables, derivatives):
     variables: dictionary with
         keys: variable names
         values: variable values
+    derivatives: dictionary with
+        keys: variable names
+        values: derivative values
     RETURNS
     =======
     n 1D graphs are created as follows:
@@ -74,4 +77,6 @@ def visualize(function, variables, derivatives):
     # 2. assume all other variables become constants
     # 3. modify function accordingly
     # 4. Create 1D plot by calling visualize_1D(function, value, derivative)
-    pass
+
+    for variable, value in variables.items():
+        visualize_1D(function, value, derivatives[variable], name=variable)

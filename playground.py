@@ -27,7 +27,18 @@ def f(x):
     return x ** 2
 
 
-value = 5
-der = 10
+x = fightingAD(5)
 
-visualize_1D(f, value, der, name="x")
+visualize_1D(f, x.val, x.der, name="x")
+
+
+from gitfighters.latex import *
+
+y = [
+    fightingAD(1, [11, 12, 13, 14]),
+    fightingAD(2, [21, 22, 23, 24]),
+    fightingAD(3, [31, 32, 33, 34]),
+    fightingAD(4, [41, 42, 43, 44]),
+]
+
+create_cool_latex_jacobian(y)
