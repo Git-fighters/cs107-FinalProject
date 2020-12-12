@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 from datetime import datetime
-from git_fighters import *
-from vector import *
 import numpy as np
 
 def create_latex_file(der, graph_names = "", user_input = ""):

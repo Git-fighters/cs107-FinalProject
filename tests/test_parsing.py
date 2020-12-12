@@ -26,6 +26,6 @@ def test_parsing():
         #     print(e)
 
 
-def test_single_input():
-    test_string = ("x when x is 1",)
-    eq, vals = pipeline(test_string)
+#def test_single_input():
+#    test_string = ("x when x is 1",)
+#    eq, vals = pipeline(test_string)
