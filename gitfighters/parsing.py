@@ -245,7 +245,8 @@ def pythonize(eq, variables):
     for mat in np.unique(matches):
         if len(mat) > 1:
 
-            correct_expr = "*".join(re.split("", mat)[1:-1])
+            splitted = re.split(r"", mat)[1:-1]
+            correct_expr = '*'.join(splitted)
 
             eq = re.sub(mat, correct_expr, eq)
 
