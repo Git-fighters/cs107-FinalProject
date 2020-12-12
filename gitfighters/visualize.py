@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 from datetime import datetime
+from gitfighters.git_fighters import *
 
 
 def visualize_1D(function, value, der, name="x"):
