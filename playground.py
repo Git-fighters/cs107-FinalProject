@@ -31,14 +31,20 @@ from gitfighters.git_fighters import *
 
 # visualize_1D(f, x.val, x.der, name="x")
 
-from gitfighters.latex import *
+# from gitfighters.latex import *
 
-y = [
-    fightingAD(1, [11, 12, 13, 14]),
-    fightingAD(2, [21, 22, 23, 24]),
-    fightingAD(3, [31, 32, 33, 34]),
-    fightingAD(4, [41, 42, 43, 44]),
-]
+# y = [
+#     fightingAD(1, [11, 12, 13, 14]),
+#     fightingAD(2, [21, 22, 23, 24]),
+#     fightingAD(3, [31, 32, 33, 34]),
+#     fightingAD(4, [41, 42, 43, 44]),
+# ]
 
-a = create_cool_latex_jacobian(y)
-print(a)
+# a = create_cool_latex_jacobian(y)
+# print(a)
+
+# import pdflatex
+# file_name = 'test_latex.tex'
+# with open(file_name, 'rb') as f:
+#     pdfl = pdflatex.PDFLaTeX.from_binarystring(f.read(), file_name)
+#     pdf, log, cp = pdfl.create_pdf()
