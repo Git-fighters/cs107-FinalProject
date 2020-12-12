@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="gitfighters",
-    version="1.0.6",
+    version="1.1.0",
     author="cs107-project-group10",
     author_email="hugo_montenegro@g.harvard.edu, talelokvenec@g.harvard.edu, mananahakobyan@g.harvard.edu, Feige@g.harvard.edu",
     description="Automatic Differentiation Library",
