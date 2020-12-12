@@ -41,17 +41,16 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
 
     derivatives = differentiate(f)
     values = evaluate(f)
+    derivatives_dict = {key: derivatives[i] for i, key in enumerate(vals)}
     print("\nWe have evaluated your function! These are the derivative values:")
-    print(derivatives)
-
+    for variable, value in derivatives_dict.items():
+        print(f'{variable}: {value}')
+    
+    
     vis_bool = input(
         "    -->Would you like visualize your function and its derivative? Y/n \n"
     )
     if vis_bool == "Y" or vis_bool == "y":
-        derivatives_dict = {key: derivatives[i] for i, key in enumerate(vals)}
-        print(eq)
-        print(vals)
-        print(derivatives_dict)
         graph_names = visualize(eq, vals, derivatives_dict)
 
     latex_bool = input(

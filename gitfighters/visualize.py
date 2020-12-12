@@ -49,7 +49,7 @@ def visualize_1D(function, value, der, name="x"):
 
     # clear graph
     plt.clf()
-    return "{graph_name}_graph"
+    return f"{graph_name}_graph"
 
 
 def visualize(function, variables, derivatives):
