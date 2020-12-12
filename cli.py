@@ -29,7 +29,15 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
     user_input = input(prompt)
 
     graph_names = ""
-    eq, vals = pipeline(user_input)
+    
+    while(True):
+        try:
+            eq, vals = pipeline(user_input)
+            break
+        except:
+            user_input = input(f'Format not acceptable. Please change your variables/function and try again.\n')
+
+
     vect = AD(list(vals.values()))
     for key, val in vals.items():
         values = list(vals.values())
