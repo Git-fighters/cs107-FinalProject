@@ -43,6 +43,7 @@ def parse_sentence(user_input):
 
     return filtered_sentence
 
+
 def flatten(l):
     """This function takes a list and flattens it if there are any other list elements in it
 
@@ -53,23 +54,24 @@ def flatten(l):
     RETURNS
     ========
     list: flattened list
-    
+
 
     EXAMPLES
     =========
     >>> flatten(['2', '+', 'sin', '(', 'x', ')', '-', '3y', ['x', '2'], ['y', '3']])
     >>> ['2', '+', 'sin', '(', 'x', ')', '-', '3y', 'x', '2', 'y', '3']
 
-    """ 
-    
+    """
+
     flattened = []
     for x in l:
         if isinstance(x, list):
             flattened.extend(x)
         else:
             flattened.append(x)
-    
+
     return flattened
+
 
 def no_unwanted_symbols(filtered_sentence):
     """Cleans the string further. Gets rid of equal signs and some unneccessary punctuation.
@@ -88,24 +90,25 @@ def no_unwanted_symbols(filtered_sentence):
     >>> ['x^2', '+', '2x', '-', '3y', 'x', '1', 'y', '3']
 
     """
-    
+
     for i in range(len(filtered_sentence)):
-        
+
         a = filtered_sentence[i]
         ## get rid of comma
-        filtered_sentence[i] = a.replace(',', '')
+        filtered_sentence[i] = a.replace(",", "")
 
         ## take out the equal signs
-        if '=' in a:
-            splitted = a.split('=')
+        if "=" in a:
+            splitted = a.split("=")
             filtered_sentence[i] = splitted
-            
+
     ## make sure there are no empty strings left in the list
-    
-    filtered_sentence = [i for i in filtered_sentence if i != '']
+
+    filtered_sentence = [i for i in filtered_sentence if i != ""]
     filtered_sentence = flatten(filtered_sentence)
 
     return filtered_sentence
+
 
 def get_variables(filtered_sentence):
     """Inspects the tokenized list and finds the variables.
@@ -126,14 +129,14 @@ def get_variables(filtered_sentence):
 
     """
 
-    letter_ops = ['sin', 'cos', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos']
+    letter_ops = ["sin", "cos", "e", "exp", "tan", "arctan", "arcsin", "arccos"]
     filtered_sent_copy = filtered_sentence.copy()
     for i in letter_ops:
         if i in filtered_sent_copy:
             filtered_sent_copy.remove(i)
     unclean_eq = "".join(filtered_sent_copy)
     var_regex = r"[^\d  * \.|+-:/\^ \\( \\ )=]"
-    variables = np.unique(re.findall( var_regex, unclean_eq))
+    variables = np.unique(re.findall(var_regex, unclean_eq))
     return variables, unclean_eq
 
 
@@ -152,27 +155,25 @@ def get_eq_and_vals(filtered_sentence, variables, unclean_eq):
     list: the variables and the values in the list
 
     EXAMPLES
-    =========  
+    =========
     >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
     >>> get_eq_and_vals(filtered_sentence, ['x', 'y'], 'x^2+2xx1')
     >>> ('x^2 + 2x', ['x', '1'])
 
     """
-    regex_vars = ''
+    regex_vars = ""
     for var in variables:
-        regex_vars += var + '\d+'
-        
+        regex_vars += var + "\d+"
 
-    var_val_str = re.findall(regex_vars,unclean_eq)[0]
-   
-    vars_vals = [i for i in re.split('(\d*)', var_val_str) if i !='']
-    equation = ''
-    final_eq = ''.join(filtered_sentence)
+    var_val_str = re.findall(regex_vars, unclean_eq)[0]
+
+    vars_vals = [i for i in re.split("(\d*)", var_val_str) if i != ""]
+    equation = ""
+    final_eq = "".join(filtered_sentence)
     for i in final_eq.split(var_val_str):
-        if i != '':
+        if i != "":
             equation = i
     return equation, vars_vals
-
 
 
 def get_values(variables, vars_vals):
@@ -223,38 +224,36 @@ def pythonize(eq, variables):
     >>> pythonize('2^y + sin(7x)', ['x', 'y'])
     >>> '2**y + sin(7*x)'
 
-    """ 
-    
+    """
+
     ### take care of the exponents
-    if 'e^' in eq:
-        eq = eq.replace('e' , 'np.e')
-        
+    if "e^" in eq:
+        eq = eq.replace("e", "np.e")
+
     ### take care of division, power
-    eq = eq.replace('^', '**')
-    eq = eq.replace(':', '/')
-    eq = eq.replace(',', '')
-    
+    eq = eq.replace("^", "**")
+    eq = eq.replace(":", "/")
+    eq = eq.replace(",", "")
 
     ### take care of the multiplication (ex: xy, 7y, 6xz)
-    varstring = ''.join(variables)
-    opstring = '+-\\|\\|*\/:\\^'
-    
+    varstring = "".join(variables)
+    opstring = "+-\\|\\|*\/:\\^"
+
     regex = f"([0-9.]*[{varstring}]+)"
     matches = re.findall(regex, eq)
-    
+
     for mat in np.unique(matches):
-        if len(mat)>1:
-            
-            correct_expr = '*'.join(re.split('',mat)[1:-1])
-        
+        if len(mat) > 1:
+
+            correct_expr = "*".join(re.split("", mat)[1:-1])
+
             eq = re.sub(mat, correct_expr, eq)
-    
+
     return eq
 
 
-
 def pipeline(user_input):
-    
+
     """This function takes care of the whole parsing pipeline
 
     INPUTS
@@ -271,23 +270,21 @@ def pipeline(user_input):
     >>> pipeline('x^2 + y- 7xy where x is 2 and y is 8')
     >>> ('x**2+y-7*x*y', {'x': '2', 'y': '8'})
 
-    """ 
-    
+    """
+
     ### tokenize and parse the sentence
     filtered_sentence = parse_sentence(user_input)
     filtered_sentence = no_unwanted_symbols(filtered_sentence)
-    
-    #get the variables and the unclean equation 
+
+    # get the variables and the unclean equation
     variables, unclean_eq = get_variables(filtered_sentence)
-    #clean the equation and get the values for the variables
+    # clean the equation and get the values for the variables
     equation, vars_vals = get_eq_and_vals(filtered_sentence, variables, unclean_eq)
- 
+
     ### gets the variables and values in the dictionary format
     val_dict = get_values(variables, vars_vals)
-    
+
     ### clean and pythonize the equation
-    eq = pythonize(equation, variables)      
-    
+    eq = pythonize(equation, variables)
+
     return eq, val_dict
-
-

@@ -40,7 +40,7 @@ def visualize_1D(function, value, der, name="x"):
 
     plt.show()
     filepath = "graphs/"
-    graph_name = name + datetime.now().strftime('%Y%m%d_%H%M%S')
+    graph_name = name + datetime.now().strftime("%Y%m%d_%H%M%S")
     if not os.path.exists(os.path.dirname(filepath)):
         os.makedirs(os.path.dirname(filepath))
     plt.savefig(f"graphs/{name}_graph.png")
@@ -74,12 +74,12 @@ def visualize(function, variables, derivatives):
     i = 0
     graph_names = []
     for variable, value in variables.items():
-        
+
         mod_function = function
         for variable2, value2 in variables.items():
             if variable2 != variable:
                 mod_function = mod_function.replace(variable2, str(value2))
-        
+
         mod_function = f"""
 def f({variable}):
     return {mod_function}
@@ -89,5 +89,5 @@ def f({variable}):
         graph = visualize_1D(f, value, derivatives[variable], name=variable)
         graph_names.append(graph)
         i += 1
-        
+
     return graph_names

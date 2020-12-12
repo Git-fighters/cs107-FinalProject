@@ -19,8 +19,8 @@ import pytest
 def test_latex():
     x1 = fightingAD(0)
     x2 = differentiate(x1)
-    create_latex_file(x2, graph_names = "x_graph", user_input = "sin(x)")
+    create_latex_file(x2, graph_names="x_graph", user_input="sin(x)")
 
     x1 = fightingAD(0, [1, 2])
     x2 = differentiate(x1)
-    create_latex_file(x2, graph_names = "x_graph", user_input = "sin(x) + 5y")
+    create_latex_file(x2, graph_names="x_graph", user_input="sin(x) + 5y")

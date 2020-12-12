@@ -13,13 +13,13 @@ def main():
     """
     This function acts as a command line interface. User enters a function and position(s)
     they want to evaluate it at. Then:
-    
+
     Then we do the following steps:
     # 1. Separate into equation string and variables string
     # 2. Clean equation and turn into python ready code (e.g. substitute ^ with **)
     # 3. Determine how many variables and what value each of these variables has
     # 4. Create a fightingAD object for each variable
-    # 5. use python exec() 
+    # 5. use python exec()
     # 6. print values, derivatives
     # 7. optionally output LaTeX, graphs
     """
@@ -48,7 +48,7 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
         "    -->Would you like visualize your function and its derivative? Y/n \n"
     )
     if vis_bool == "Y" or vis_bool == "y":
-        derivatives_dict = {key:derivatives[i] for i, key in enumerate(vals)}
+        derivatives_dict = {key: derivatives[i] for i, key in enumerate(vals)}
         print(eq)
         print(vals)
         print(derivatives_dict)
