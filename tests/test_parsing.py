@@ -24,7 +24,7 @@ test_strings = [
     "sin(x) + exp(y) - 7xyz when x=2 and y=8, z=1",
     "x^2 + y^2 when x is 1 and y is 2",
     "100 ^(xy) where x = 1000, y=3",
-    "x^2+y-7xy",
+    "x^2+y-7xy if x = 1 and y = 0",
     " x= 2 and y= 84 for y^2 + 3x + 5y",
     "x^3 + 2x + 1 where x is 1",
 ]
