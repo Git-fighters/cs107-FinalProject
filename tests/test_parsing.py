@@ -37,8 +37,6 @@ def test_parsing():
         print("equation:", eq)
         print("variables and values:", vals)
 
-
-
 test_parsing()
 
 
