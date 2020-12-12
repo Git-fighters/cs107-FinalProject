@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import numpy as np
+import pdflatex
 
 
 def create_latex_file(der, graph_names="", user_input=""):
@@ -70,3 +71,7 @@ def create_latex_file(der, graph_names="", user_input=""):
         file.write("\\end{document}\n")
 
     print(f"latex file created under {file_name}")
+
+    with open(file_name, 'rb') as f:
+        pdfl = pdflatex.PDFLaTeX.from_binarystring(f.read(), file_name)
+    pdf, log, cp = pdfl.create_pdf()
