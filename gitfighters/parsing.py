@@ -126,7 +126,7 @@ def get_variables(filtered_sentence):
 
     """
 
-    letter_ops = ['sin', 'cos', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos']
+    letter_ops = ['sin', 'cos', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos', 'sinh', 'cosh', 'tanh']
     filtered_sent_copy = filtered_sentence.copy()
     for i in letter_ops:
         if i in filtered_sent_copy:
