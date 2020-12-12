@@ -1,11 +1,12 @@
 import setuptools
+from pip.req import parse_requirements
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="gitfighters",
-    version="1.0.3",
+    version="1.0.4",
     author="cs107-project-group10",
     author_email="hugo_montenegro@g.harvard.edu, talelokvenec@g.harvard.edu, mananahakobyan@g.harvard.edu, Feige@g.harvard.edu",
     description="Automatic Differentiation Library",
@@ -19,4 +20,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     scripts=['cli.py'],
+    install_reqs = parse_requirements('requirements.txt', session='hack'),
 )
