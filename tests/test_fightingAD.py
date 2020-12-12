@@ -6,9 +6,9 @@
 # that coverage remains at 100%.
 ##############################################################################
 
-from git_fighters import *
+import numpy as np
 import pytest
-
+from gitfighters.git_fighters import *
 
 ##########################
 ######### Basic ##########
@@ -77,10 +77,11 @@ def test_addition():
 
     x4 = 2 + x2
     assert x4.val == 13
-    assert x4.der == 1 
-    
+    assert x4.der == 1
+
     with pytest.raises(TypeError):
-        x2 + 'String'
+        x2 + "String"
+
 
 def test_subtraction():
     x1 = fightingAD(3)
@@ -89,7 +90,7 @@ def test_subtraction():
     assert x2.der == -1
 
     with pytest.raises(TypeError):
-        x1 - 'String'    
+        x1 - "String"
 
 
 def test_multiplication():
@@ -108,7 +109,7 @@ def test_multiplication():
     assert x3.der == -8
 
     with pytest.raises(TypeError):
-        x2 * 'String'
+        x2 * "String"
 
 
 def test_neg():
@@ -149,7 +150,7 @@ def test_division():
         x2 / x1
 
     with pytest.raises(TypeError):
-        x2 / 'String' 
+        x2 / "String"
 
     with pytest.raises(Exception):
         5 / x1
@@ -205,12 +206,18 @@ def test_pow():
     x2 = x1 * 2
     x3 = x1 ** x2
     assert x3.val == 9765625
-    assert x3.der == 19531250*(1 + log(5))
+    assert x3.der == 19531250 * (1 + log(5))
 
     x1 = fightingAD(0)
     x2 = x1 ** 5
     assert x2.val == 0
     assert x2.der == 0
+
+    x1 = fightingAD(0)
+    x2 = fightingAD(5)
+    x3 = x1 ** x2
+    assert x3.val == 0
+    assert x3.der == 0
 
     x1 = fightingAD(5)
     x2 = x1 ** (-3)
@@ -220,7 +227,7 @@ def test_pow():
     x1 = fightingAD(5)
     x2 = 2 ** x1
     assert x2.val == 32
-    assert x2.der == 32*log(2)
+    assert x2.der == 32 * log(2)
 
     x1 = fightingAD(2)
     x2 = 2 ** (x1 * 2)
@@ -238,7 +245,19 @@ def test_pow():
     assert x2.der == 0
 
     with pytest.raises(TypeError):
-        x1 ** 'String' 
+        x1 ** "String"
+
+    with pytest.raises(Exception):
+        fightingAD(0) ** (-5)
+
+    with pytest.raises(Exception):
+        0 ** fightingAD(-5)
+
+    with pytest.raises(Exception):
+        fightingAD(0) ** fightingAD(-5)
+
+    with pytest.raises(Exception):
+        "String" ** fightingAD(5)
 
 
 def test_pow1():
@@ -299,6 +318,13 @@ def test_exp():
 
     assert exp(0) == fightingAD(1, 0)
 
+    x1 = fightingAD(5)
+    x2 = fightingAD(2)
+    x3 = x1 * x2
+    x4 = exp(x3)
+    assert round(x4.val, 5) == 22026.46579
+    assert round(x4.der, 5) == 154185.26056
+
 
 ##########################
 ####### logarithms #######
@@ -308,19 +334,127 @@ def test_exp():
 def test_log():
     x1 = fightingAD(5)
     x2 = log(x1)
-    x2.val = 0.69897000433
+    assert round(x2.val, 5) == 1.60944
+
+    x1 = log(2)
+    assert round(x1, 5) == 0.69315
 
     x1 = fightingAD(5)
-    x2 = log(2)
-    x2 = 0.30102999566
+    x2 = 2 * x1
+    x3 = log(x2)
+    assert round(x3.val, 5) == 2.30259
+    assert x3.der == 0.2
 
     x = fightingAD(0)
     with pytest.raises(ValueError):
         log(x)
-    
+
     with pytest.raises(ValueError):
         log(0)
 
+
+##########################
+####### sqare-root #######
+##########################
+
+
+def test_sqrt():
+    x1 = sqrt(-1)
+    x2 = np.isnan(x1)
+    assert x2 == True
+
+    x1 = sqrt(9)
+    assert x1 == 3
+
+    x1 = sqrt(fightingAD(-2))
+    x2 = np.isnan(x1)
+    assert x2 == True
+
+    x1 = sqrt(fightingAD(4))
+    assert x1.val == 2
+    assert round(x1.der, 5) == 0.25
+
+    x1 = fightingAD(3)
+    x2 = x1 * x1
+    x3 = sqrt(x2)
+    assert x3.val == 3
+    assert x3.der == 1
+
+    ##########################
+    ### logistic function ####
+    ##########################
+
+    x1 = fightingAD(5)
+    x2 = sigmoid(x1)
+    assert round(x2.val, 5) == 0.99331
+    assert round(x2.der, 5) == 0.00665
+
+    x1 = fightingAD(-5)
+    x2 = sigmoid(x1)
+    assert round(x2.val, 5) == 0.00669
+    assert round(x2.der, 5) == 0.00665
+
+    x1 = sigmoid(0)
+    assert x1 == 0.5
+
+    x1 = sigmoid(100000000)
+    assert x1 == 1
+
+
+##########################
+## hyperbolic functions ##
+##########################
+
+
+def test_hyperbolic():
+
+    x1 = fightingAD(5)
+    x2 = sinh(x1)
+    assert round(x2.val, 5) == 74.20321
+    assert round(x2.der, 5) == 74.20995
+
+    x1 = sinh(3)
+    assert round(x1, 5) == 10.01787
+
+    x1 = fightingAD(5)
+    x2 = cosh(x1)
+    assert round(x2.val, 5) == 74.20995
+    assert round(x2.der, 5) == 74.20321
+
+    x1 = cosh(3)
+    assert round(x1, 5) == 10.06766
+
+    x1 = fightingAD(5)
+    x2 = tanh(x1)
+    assert round(x2.val, 5) == 0.99991
+    assert round(x2.der, 5) == 0.00018
+
+    x1 = tanh(3)
+    assert round(x1, 5) == 0.99505
+
+    x1 = fightingAD(0.75)
+    x2 = arcsinh(x1)
+    assert round(x2.val, 5) == 0.69315
+    assert round(x2.der, 5) == 0.8
+
+    x1 = arcsinh(0.5)
+    assert round(x1, 5) == 0.48121
+
+    x1 = fightingAD(2)
+    x2 = arccosh(x1)
+    assert round(x2.val, 5) == 1.31696
+    assert round(x2.der, 5) == 0.57735
+
+    x1 = arccosh(1.5)
+    assert round(x1, 5) == 0.96242
+
+    x1 = fightingAD(0.5)
+    x2 = arctanh(x1)
+    assert round(x2.val, 5) == 0.54931
+    assert round(x2.der, 5) == 1.33333
+
+    x1 = arctanh(0)
+    assert x1 == 0
 
 
 ##########################

@@ -19,7 +19,7 @@ class fightingAD:
             The corresponding derivative of user defined functions(s) 'f' evaluated at point 'x'.
     """
 
-    def __init__(self, value, derivative=1.0):
+    def __init__(self, value, derivative=1.0, name="x"):
         """
         INPUTS
         =======
@@ -116,13 +116,16 @@ class fightingAD:
         False
         """
         try:
-            return (self.val == other.val) and (self.der == other.der)
+            return (self.val == other.val) and (self.der == other.der).all()
         except:
-            raise TypeError(
-                "unsupported operand type(s) for =: {} and {}".format(
-                    type(self).__name__, type(other).__name__
+            try:
+                return (self.val == other.val) and (self.der == other.der)
+            except:
+                raise TypeError(
+                    "unsupported operand type(s) for =: {} and {}".format(
+                        type(self).__name__, type(other).__name__
+                    )
                 )
-            )
 
     def __ne__(self, other):
         """Inequality method: Checks if this object is not equal to another object.
@@ -210,7 +213,6 @@ class fightingAD:
         5
         """
         return fightingAD(self.val, self.der)
-
 
     def __add__(self, other):
         """Addition operand: adds self to the other.
@@ -458,24 +460,35 @@ class fightingAD:
         >>> f.val
         25
         """
-
-        try:
-            return fightingAD(
-                self.val ** other.val,
-                np.log(self.val) * self.val ** other.val * other.der
-                + other.val * self.der * self.val ** (other.val - 1),
-            )
-        except AttributeError:
+        if self.val == 0:
+            try:
+                if other.val < 0:
+                    raise ZeroDivisionError("0.0 cannot be raised to a negative power")
+                else:
+                    return fightingAD(0, 0)
+            except AttributeError:
+                if other < 0:
+                    raise ZeroDivisionError("0.0 cannot be raised to a negative power")
+                else:
+                    return fightingAD(0, 0)
+        else:
             try:
                 return fightingAD(
-                    self.val ** other, other * self.val ** (other - 1) * self.der
+                    self.val ** other.val,
+                    np.log(self.val) * self.val ** other.val * other.der
+                    + other.val * self.der * self.val ** (other.val - 1),
                 )
-            except:
-                raise TypeError(
-                    "unsupported operand type(s) for **: {} and {}".format(
-                        type(self).__name__, type(other).__name__
+            except AttributeError:
+                try:
+                    return fightingAD(
+                        self.val ** other, other * self.val ** (other - 1) * self.der
                     )
-                )
+                except:
+                    raise TypeError(
+                        "unsupported operand type(s) for **: {} and {}".format(
+                            type(self).__name__, type(other).__name__
+                        )
+                    )
 
     def __rpow__(self, other):
         """Returns an object with the power of the value of another class.
@@ -496,26 +509,53 @@ class fightingAD:
         >>> f.val
         32
         """
-        try:
-            if other == 0:
-                if self.val < 0:
-                    raise Exception("Cannot raise 0 to a negative power")
-                else:
-                    return fightingAD(0,0)
-        except:
-            raise Exception("unsupported operation for **")
-        try:
-            return fightingAD(
-                other ** self.val, np.log(other) * other ** self.val * self.der
-            )
-            
-        except:
-            raise Exception("unsupported operation for **")
+        if other == 0:
+            if self.val < 0:
+                raise ZeroDivisionError("0.0 cannot be raised to a negative power")
+            else:
+                return fightingAD(0, 0)
+        else:
+            try:
+                return fightingAD(
+                    other ** self.val, np.log(other) * other ** self.val * self.der
+                )
+            except:
+                raise Exception("unsupported operation for **")
 
 
 ##############################
 #### FUNCTION DEFINITIONS ####
 ##############################
+
+
+def sqrt(x):
+    """Returns the positive square-root of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    =======
+    fightingAD: new instance with positive square-root of the current object
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(9)
+    >>> f = sqrt(x)
+    >>> f.val
+    3
+    """
+    try:
+        if x.val < 0:
+            return float("NaN")
+        else:
+            return fightingAD(x.val, x.der).__pow__(0.5)
+    except AttributeError:
+        if x < 0:
+            return float("NaN")
+        else:
+            return np.sqrt(x)
 
 
 def log(x):
@@ -540,7 +580,7 @@ def log(x):
         if x.val == 0:
             raise ValueError("log(0) is undefined")
         else:
-            return fightingAD(np.log(x.val), 1 / x.val)
+            return fightingAD(np.log(x.val), 1 / x.val * x.der)
     except AttributeError:
         if x == 0:
             raise ValueError("log(0) is undefined")
@@ -570,12 +610,38 @@ def exp(x):
         if x.val == 0:
             return fightingAD(1, 0)
         else:
-            return fightingAD(np.exp(x.val), np.exp(x.val))
+            return fightingAD(np.exp(x.val), np.exp(x.val) * x.der)
     except AttributeError:
         if x == 0:
             return fightingAD(1, 0)
         else:
             return np.exp(x)
+
+
+def sigmoid(x):
+    """Returns the value of the logistic sigmoid function at x.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the value of the logistic sigmoid function at x.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = sigmoid(x)
+    >>> f.val
+    0.99330714907
+    """
+    try:
+        val = 1 / (1 + np.exp(-x.val))
+        der = val * (1 - val) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return 1 / (1 + np.exp(-x))
 
 
 def sin(x):
@@ -732,3 +798,159 @@ def arctan(x):
         return fightingAD(val, der)
     except AttributeError:
         return np.arctan(x)
+
+
+def sinh(x):
+    """Returns the hyperbolic sine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the hyperbolic sine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = sinh(x)
+    >>> f.val
+    74.20321
+    """
+    try:
+        val = np.sinh(x.val)
+        der = np.cosh(x.val) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.sinh(x)
+
+
+def cosh(x):
+    """Returns the hyperbolic cosine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the hyperbolic cosine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = cosh(x)
+    >>> f.val
+    74.2099485248
+    """
+    try:
+        val = np.cosh(x.val)
+        der = np.sinh(x.val) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.cosh(x)
+
+
+def tanh(x):
+    """Returns the hyperbolic tangent value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the hyperbolic tangent value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(5)
+    >>> f = tanh(x)
+    >>> f.val
+    0.99990920426
+    """
+    try:
+        val = np.tanh(x.val)
+        der = (1 - (np.sinh(x.val) ** 2 / np.cosh(x.val) ** 2)) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.tanh(x)
+
+
+def arcsinh(x):
+    """Returns the inverse hyperbolic sine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the inverse hyperbolic sine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(0.5)
+    >>> f = arcsinh(x)
+    >>> f.val
+    0.4812118250596034
+    """
+    try:
+        val = np.arcsinh(x.val)
+        der = (1 / (np.sqrt(x.val ** 2 + 1))) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.arcsinh(x)
+
+
+def arccosh(x):
+    """Returns the inverse hyperbolic cosine value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the inverse hyperbolic cosine value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(1.5)
+    >>> f = arccosh(x)
+    >>> f.val
+    0.9624236501192069
+    """
+    try:
+        val = np.arccosh(x.val)
+        der = (1 / (np.sqrt(x.val ** 2 - 1))) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.arccosh(x)
+
+
+def arctanh(x):
+    """Returns the inverse hyperbolic tangent value of the current object.
+
+    INPUTS
+    =======
+    x: an object
+
+    RETURNS
+    ========
+    fightingAD: new instance with the inverse hyperbolic tangent value of the current object.
+
+    EXAMPLES
+    =========
+    >>> x = fightingAD(0.5)
+    >>> f = arctanh(x)
+    >>> f.val
+    0.5493061443340549
+    """
+    try:
+        val = np.arctanh(x.val)
+        der = (-1 / (x.val ** 2 - 1)) * x.der
+        return fightingAD(val, der)
+    except AttributeError:
+        return np.arctanh(x)
