@@ -43,7 +43,8 @@ def create_latex_file(der, graph_names="", user_input=""):
                 rows += 1
                 if rows < dim[0]:
                     jacobian += r"\\"
-        except TypeError:
+        except (TypeError, IndexError):
+            jacobian = ""
             for i in der:
                 jacobian += r"\ {}".format(i)
             start = startVec
