@@ -36,15 +36,9 @@ def test_parsing():
         print("user input:", test_string)
         print("equation:", eq)
         print("variables and values:", vals)
-        # try:
-        #     eq, vals = pipeline(test_string)
-        # except Exception as e:
-        #     print(f"String: '''''{test_string}''''' failed with error:")
-        #     print(e)
+
 
 
 test_parsing()
 
-# def test_single_input():
-#    test_string = ("x when x is 1",)
-#    eq, vals = pipeline(test_string)
+
