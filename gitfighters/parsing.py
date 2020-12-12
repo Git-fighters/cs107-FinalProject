@@ -43,6 +43,34 @@ def parse_sentence(user_input):
 
     return filtered_sentence
 
+def flatten(l):
+    """This function takes a list and flattens it if there are any other list elements in it
+
+    INPUTS
+    =======
+    l: any list
+
+    RETURNS
+    ========
+    list: flattened list
+    
+
+    EXAMPLES
+    =========
+    >>> flatten(['2', '+', 'sin', '(', 'x', ')', '-', '3y', ['x', '2'], ['y', '3']])
+    >>> ['2', '+', 'sin', '(', 'x', ')', '-', '3y', 'x', '2', 'y', '3']
+
+    """ 
+    
+    flattened = []
+    for x in l:
+        if isinstance(x, list):
+            flattened.extend(x)
+        else:
+            flattened.append(x)
+    
+    return flattened
+
 def no_unwanted_symbols(filtered_sentence):
     """Cleans the string further. Gets rid of equal signs and some unneccessary punctuation.
 
@@ -60,6 +88,7 @@ def no_unwanted_symbols(filtered_sentence):
     >>> ['x^2', '+', '2x', '-', '3y', 'x', '1', 'y', '3']
 
     """
+    
     for i in range(len(filtered_sentence)):
         
         a = filtered_sentence[i]
@@ -69,11 +98,13 @@ def no_unwanted_symbols(filtered_sentence):
         ## take out the equal signs
         if '=' in a:
             splitted = a.split('=')
-            filtered_sentence.remove(a)
-            filtered_sentence.extend(splitted)
+            filtered_sentence[i] = splitted
+            
     ## make sure there are no empty strings left in the list
+    
     filtered_sentence = [i for i in filtered_sentence if i != '']
-    print('filtered', filtered_sentence)
+    filtered_sentence = flatten(filtered_sentence)
+
     return filtered_sentence
 
 def get_variables(filtered_sentence):
@@ -95,7 +126,7 @@ def get_variables(filtered_sentence):
 
     """
 
-    letter_ops = ['sin', 'cosin', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos']
+    letter_ops = ['sin', 'cos', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos']
     filtered_sent_copy = filtered_sentence.copy()
     for i in letter_ops:
         if i in filtered_sent_copy:
@@ -130,11 +161,10 @@ def get_eq_and_vals(filtered_sentence, variables, unclean_eq):
     regex_vars = ''
     for var in variables:
         regex_vars += var + '\d+'
-        print('regex', regex_vars)
+        
 
     var_val_str = re.findall(regex_vars,unclean_eq)[0]
-    print('unclean', unclean_eq)
-    print('var_str', var_val_str)
+   
     vars_vals = [i for i in re.split('(\d*)', var_val_str) if i !='']
     equation = ''
     final_eq = ''.join(filtered_sentence)
@@ -259,4 +289,5 @@ def pipeline(user_input):
     eq = pythonize(equation, variables)      
     
     return eq, val_dict
+
 
