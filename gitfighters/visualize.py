@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from datetime import datetime
 
 
 def visualize_1D(function, value, der, name="x"):
@@ -12,15 +13,10 @@ def visualize_1D(function, value, der, name="x"):
     value: value at which said function is evaluated
     """
 
-    # plot temperature curve
+    # plot function
     xs = np.linspace(value - 50, value + 50, 100)
     ys = function(xs)
     plt.plot(xs, ys)
-
-    # plot horizontal line
-    # xs = np.linspace(0,20,100)
-    # ys = np.full(100, 45)
-    # plt.plot(xs, ys, 'r')
 
     # plot the point at which the function is evaluated
     plt.plot(value, function(value), "r*")
@@ -49,15 +45,17 @@ def visualize_1D(function, value, der, name="x"):
         os.makedirs(os.path.dirname(filepath))
     plt.savefig(f"graphs/{name}_graph.png")
     print(f"graph saved as graphs/{graph_name}_graph.png")
+
+    # clear graph
+    plt.clf()
     return "{graph_name}_graph"
 
 
 def visualize(function, variables, derivatives):
     """visualizes the automatic differentiation process
-
     INPUTS
     =======
-    function: a callable python function
+    function: a mathematical python function in string format
     variables: dictionary with
         keys: variable names
         values: variable values
@@ -67,8 +65,7 @@ def visualize(function, variables, derivatives):
     RETURNS
     =======
     """
-
-    # AWAITING CLI TO DECIDE ON HOW TO DO THIS
+    # PSEUDOCODE
     # 1. for each variable
     # 2. assume all other variables become constants
     # 3. modify function accordingly
@@ -77,7 +74,20 @@ def visualize(function, variables, derivatives):
     i = 0
     graph_names = []
     for variable, value in variables.items():
-        graph_names.append(visualize_1D(function, value, derivatives[i], name=variable))
+        
+        mod_function = function
+        for variable2, value2 in variables.items():
+            if variable2 != variable:
+                mod_function = mod_function.replace(variable2, str(value2))
+        
+        mod_function = f"""
+def f({variable}):
+    return {mod_function}
+"""
+        exec(mod_function, globals())
+
+        graph = visualize_1D(f, value, derivatives[variable], name=variable)
+        graph_names.append(graph)
         i += 1
         
     return graph_names

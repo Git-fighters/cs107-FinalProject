@@ -10,23 +10,23 @@ from gitfighters.visualize import *
 
 
 def main():
-    prompt = "Please provide a function and corresponding point(s) at which to evaluate it. \n\
-EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
-    user_input = input(prompt)
-
-    # STEPS TO DO
-
+    """
+    This function acts as a command line interface. User enters a function and position(s)
+    they want to evaluate it at. Then:
+    
+    Then we do the following steps:
     # 1. Separate into equation string and variables string
     # 2. Clean equation and turn into python ready code (e.g. substitute ^ with **)
     # 3. Determine how many variables and what value each of these variables has
     # 4. Create a fightingAD object for each variable
-    # 5. execute: ('f = {}'.format(clean_equation))
+    # 5. use python exec() 
     # 6. print values, derivatives
+    # 7. optionally output LaTeX, graphs
+    """
 
-    # vis_bool = input("Do you want to give a seed? Y/n")
-    # if vis_bool == "Y":
-    #     # VISUALIZE FUNCTION
-    #     pass
+    prompt = "Please provide a function and corresponding point(s) at which to evaluate it. \n\
+EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
+    user_input = input(prompt)
 
     graph_names = ""
     eq, vals = pipeline(user_input)
@@ -47,16 +47,17 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
     vis_bool = input(
         "    -->Would you like visualize your function and its derivative? Y/n \n"
     )
-    if vis_bool == "Y":
+    if vis_bool == "Y" or vis_bool == "y":
+        derivatives_dict = {key:derivatives[i] for i, key in enumerate(vals)}
         print(eq)
         print(vals)
-        print(derivatives)
-        graph_names = visualize(eq, vals, derivatives)
+        print(derivatives_dict)
+        graph_names = visualize(eq, vals, derivatives_dict)
 
     latex_bool = input(
         "    -->Would you like to output a nicely formatted latex file? Y/n \n"
     )
-    if latex_bool == "Y":
+    if latex_bool == "Y" or latex_bool == "y":
         create_latex_file(derivatives, graph_names, user_input)
 
 
