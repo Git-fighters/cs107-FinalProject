@@ -19,4 +19,5 @@ after_success:
 deploy:
   provider: pypi
   username: "__token__"
+  distributions: sdist bdist_wheel
   password: "pypi-AgEIcHlwaS5vcmcCJDQxZmY4YWIzLWYxZjYtNDJiNi1hY2NjLWIzNjdkMmIxNzA2MQACJXsicGVybWlzc2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX0AAAYgHihpDvoiFOalAsmVl12eL9v5CPb3WDAFOagZnnqwQ1A"
