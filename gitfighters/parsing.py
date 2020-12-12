@@ -4,8 +4,8 @@ from nltk.tokenize import word_tokenize
 import re
 import numpy as np
 
-nltk.download("stopwords")
-nltk.download("punkt")
+nltk.download("stopwords", quiet=True)
+nltk.download("punkt", quiet=True)
 
 
 def parse_sentence(user_input):
@@ -43,116 +43,106 @@ def parse_sentence(user_input):
 
     return filtered_sentence
 
+def no_unwanted_symbols(filtered_sentence):
+    """Cleans the string further. Gets rid of equal signs and some unneccessary punctuation.
 
-def get_equation(filtered_sentence, operations):
-    """Parses and separates the equation part from the string
+    INPUTS
+    =======
+    filtered_sentence: a list of tokenized parts of the user input
+
+    RETURNS
+    ========
+    list: a list of tokenized parts of the sentence but all cleaned
+
+    EXAMPLES
+    =========
+    >>> no_unwanted_symbols('x^2 + 2x - 3y when x= 1, y=3')
+    >>> ['x^2', '+', '2x', '-', '3y', 'x', '1', 'y', '3']
+
+    """
+    for i in range(len(filtered_sentence)):
+        
+        a = filtered_sentence[i]
+        ## get rid of comma
+        filtered_sentence[i] = a.replace(',', '')
+
+        ## take out the equal signs
+        if '=' in a:
+            splitted = a.split('=')
+            filtered_sentence.remove(a)
+            filtered_sentence.extend(splitted)
+    ## make sure there are no empty strings left in the list
+    filtered_sentence = [i for i in filtered_sentence if i != '']
+    print('filtered', filtered_sentence)
+    return filtered_sentence
+
+def get_variables(filtered_sentence):
+    """Inspects the tokenized list and finds the variables.
+
+    INPUTS
+    =======
+    filtered_sentence: a list of tokenized parts of the user input
+
+    RETURNS
+    ========
+    list: a list of variables
+    string: the unclean equation, essentially, the version of the first input without the stop words and all joined
+
+    EXAMPLES
+    =========
+    >>> get_variables(['x^2', '+', '2x', '-', '3y', 'x', '1', 'y', '3'])
+    >>> (['x', 'y'], 'x^2+2x-3yx1y3')
+
+    """
+
+    letter_ops = ['sin', 'cosin', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos']
+    filtered_sent_copy = filtered_sentence.copy()
+    for i in letter_ops:
+        if i in filtered_sent_copy:
+            filtered_sent_copy.remove(i)
+    unclean_eq = "".join(filtered_sent_copy)
+    var_regex = r"[^\d  * \.|+-:/\^ \\( \\ )=]"
+    variables = np.unique(re.findall( var_regex, unclean_eq))
+    return variables, unclean_eq
+
+
+def get_eq_and_vals(filtered_sentence, variables, unclean_eq):
+    """Parses and separates the equation part from the values in the string
 
     INPUTS
     =======
     filtered_sentence: a list of tokenized strings from the original equation
-    operations: a pre-defined list of mathematical operations in string format
+    variables: list of the user defined variables
+    unclean_eq: essentially the version of the first input without stop the words
 
     RETURNS
     ========
     string: the equation part
+    list: the variables and the values in the list
 
     EXAMPLES
-    =========
-    >>> ops = ['+', '-', '**', '^', '*', '/', '|', ':', ')', '(']
+    =========  
     >>> filtered_sentence = parse_sentence('x^2 + 2x when x is 1')
-    >>> get_equation(filtered_sentence, ops)
-    >>> 'x^2 + 2x'
+    >>> get_eq_and_vals(filtered_sentence, ['x', 'y'], 'x^2+2xx1')
+    >>> ('x^2 + 2x', ['x', '1'])
 
     """
+    regex_vars = ''
+    for var in variables:
+        regex_vars += var + '\d+'
+        print('regex', regex_vars)
 
-    i = 0
-    equation = ""
+    var_val_str = re.findall(regex_vars,unclean_eq)[0]
+    print('unclean', unclean_eq)
+    print('var_str', var_val_str)
+    vars_vals = [i for i in re.split('(\d*)', var_val_str) if i !='']
+    equation = ''
+    final_eq = ''.join(filtered_sentence)
+    for i in final_eq.split(var_val_str):
+        if i != '':
+            equation = i
+    return equation, vars_vals
 
-    while i < len(filtered_sentence):
-        ### current expression
-        expr = filtered_sentence[i]
-        str_op = [op for op in operations if op in expr]
-
-        ### next
-        if i + 1 < len(filtered_sentence):
-            expr_next = filtered_sentence[i + 1]
-            str_op_next = [op for op in operations if op in expr_next]
-        else:
-            expr_next = ""
-            str_op_next = ["no operation"]
-        ### prev
-        if i - 1 >= 0:
-            expr_prev = filtered_sentence[i - 1]
-            str_op_prev = [op for op in operations if op in expr_prev]
-        else:
-            expr_prev = ""
-            str_op_prev = ["no operation"]
-
-        if i == 0 and len(str_op) >= 1:
-            equation += expr
-
-        elif (
-            (i > 0) and (len(expr) == 1) and (len(str_op) == 1)
-        ):  ### second or third term
-            if (len(str_op_next) == 0) and (len(str_op_prev) == 0):
-                equation += expr_prev + expr + expr_next
-
-            elif len(str_op_next) == 0:
-                equation += expr + expr_next
-
-            elif len(str_op_prev) == 0:
-                equation += expr_prev + expr
-
-            else:
-                equation += expr
-
-        elif (expr[-1] in operations) and (len(str_op_next) == 0) and (len(expr) > 1):
-            equation += expr + expr_next
-
-        elif len(str_op) >= 1:
-            equation += expr
-        i += 1
-
-    return equation
-
-
-def remove_the_eq(single_eq_elements, single_filtered_elements):
-    """Returns a list of tokenized strings after removing the parts belonging to the equation
-
-    INPUTS
-    =======
-    single_eq_elements: a list of single string elements that constitute the equation
-    single_filtered_elements: a list of single elements that constitute the user input without the stop words
-
-    RETURNS
-    ========
-    list: a list of tokenized strings after removing the parts belonging to the equation
-
-    EXAMPLES
-    =========
-    >>> single_eq_elements = ['x', '^', '2', '+', '2', 'x']
-    >>> single_filtered_elements = ['x', '^', '2', '+', '2', 'x', 'x', '1']
-    >>> remove_the_eq(single_eq_elements, single_filtered_elements)
-    >>> ['x', '1']
-
-    """
-
-    first_eq_elem = single_eq_elements[0]
-    last_eq_elem = single_eq_elements[-1]
-    len_eq = len(single_eq_elements)
-
-    ind_first_elem = single_filtered_elements.index(first_eq_elem)
-    ind_last_elem = ind_first_elem + len_eq - 1
-
-    if (single_filtered_elements[ind_first_elem] == first_eq_elem) and (
-        single_filtered_elements[ind_last_elem] == last_eq_elem
-    ):
-        for i in single_filtered_elements[ind_first_elem : ind_last_elem + 1]:
-            single_filtered_elements.remove(i)
-    else:
-        remove_the_eq(single_eq_elements, single_filtered_elements[1:])
-
-    return single_filtered_elements
 
 
 def get_values(variables, vars_vals):
@@ -180,85 +170,93 @@ def get_values(variables, vars_vals):
     for item in variables:
         ind_item = vars_vals.index(item)
         if ind_item % 2 == 0:
-            values[item] = int(vars_vals[ind_item + 1])
+            values[item] = float(vars_vals[ind_item + 1])
         else:
-            values[item] = int(vars_vals[ind_item - 1])
+            values[item] = float(vars_vals[ind_item - 1])
     return values
 
 
 def pythonize(eq, variables):
+    """Takes in the equation part of the string and converts everything to python executable format
 
-    eq = eq.replace("^", "**")
-    eq = eq.replace(":", "/")
-    eq = eq.replace(",", "")
+    INPUTS
+    =======
+    eq: the equation part of the user defined string
+    variables: a list of variable names
 
-    varstring = "".join(variables)
-    opstring = "+-\\|\\|*\\/:\\^()"
+    RETURNS
+    ========
+    string: pythonic equation
 
-    regex = f"([0-9.]+[{varstring}])"
+    EXAMPLES
+    =========
+    >>> pythonize('2^y + sin(7x)', ['x', 'y'])
+    >>> '2**y + sin(7*x)'
+
+    """ 
+    
+    ### take care of the exponents
+    if 'e^' in eq:
+        eq = eq.replace('e' , 'np.e')
+        
+    ### take care of division, power
+    eq = eq.replace('^', '**')
+    eq = eq.replace(':', '/')
+    eq = eq.replace(',', '')
+    
+
+    ### take care of the multiplication (ex: xy, 7y, 6xz)
+    varstring = ''.join(variables)
+    opstring = '+-\\|\\|*\/:\\^'
+    
+    regex = f"([0-9.]*[{varstring}]+)"
     matches = re.findall(regex, eq)
-
-    for mat in matches:
-        print(mat)
-        m = re.match(r"(\d+)([xy]{1})", mat)
-        first = m.group(1)
-        second = m.group(2)
-        sub_regex = f"({first}{second})"
-        eq = re.sub(sub_regex, "*".join(m.groups()), eq)
-
+    
+    for mat in np.unique(matches):
+        if len(mat)>1:
+            
+            correct_expr = '*'.join(re.split('',mat)[1:-1])
+        
+            eq = re.sub(mat, correct_expr, eq)
+    
     return eq
 
 
+
 def pipeline(user_input):
+    
+    """This function takes care of the whole parsing pipeline
 
-    """
-    INPUT
-    user_input: human readable sentence which asks to evaluate or differentiate the given equation at the given points
+    INPUTS
+    =======
+    user_input: a string which typically includes some form of equation, variables and values
 
-    OUPUTS
-    eq: python readable string equation; 'eval' can be directly called to evaluate
-    val_dict: the dictionary of variables and values to make the AD object with
+    RETURNS
+    ========
+    string: final clean pythonic equation
+    dictionary: the keys are the variable names and the values are the variable values
 
-    """
+    EXAMPLES
+    =========
+    >>> pipeline('x^2 + y- 7xy where x is 2 and y is 8')
+    >>> ('x**2+y-7*x*y', {'x': '2', 'y': '8'})
 
+    """ 
+    
     ### tokenize and parse the sentence
     filtered_sentence = parse_sentence(user_input)
-
-    ### separate the equation from the user input
-    operations = [
-        "+",
-        "-",
-        "**",
-        "^",
-        "*",
-        "/",
-        "|",
-        ":",
-        ")",
-        "(",
-    ]  ## define the operations
-    eq = get_equation(filtered_sentence, operations)
-
-    ### split all the elements in the tokenized list into single elements
-    single_filtered_elements = []
-    for expr in filtered_sentence:
-        single_filtered_elements.extend(re.split("", expr)[1:-1])
-
-    ### split the equation into single elements
-    single_eq_elements = re.split("", eq)[1:-1]
-
-    ### get the remainder of the tokenized list after removing the equation
-    ### possibly; the variables and values
-    vars_vals = remove_the_eq(single_eq_elements, single_filtered_elements)
-
-    ### possible variables from the equation (should be processed more)
-    var_regex = r"[^\d (sin) (cosin) (tan) (arctan) * \.|+-:/\^]"
-    variables = re.findall(var_regex, eq)
-
+    filtered_sentence = no_unwanted_symbols(filtered_sentence)
+    
+    #get the variables and the unclean equation 
+    variables, unclean_eq = get_variables(filtered_sentence)
+    #clean the equation and get the values for the variables
+    equation, vars_vals = get_eq_and_vals(filtered_sentence, variables, unclean_eq)
+ 
     ### gets the variables and values in the dictionary format
     val_dict = get_values(variables, vars_vals)
-
+    
     ### clean and pythonize the equation
-    eq = pythonize(eq, variables)
-
+    eq = pythonize(equation, variables)      
+    
     return eq, val_dict
+
