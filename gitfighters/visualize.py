@@ -44,10 +44,12 @@ def visualize_1D(function, value, der, name="x"):
 
     plt.show()
     filepath = "graphs/"
+    graph_name = name + datetime.now().strftime('%Y%m%d_%H%M%S')
     if not os.path.exists(os.path.dirname(filepath)):
         os.makedirs(os.path.dirname(filepath))
     plt.savefig(f"graphs/{name}_graph.png")
-    print(f"graph saved as graphs/{name}_graph.png")
+    print(f"graph saved as graphs/{graph_name}_graph.png")
+    return "{graph_name}_graph"
 
 
 def visualize(function, variables, derivatives):
@@ -73,6 +75,9 @@ def visualize(function, variables, derivatives):
     # 4. Create 1D plot by calling visualize_1D(function, value, derivative)
 
     i = 0
+    graph_names = []
     for variable, value in variables.items():
-        visualize_1D(function, value, derivatives[i], name=variable)
+        graph_names.append(visualize_1D(function, value, derivatives[i], name=variable))
         i += 1
+        
+    return graph_names

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+from datetime import datetime
 from git_fighters import *
 from vector import *
+import numpy as np
 
-
-def create_latex_file(der):
+def create_latex_file(der, graph_names = "", user_input = ""):
     
     startJac = r"$J_{ij} = \frac{\partial f_i}{\partial x_j} = \left[\begin{array}{cc}"
     startVec = r"$\frac{\partial f}{\partial x_i} = \left[\begin{array}{cc}"
@@ -13,6 +14,11 @@ def create_latex_file(der):
     endDer = ""
 
     dim = np.array(der).shape
+    graphs = graph_names
+    if np.array(graphs).shape == ():
+        graphs = np.array([graphs])
+    else:
+        graphs = np.array(graphs)
 
     if dim == ():
         start = startDer
@@ -35,17 +41,22 @@ def create_latex_file(der):
             start = startVec
         end = endJac
 
-    with open('jacobian.tex','w') as file:
+    file_name = 'jacobian_' + datetime.now().strftime('%Y%m%d_%H%M%S')  + '.tex'
+    with open(file_name,'w') as file:
         file.write('\\documentclass[12pt]{article}\n')
         file.write('\\usepackage{amsmath}\n')
         file.write('\\usepackage{graphicx}\n')
-        file.write('\\graphicspath{ {./graphs/} }\n')
+        file.write('\\usepackage{float}\n')
+        file.write('\\graphicspath{ {../graphs/} }\n')
         file.write('\\title{Summary:}\n')
         file.write('\\begin{document}\n') 
+        file.write('\\maketitle\n')
+        file.write('\\centering\n')
+        file.write('\\section*{' + user_input  + '}\n')
         file.write(start + jacobian  + end + '\n')
-        file.write('\\includegraphics{x_graph.png}\n')
+        if graphs[0] != "":
+            for graph in graphs:
+                file.write('\\begin{figure}[H]\n')
+                file.write('\\includegraphics[width=15cm]{' + graph + '}\n')
+                file.write('\\end{figure}\n')
         file.write('\\end{document}\n')
-
-
-z = fightingAD(5, [1, 2, 3, 5])
-create_latex_file(z)

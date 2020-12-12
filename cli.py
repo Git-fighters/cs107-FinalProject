@@ -28,6 +28,7 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
     #     # VISUALIZE FUNCTION
     #     pass
 
+    graph_names = ""
     eq, vals = pipeline(user_input)
     vect = AD(list(vals.values()))
     for key, val in vals.items():
@@ -50,15 +51,13 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
         print(eq)
         print(vals)
         print(derivatives)
-        visualize(eq, vals, derivatives)
+        graph_names = visualize(eq, vals, derivatives)
 
     latex_bool = input(
         "    -->Would you like to output a nicely formatted latex file? Y/n \n"
     )
     if latex_bool == "Y":
-        # CREATE LATEX FILE
-        print("NOT YET IMPLEMENTED")
-        pass
+        create_latex_file(derivatives, graph_names, user_input)
 
 
 if __name__ == "__main__":
