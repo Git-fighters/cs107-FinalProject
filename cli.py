@@ -67,7 +67,7 @@ EXAMPLE:   'x^2 - e^(y-1) when x=2 and y=5'\n"
         "    -->Would you like to output a nicely formatted latex file? Y/n \n"
     )
     if latex_bool == "Y" or latex_bool == "y":
-        create_latex_file(derivatives, graph_names, user_input)
+        create_latex_file(derivatives, graph_names)
 
 
 if __name__ == "__main__":

@@ -182,8 +182,22 @@ def test_del():
         del x[3]
 
 
-def test_examples():
-    #
-    #
-    #
-    pass
+##########################
+# Evaluate/Differentiate #
+##########################
+
+def test_eval():
+    x1 = fightingAD(1, 5)
+    x2 = evaluate(x1)
+    assert x2 == x1.val
+
+    with pytest.raises(Exception):
+        evaluate('String')
+
+def test_diff():
+    x1 = fightingAD(1, 5)
+    x2 = differentiate(x1)
+    assert x2 == x1.der 
+
+    with pytest.raises(Exception):
+        differentiate('String')

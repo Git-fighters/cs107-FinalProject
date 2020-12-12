@@ -8,6 +8,16 @@ nltk.download("stopwords", quiet=True)
 nltk.download("punkt", quiet=True)
 
 
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+import re
+import numpy as np
+
+nltk.download("stopwords", quiet=True)
+nltk.download("punkt", quiet=True)
+
+
 def parse_sentence(user_input):
     """Tokenizes the user_input, gets rid of the stop words and returns a list of tokenized string parts.
 
@@ -40,6 +50,7 @@ def parse_sentence(user_input):
     ### tokenize the user input and take out the stop words
     word_tokens = word_tokenize(user_input)
     filtered_sentence = [w for w in word_tokens if not w in stop_words_set]
+  
 
     return filtered_sentence
 
@@ -126,7 +137,7 @@ def get_variables(filtered_sentence):
 
     """
 
-    letter_ops = ['sin', 'cos', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos', 'sinh', 'cosh', 'tanh']
+    letter_ops = ['sin', 'cos', 'e', 'exp', 'tan', 'arctan', 'arcsin', 'arccos']
     filtered_sent_copy = filtered_sentence.copy()
     for i in letter_ops:
         if i in filtered_sent_copy:
@@ -134,6 +145,7 @@ def get_variables(filtered_sentence):
     unclean_eq = "".join(filtered_sent_copy)
     var_regex = r"[^\d  * \.|+-:/\^ \\( \\ )=]"
     variables = np.unique(re.findall( var_regex, unclean_eq))
+
     return variables, unclean_eq
 
 
@@ -160,18 +172,20 @@ def get_eq_and_vals(filtered_sentence, variables, unclean_eq):
     """
     regex_vars = ''
     for var in variables:
-        regex_vars += var + '\d+'
+        regex_vars += var + '\d+\.*\d*'
         
 
-    var_val_str = re.findall(regex_vars,unclean_eq)[0]
-   
-    vars_vals = [i for i in re.split('(\d*)', var_val_str) if i !='']
+    var_val_str = re.findall(regex_vars,unclean_eq)[0] 
+    print('vvs', var_val_str)
+    values = [i for i in re.findall('\d*\.*\d*', var_val_str) if i !='']
+    print('vars_vals', values)
     equation = ''
     final_eq = ''.join(filtered_sentence)
     for i in final_eq.split(var_val_str):
         if i != '':
             equation = i
-    return equation, vars_vals
+    
+    return equation, values
 
 
 
@@ -181,7 +195,7 @@ def get_values(variables, vars_vals):
     INPUTS
     =======
     variables: variables that are filtered via regex from the equation
-    vars_vals: the remainder of the tokenized/filtered list after removing the equation part
+    vars_vals: the values filtered from the input
 
     RETURNS
     ========
@@ -190,19 +204,18 @@ def get_values(variables, vars_vals):
     EXAMPLES
     =========
     >>> variables = ['x']
-    >>> vars_vals = ['x', '1']
+    >>> vars_vals = ['1']
     >>> get_values(variables, vars_vals)
     >>> {'x': '1'}
 
     """
 
     values = {}
-    for item in variables:
-        ind_item = vars_vals.index(item)
-        if ind_item % 2 == 0:
-            values[item] = float(vars_vals[ind_item + 1])
-        else:
-            values[item] = float(vars_vals[ind_item - 1])
+    variables_list = list(variables)
+    for item in variables_list:
+        ind_item = variables_list.index(item)
+        values[item] = float(vars_vals[ind_item])
+      
     return values
 
 def split(word):
@@ -310,3 +323,5 @@ def pipeline(user_input):
     eq = pythonize(equation, variables)      
     
     return eq, val_dict
+
+
